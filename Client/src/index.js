@@ -5,6 +5,8 @@ import './index.css';
 import App from './App';
 
 import HomePage from './pages/homePage';
+import MessageInput from './components/messageInput';
+
 import RegistrationPage from './pages/registerPage';
 
 const router = createBrowserRouter([
@@ -14,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/writemessage",
+        element: <MessageInput />,
       },
       {
         path: "/registerPage",

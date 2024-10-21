@@ -23,6 +23,14 @@ CREATE TABLE pictures (
 
 INSERT INTO pictures (entity_type, entity_id, image_path) VALUES ('user', 1, 'https://dentiste-dr-ngo-paris20.fr/wp-content/uploads/2018/05/Autruche-avec-dents.png');
 
+SET FOREIGN_KEY_CHECKS = 0;
+
+
+DROP TABLE IF EXISTS message;
+
+DROP TABLE IF EXISTS users;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -64,7 +72,7 @@ CREATE TABLE reactiontypes (
 INSERT INTO reactiontypes (reaction_name) VALUES 
     ('Like', 1), ('Dislike', -1), ('Do not care', -1.5);
 
-CREATE TABLE messages (
+CREATE TABLE message (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     content VARCHAR(511) NOT NULL,
