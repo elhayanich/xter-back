@@ -1,4 +1,5 @@
-CONNECT xter;
+
+Use xter;
 
 
 CREATE TABLE users (
