@@ -20,17 +20,10 @@ def create_connection():
     connection = None
     try:
         connection = mysql.connector.connect(
-<<<<<<< HEAD
             host='localhost',  
             user='root',  
             password='devia',  
             database='xter'  
-=======
-            host='localhost',
-            user='chaymae',
-            password='chay',
-            database='xter'
->>>>>>> 5ac8015c608c5d693ac9711d01649703c10c4ea6
         )
         print("Connection to MySQL DB successful")
     except Error as e:

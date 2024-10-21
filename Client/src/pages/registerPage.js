@@ -25,8 +25,10 @@ const RegistrationPage = () => {
     };
 
     const handleSubmit = (e) => {
+        e.preventDefault();
+        
         // Validation
-        if(!formData.username || !formData.mail || !formData.password) {
+        if(!formData.username || !formData.mail || !formData.password || !formData.confirmPassword) {
             setError('All fields are required!');
             return;
         }
@@ -55,17 +57,17 @@ const RegistrationPage = () => {
                 type="text"
                 id="username"
                 name="username"
-                value={formData.name}
+                value={formData.username}
                 onChange={handleInputChange}
               />
             </div>
             <div>
-              <label htmlFor="email">Mail:</label>
+              <label htmlFor="mail">Mail:</label>
               <input
                 type="email"
-                id="email"
-                name="email"
-                value={formData.email}
+                id="mail"
+                name="mail"
+                value={formData.mail}
                 onChange={handleInputChange}
               />
             </div>
@@ -92,7 +94,7 @@ const RegistrationPage = () => {
             </div>
             <button type="submit">Register</button>
             <button type="button" onClick={() => setShowPassword(!showPassword)}>
-                    {showPassword? 'Hide': 'Show'}
+                    {showPassword? 'Hide password': 'Show password'}
                     </button>
           </form>
         </div>
