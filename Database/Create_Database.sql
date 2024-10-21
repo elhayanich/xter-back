@@ -88,7 +88,7 @@ INSERT INTO reactiontypes (reaction_name, reaction_value) VALUES
 -------------- MESSAGES ------------------------
 
 
-CREATE TABLE messages (
+CREATE TABLE message (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     content VARCHAR(511) NOT NULL,
