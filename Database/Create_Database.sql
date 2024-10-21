@@ -1,6 +1,14 @@
 
 Use xter;
 
+SET FOREIGN_KEY_CHECKS = 0;
+
+
+DROP TABLE IF EXISTS message;
+
+DROP TABLE IF EXISTS users;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -12,9 +20,10 @@ CREATE TABLE users (
     picture_id INT
 );
 
-INSERT INTO users (id, username, is_admin, email, user_password) VALUES (1, "coco", 1, "coco@lala.s", "1212");
+INSERT INTO users (id, username, is_admin, email, user_password) 
+VALUES (1, "coco", 1, "coco@lala.s", "1212");
 
-CREATE TABLE messages (
+CREATE TABLE message (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     content VARCHAR(511) NOT NULL,
@@ -25,6 +34,5 @@ CREATE TABLE messages (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-INSERT INTO messages (user_id, content) VALUES (1, "bonjour");
-
+INSERT INTO message (user_id, content) VALUES (1, "bonjour");
 

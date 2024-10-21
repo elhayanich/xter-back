@@ -13,7 +13,8 @@ export default function MessageInput() {
 
         // Préparez les données à envoyer
         const messageData = {
-            content: message, // Assurez-vous que cela correspond à la structure attendue par votre API
+            user_id: 1,  // Ajoutez un user_id ici (par exemple, user_id = 1)
+            content: message,
         };
 
         try {

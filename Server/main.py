@@ -33,6 +33,7 @@ def create_connection():
 
 # Modèle de données pour les messages
 class Message(BaseModel):
+    user_id: int  # Ajout de user_id
     content: str
 
 # Endpoint pour récupérer un message GET
@@ -56,8 +57,11 @@ def create_message(message: Message):
     cursor = connection.cursor()
 
     try:
-        # Insérer le message dans la base de données
-        cursor.execute("INSERT INTO message (content) VALUES (%s)", (message.content,))
+        # Insérer le message avec user_id dans la base de données
+        cursor.execute(
+            "INSERT INTO message (user_id, content) VALUES (%s, %s)", 
+            (message.user_id, message.content)
+        )
         connection.commit()  # Valider la transaction
         return {"message": "Message envoyé avec succès!"}
     except Error as e:
@@ -66,5 +70,6 @@ def create_message(message: Message):
     finally:
         cursor.close()
         connection.close()
+
 
 
