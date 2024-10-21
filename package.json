@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  },
+  "scripts": {
+    "dev": "concurrently -c green,yellow -t \"HH:mm:ss\" -p \"{name} {time}\" \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:client": "cd client && npm start",   
+    "dev:server": "cd server && uvicorn main:app --reload --port 3310"
+  }
+}
+
