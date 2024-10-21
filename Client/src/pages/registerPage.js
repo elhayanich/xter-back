@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const RegistrationPage = () => {
     // State to hold form values
@@ -26,7 +27,7 @@ const RegistrationPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         // Validation
         if(!formData.username || !formData.mail || !formData.password || !formData.confirmPassword) {
             setError('All fields are required!');
