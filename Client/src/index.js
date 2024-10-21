@@ -5,7 +5,7 @@ import './index.css';
 import App from './App';
 
 import HomePage from './pages/homePage';
-import registerPage from './pages/registerPage'
+import RegistrationPage from './pages/registerPage';
 
 const router = createBrowserRouter([
   {
@@ -16,8 +16,8 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/register",
-        element: <registerPage />,
+        path: "/registerPage",
+        element: <RegistrationPage />,
       },
     ],
   },
