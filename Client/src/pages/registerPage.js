@@ -11,7 +11,6 @@ const RegistrationPage = () => {
 
     // State to handle form submission response (like errors or success)
     const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
 
@@ -79,14 +78,11 @@ const RegistrationPage = () => {
                 value={formData.password}
                 onChange={handleInputChange}
               />
-              <button type="button" onClick={() => setShowPassword(!showPassword)}>
-                {showPassword? 'Hide': 'Show'}
-              </button>
             </div>
             <div>
                 <label htmlFor="password">Confirm password:</label>
                 <input
-                    type={showConfirmPassword? 'text': 'password'}
+                    type={showPassword? 'text': 'password'}
                     id="confirmPassword"
                     name="confirmPassword"
                     value={formData.confirmPassword}
@@ -95,8 +91,8 @@ const RegistrationPage = () => {
                 
             </div>
             <button type="submit">Register</button>
-            <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                    {showConfirmPassword? 'Hide': 'Show'}
+            <button type="button" onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword? 'Hide': 'Show'}
                     </button>
           </form>
         </div>
