@@ -35,7 +35,7 @@ def create_connection():
 def get_message():
     connection = create_connection()
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM message LIMIT 1;")
+    cursor.execute("SELECT * FROM messages LIMIT 1;")
     message = cursor.fetchone()
     cursor.close()
     connection.close()
