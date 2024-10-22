@@ -16,17 +16,6 @@ const router = createBrowserRouter([
         path: "/",
         element: <HomePage />,
       },
-<<<<<<< HEAD
-      {
-        path: "/writemessage",
-        element: <MessageInput />,
-      },
-      {
-        path: "/registerPage",
-        element: <RegistrationPage />,
-      },
-=======
->>>>>>> 8e741d9f278c6a943224e721b2cddcd1580acc4b
     ],
   },
 ]); 
