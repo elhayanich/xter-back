@@ -5,7 +5,7 @@ const RegistrationPage = () => {
     // State to hold form values
     const [formData, setFormData] = useState({
         'username': '',
-        'mail': '',
+        'email': '',
         'password': '',
         'confirmPassword': ''
     });
@@ -16,7 +16,6 @@ const RegistrationPage = () => {
     const [error, setError] = useState('');
 
     // Handle input changes
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -25,11 +24,11 @@ const RegistrationPage = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Validation
-        if(!formData.username || !formData.mail || !formData.password || !formData.confirmPassword) {
+        if(!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
             setError('All fields are required!');
             return;
         }
@@ -39,12 +38,48 @@ const RegistrationPage = () => {
             return;
         }
 
-        console.log('Form submitted', formData);
-        setSuccess('Registration successful!');
-        setError('');
-    }
+        // Basic client-side validation
+        const { username, email, password, confirmPassword } = formData;
 
+        // Simple regex for email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          setError('Invalid email format');
+          return;
+        }
 
+        // Password strength validation (at least 8 characters, one letter, one number)
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        if (!passwordRegex.test(password)) {
+          setError('Password must be at least 8 characters long and contain at least one letter and one number');
+          return;
+        }
+
+        console.log("data being sent:", {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        });
+
+        try {
+        // POST request to your FastAPI backend
+          const response = await axios.post("http://127.0.0.1:8000/register", {
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+          }
+        );
+
+          setSuccess('Registration successful!');
+          setError('');
+          console.log(response.data);
+        }
+        catch (error) {
+          setError('There was an error submitting the form');
+          console.error(error);
+        }
+
+    };
     return (
         <div>
           <h2>Register</h2>
@@ -63,12 +98,12 @@ const RegistrationPage = () => {
               />
             </div>
             <div>
-              <label htmlFor="mail">Mail:</label>
+              <label htmlFor="email">Mail:</label>
               <input
                 type="email"
-                id="mail"
-                name="mail"
-                value={formData.mail}
+                id="email"
+                name="email"
+                value={formData.email}
                 onChange={handleInputChange}
               />
             </div>
@@ -96,10 +131,10 @@ const RegistrationPage = () => {
             <button type="submit">Register</button>
             <button type="button" onClick={() => setShowPassword(!showPassword)}>
                     {showPassword? 'Hide password': 'Show password'}
-                    </button>
+            </button>
           </form>
         </div>
       );
-    }
+}
     
 export default RegistrationPage;

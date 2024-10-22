@@ -3,6 +3,7 @@ import mysql.connector
 from mysql.connector import Error
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from datetime import datetime
 
 app = FastAPI()
 
@@ -35,6 +36,12 @@ def create_connection():
 class Message(BaseModel):
     user_id: int  # Ajout de user_id
     content: str
+
+# Modèle de données pour les utilisateurs
+class User(BaseModel):
+    username: str
+    email: str
+    password: str
 
 # Endpoint pour récupérer un message GET
 @app.get("/messages")
@@ -71,5 +78,21 @@ def create_message(message: Message):
         cursor.close()
         connection.close()
 
+@app.post("/register")
+def register_user(user: User):
+    connection = create_connection()
+    cursor = connection.cursor()
 
-
+    try:
+        cursor.execute(
+            "INSERT INTO user (username, is_admin, email, user_password, date_inscription, picture_id) VALUES (%s, 0, %s, %s, %s, 0)",
+            (user.username, user.email, user.password, datetime.now())
+        )
+        connection.commit()
+        return {"message": "User registration successful!"}
+    except Error as e:
+        print(f"The error' '{e}' 'occured")
+        return {"error": "Error with user registration"}
+    finally:
+        cursor.close()
+        connection.close()
