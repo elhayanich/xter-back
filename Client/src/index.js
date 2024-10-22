@@ -5,7 +5,6 @@ import './index.css';
 import App from './App';
 
 import HomePage from './pages/homePage';
-import MessageInput from './components/messageInput';
 
 import RegistrationPage from './pages/registerPage';
 
@@ -17,6 +16,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <HomePage />,
       },
+<<<<<<< HEAD
       {
         path: "/writemessage",
         element: <MessageInput />,
@@ -25,6 +25,8 @@ const router = createBrowserRouter([
         path: "/registerPage",
         element: <RegistrationPage />,
       },
+=======
+>>>>>>> 8e741d9f278c6a943224e721b2cddcd1580acc4b
     ],
   },
 ]); 
