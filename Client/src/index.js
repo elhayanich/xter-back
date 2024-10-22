@@ -6,7 +6,7 @@ import App from './App';
 
 import HomePage from './pages/homePage';
 
-import RegistrationPage from './pages/registerPage';
+import RegisterPage from './components/register';
 
 const router = createBrowserRouter([
   {
@@ -16,6 +16,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <HomePage />,
       },
+      {
+        path: "/register",
+        element: <RegisterPage />,
+      }
     ],
   },
 ]); 
