@@ -4,7 +4,6 @@ from models.user_model import UserCreate
 from datetime import datetime
 import database_connect
 from mysql.connector import Error
-from classes.user import User
 
 router = APIRouter()
 
