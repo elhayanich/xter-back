@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.user_route import router as user_route
+from pydantic import BaseModel
+
 
 app = FastAPI()
 
