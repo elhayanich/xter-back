@@ -3,7 +3,6 @@ import mysql.connector
 from mysql.connector import Error
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from classes import User
 
 
 app = FastAPI()
@@ -23,8 +22,8 @@ def create_connection():
     try:
         connection = mysql.connector.connect(
             host='localhost',
-            user='chaymae',
-            password='chay',
+            user='colas',
+            password='1212',
             database='xter'
         )
         print("Connection to MySQL DB successful")
@@ -72,5 +71,6 @@ def create_message(message: Message):
     finally:
         cursor.close()
         connection.close()
+
 
 
