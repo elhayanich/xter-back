@@ -2,20 +2,24 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, EmailStr
 from passlib.context import CryptContext
 
-app = FastAPI()  # Une seule instance de FastAPI
+app = FastAPI()  # Instance FastAPI
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class UserRegister(BaseModel):
-    username: str
     email: EmailStr
     password: str
 
+# Route pour /
+@app.get("/")
+async def root():
+    return {"message": "Bienvenue sur la page d'accueil"}
+
+# Route pour /test
 @app.get("/test")
 async def read_root():
     return {"Hello": "World"}
 
+# Route pour /register
 @app.post("/register")
 async def register(user: UserRegister):
-    # Ici, tu pourrais ajouter la logique d'inscription
-    # Par exemple, hacher le mot de passe et l'ajouter à une base de données simulée
     return {"message": "Inscription réussie"}
