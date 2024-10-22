@@ -24,15 +24,19 @@ const RegistrationPage = () => {
         });
     };
 
+    // Handle submit with async because we are sending http requests when submitting
     const handleSubmit = async (e) => {
+
+        // preventDefault cancel any default behavior when submitting the form (ie: removing fields from fields)
         e.preventDefault();
 
-        // Validation
+        // Checking if all fields are not empty
         if(!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
             setError('All fields are required!');
             return;
         }
 
+        // Checking if both passwords are the same
         if(formData.password !== formData.confirmPassword) {
             setError('Passwords must match');
             return;
@@ -56,9 +60,9 @@ const RegistrationPage = () => {
         }
 
         console.log("data being sent:", {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
+          username: username,
+          email: email,
+          password: password,
         });
 
         try {
