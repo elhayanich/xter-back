@@ -3,6 +3,8 @@ import mysql.connector
 from mysql.connector import Error
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from classes import User
+
 
 app = FastAPI()
 
