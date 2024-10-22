@@ -13,6 +13,11 @@ DROP TABLE IF EXISTS reactions;
 
 SET FOREIGN_KEY_CHECKS = 1;  -- Maintenant que les tables sont droppées on peut réactiver les foreign keys
 
+-------------------------------  BEGIN  --------------------------------------------------------------------------
+
+---------- CREATE PICTURES --------------
+
+
 CREATE TABLE pictures (
     id INT AUTO_INCREMENT PRIMARY KEY,
     entity_type ENUM('user', 'message', 'reaction') NOT NULL, -- A FAIRE EVOLUER SI BESOIN
@@ -23,14 +28,9 @@ CREATE TABLE pictures (
 
 INSERT INTO pictures (entity_type, entity_id, image_path) VALUES ('user', 1, 'https://dentiste-dr-ngo-paris20.fr/wp-content/uploads/2018/05/Autruche-avec-dents.png');
 
-SET FOREIGN_KEY_CHECKS = 0;
 
+----------- USERS --------------
 
-DROP TABLE IF EXISTS message;
-
-DROP TABLE IF EXISTS users;
-
-SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -45,6 +45,10 @@ CREATE TABLE users (
 INSERT INTO users (id, username, is_admin, email, user_password) VALUES (1, "coco", 1, "coco@lala.s", "1212");
 INSERT INTO users (id, username, is_admin, email, user_password) VALUES (2, "bob", 0, "bob@casualuser.com", "0000");
 
+
+----------- FOLLOWS --------------
+
+
 CREATE TABLE follows (
     id INT AUTO_INCREMENT PRIMARY KEY,
     followed_by_id INT NOT NULL,
@@ -55,12 +59,20 @@ CREATE TABLE follows (
 
 INSERT INTO follows (followed_by_id, following_id) VALUES (1, 2);
 
+
+------------ TAGS ---------------------
+
+
 CREATE TABLE tags (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tagname VARCHAR(255) NOT NULL
 );
 
 INSERT INTO tags (tagname) VALUES ('freebritney');
+
+
+------------- REACTIONTYPES ----------------
+
 
 CREATE TABLE reactiontypes (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -69,8 +81,12 @@ CREATE TABLE reactiontypes (
     icon_path VARCHAR(255)
 );
 
-INSERT INTO reactiontypes (reaction_name) VALUES 
+INSERT INTO reactiontypes (reaction_name, reaction_value) VALUES 
     ('Like', 1), ('Dislike', -1), ('Do not care', -1.5);
+
+
+-------------- MESSAGES ------------------------
+
 
 CREATE TABLE message (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -85,6 +101,8 @@ CREATE TABLE message (
 
 INSERT INTO messages (user_id, content) VALUES (1, "bonjour");
 
+
+--------------- TAG MESSAGES --------------------------
 CREATE TABLE tagmessages (
     id INT AUTO_INCREMENT PRIMARY KEY,
     message_id INT NOT NULL,
@@ -94,6 +112,10 @@ CREATE TABLE tagmessages (
 );
 
 INSERT INTO tagmessages (message_id, tag_id) VALUES (1, 1);
+
+
+---------------- REACTIONS ----------------------------
+
 
 CREATE TABLE reactions (
     id INT AUTO_INCREMENT PRIMARY KEY,
