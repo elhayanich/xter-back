@@ -2,6 +2,8 @@ from fastapi import FastAPI
 import mysql.connector
 from mysql.connector import Error
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
 
 app = FastAPI()
 
@@ -19,10 +21,10 @@ def create_connection():
     connection = None
     try:
         connection = mysql.connector.connect(
-            host='localhost',  
-            user='root',  
-            password='1234',  
-            database='xter'  
+            host='localhost',
+            user='colas',
+            password='1212',
+            database='xter'
         )
         print("Connection to MySQL DB successful")
     except Error as e:
@@ -30,7 +32,12 @@ def create_connection():
 
     return connection
 
-# Endpoint pour récupérer un message
+# Modèle de données pour les messages
+class Message(BaseModel):
+    user_id: int  # Ajout de user_id
+    content: str
+
+# Endpoint pour récupérer un message GET
 @app.get("/messages")
 def get_messages():
     connection = create_connection()
@@ -64,5 +71,6 @@ def create_message(message: Message):
     finally:
         cursor.close()
         connection.close()
+
 
 
