@@ -14,8 +14,8 @@ def register_user(user: UserCreate):
 
     try:
         cursor.execute(
-            "INSERT INTO user (username, is_admin, email, user_password, date_inscription, picture_id) VALUES (%s, 0, %s, %s, %s, 0)",
-            (user.username, user.email, user.password, datetime.now())
+            "INSERT INTO user (username, is_admin, email, user_password, picture_id) VALUES (%s, 0, %s, %s, 0)",
+            (user.username, user.email, user.password)
         )
         connection.commit()
         return {"message": "User registration successful!"}
