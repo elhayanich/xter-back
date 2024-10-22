@@ -3,14 +3,21 @@ USE xter;
 SET FOREIGN_KEY_CHECKS = 0; -- Desactivation des cles etrangeres pour drop les tables sans soucis
 
 DROP TABLE IF EXISTS message;
-DROP TABLE IF EXISTS message;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS picture;
 DROP TABLE IF EXISTS follow;
 DROP TABLE IF EXISTS tag;
-DROP TABLE IF EXISTS reactiontypes;
+DROP TABLE IF EXISTS reactiontype;
 DROP TABLE IF EXISTS reaction;
-DROP TALE IF EXISTS tagmessage;
+DROP TABLE IF EXISTS tagmessage;
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS pictures;
+DROP TABLE IF EXISTS follows;
+DROP TABLE IF EXISTS tags;
+DROP TABLE IF EXISTS reactiontypes;
+DROP TABLE IF EXISTS reactions;
+DROP TABLE IF EXISTS tagmessages;
 
 SET FOREIGN_KEY_CHECKS = 1;  -- Maintenant que les tables sont droppées on peut réactiver les foreign keys
 
@@ -100,7 +107,7 @@ CREATE TABLE message (
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-INSERT INTO message (user_id, content) VALUES (1, "bonjour");
+INSERT INTO message (user_id, content) VALUES (1, "bonjour comment ca va les copaings?");
 
 
 --------------- TAG message --------------------------
