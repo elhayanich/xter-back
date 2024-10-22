@@ -9,7 +9,7 @@ app = FastAPI()
 # Configuration de CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -38,17 +38,17 @@ class Message(BaseModel):
 
 # Endpoint pour récupérer un message GET
 @app.get("/messages")
-def get_message():
+def get_messages():
     connection = create_connection()
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM message LIMIT 1;")
-    message = cursor.fetchone()
+    cursor.execute("SELECT * FROM message ORDER BY date_post DESC;")  # Récupère tous les messages et les trie par date
+    messages = cursor.fetchall()  # Utilise fetchall pour récupérer tous les messages
     cursor.close()
     connection.close()
-    
-    if message:
-        return message  # Retourne le message
-    return {"message": "No message found."}
+
+    if messages:
+        return messages  # Retourne la liste des messages
+    return {"message": "No messages found."}
 
 # Endpoint pour envoyer un message POST
 @app.post("/messages")
@@ -70,6 +70,5 @@ def create_message(message: Message):
     finally:
         cursor.close()
         connection.close()
-
 
 

@@ -11,14 +11,12 @@ export default function MessageInput() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Préparez les données à envoyer
         const messageData = {
-            user_id: 1,  // Ajoutez un user_id ici (par exemple, user_id = 1)
+            user_id: 1,  // Ajoutez un user_id ici pour éviter l'erreur de clé étrangère : à changer later 
             content: message,
         };
 
         try {
-            // Effectuez une requête POST
             const response = await axios.post('http://localhost:3310/messages', messageData);
             console.log("Message envoyé :", response.data);
             setMessage(''); // Réinitialiser l'input après l'envoi
