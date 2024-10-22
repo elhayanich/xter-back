@@ -5,7 +5,6 @@ import './index.css';
 import App from './App';
 
 import HomePage from './pages/homePage';
-import MessageInput from './components/messageInput';
 
 
 
@@ -16,10 +15,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
-      },
-      {
-        path: "/writemessage",
-        element: <MessageInput />,
       },
     ],
   },
