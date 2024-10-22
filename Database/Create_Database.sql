@@ -9,7 +9,8 @@ DROP TABLE IF EXISTS follow;
 DROP TABLE IF EXISTS tag;
 DROP TABLE IF EXISTS reactiontype;
 DROP TABLE IF EXISTS reaction;
-DROP TABLE IF EXISTS tagmessage;
+DROP TABLE IF EXISTS tagmessages;
+DROP TABKE IF EXISTS tagmessages;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS pictures;
@@ -17,13 +18,14 @@ DROP TABLE IF EXISTS follows;
 DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS reactiontypes;
 DROP TABLE IF EXISTS reactions;
-DROP TABLE IF EXISTS tagmessages;
+
+DROP TABLE IF EXISTS tagmessage;
 
 SET FOREIGN_KEY_CHECKS = 1;  -- Maintenant que les tables sont droppées on peut réactiver les foreign keys
 
--------------------------------  BEGIN  --------------------------------------------------------------------------
+--  BEGIN 
 
----------- CREATE picture --------------
+--  CREATE PICTURES 
 
 
 CREATE TABLE picture (
@@ -37,7 +39,7 @@ CREATE TABLE picture (
 INSERT INTO picture (entity_type, entity_id, image_path) VALUES ('user', 1, 'https://dentiste-dr-ngo-paris20.fr/wp-content/uploads/2018/05/Autruche-avec-dents.png');
 
 
------------ user --------------
+-- USERS 
 
 
 CREATE TABLE user (
@@ -46,7 +48,7 @@ CREATE TABLE user (
     is_admin TINYINT(1) NOT NULL,
     email VARCHAR(255) NOT NULL,
     user_password VARCHAR(255) NOT NULL,
-    register_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     picture_id INT
 );
 
@@ -54,7 +56,7 @@ INSERT INTO user (id, username, is_admin, email, user_password) VALUES (1, "coco
 INSERT INTO user (id, username, is_admin, email, user_password) VALUES (2, "bob", 0, "bob@casualuser.com", "0000");
 
 
------------ follow --------------
+-- FOLLOW 
 
 
 CREATE TABLE follow (
@@ -68,7 +70,7 @@ CREATE TABLE follow (
 INSERT INTO follow (followed_by_id, following_id) VALUES (1, 2);
 
 
------------- tag ---------------------
+-- TAG 
 
 
 CREATE TABLE tag (
@@ -79,7 +81,7 @@ CREATE TABLE tag (
 INSERT INTO tag (tagname) VALUES ('freebritney');
 
 
-------------- REACTIONTYPES ----------------
+-- REACTIONTYPES 
 
 
 CREATE TABLE reactiontype (
@@ -93,7 +95,7 @@ INSERT INTO reactiontype (reaction_name, reaction_value) VALUES
     ('Like', 1), ('Dislike', -1), ('Do not care', -1.5);
 
 
--------------- message ------------------------
+-- MESSAGES 
 
 
 CREATE TABLE message (
@@ -101,16 +103,16 @@ CREATE TABLE message (
     user_id INT NOT NULL,
     content VARCHAR(511) NOT NULL,
     date_post TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    reaction_id INT,
+    reactions_id INT,
     picture_id INT,
     parent_id INT,
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-INSERT INTO message (user_id, content) VALUES (1, "bonjour comment ca va les copaings?");
+INSERT INTO message (user_id, content) VALUES (1, "bonjour comment ça va les copaings");
 
 
---------------- TAG message --------------------------
+-- TAG MESSAGES 
 CREATE TABLE tagmessage (
     id INT AUTO_INCREMENT PRIMARY KEY,
     message_id INT NOT NULL,
@@ -122,7 +124,7 @@ CREATE TABLE tagmessage (
 INSERT INTO tagmessage (message_id, tag_id) VALUES (1, 1);
 
 
----------------- reaction ----------------------------
+-- REACTIONS 
 
 
 CREATE TABLE reaction (
