@@ -46,7 +46,7 @@ CREATE TABLE user (
     is_admin TINYINT(1) NOT NULL,
     email VARCHAR(255) NOT NULL,
     user_password VARCHAR(255) NOT NULL,
-    date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    register_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     picture_id INT
 );
 
