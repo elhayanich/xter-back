@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 
-
-# Modèle Pydantic pour la validation des données
+# Modèle Pydantic pour valider un tag
 class TagCreate(BaseModel):
-    name: str
+    tagname: str

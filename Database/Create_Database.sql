@@ -137,3 +137,4 @@ CREATE TABLE reaction (
 );
 
 INSERT INTO reaction (user_id, message_id, reaction_id) VALUES (1, 1, 1);
+
