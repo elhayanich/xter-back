@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.message_model import MessageCreate
+from models import *
 import database_connect
 from mysql.connector import Error
 
