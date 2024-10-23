@@ -5,7 +5,7 @@ from datetime import datetime
 
 # Modèle Pydantic pour la validation des données
 class MessageCreate(BaseModel):
+    user_id: int
     content: str
-    date_post: datetime
     picture_path: Optional[str] = None
     message_parent: Optional[int] = None
