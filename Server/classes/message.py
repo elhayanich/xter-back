@@ -1,4 +1,3 @@
-
 # Classe Message
 class Message:
     def __init__(self, content, date_post, picture_url=None, message_parent=None):
