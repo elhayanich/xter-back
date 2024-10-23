@@ -5,6 +5,7 @@ import database_connect
 from mysql.connector import Error
 from passlib.context import CryptContext
 
+# This will be used to "hash" password
 pwd_context = CryptContext(schemes=["Bcrypt"], deprecated="auto")
 
 # Creating a router
