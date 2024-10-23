@@ -1,7 +1,5 @@
-from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel
+from fastapi import APIRouter
 from models.message_model import MessageCreate
-from datetime import datetime
 import database_connect
 from mysql.connector import Error
 

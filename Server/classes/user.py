@@ -1,4 +1,3 @@
-# Classe python
 class User:
     def __init__(self, username, email, picture_url=None, is_admin=False):
         self.username = username
