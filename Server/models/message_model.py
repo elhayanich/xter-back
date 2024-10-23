@@ -1,7 +1,5 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from datetime import datetime
-
 
 # Modèle Pydantic pour la validation des données
 class MessageCreate(BaseModel):

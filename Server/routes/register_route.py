@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+# Importing all models from models/__init__.py
 from models import *
 import database_connect
 from mysql.connector import Error
@@ -6,8 +7,10 @@ from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["Bcrypt"], deprecated="auto")
 
+# Creating a router
 router = APIRouter()
 
+# Endpoint to register a new user (POST/register)
 @router.post("")
 def register_user(user: UserCreate):    
     try:

@@ -1,5 +1,3 @@
-
-# Classe Tag
 class Tag:
     def __init__(self, messages, name):
         self.messages = messages
