@@ -7,10 +7,9 @@ router = APIRouter()
 
 @router.post("")
 def register_user(user: UserCreate):
-    connection = database_connect.get_db_connection()
-    cursor = connection.cursor()
-
     try:
+        connection = database_connect.get_db_connection()
+        cursor = connection.cursor()
         cursor.execute(
             "INSERT INTO user (username, is_admin, email, user_password, picture_id) VALUES (%s, 0, %s, %s, 0)",
             (user.username, user.email, user.password)
