@@ -67,7 +67,7 @@ const Register = () => {
 
         try {
         // POST request to your FastAPI backend
-          const response = await axios.post("http://127.0.0.1:8000/register", {
+          const response = await axios.post("http://127.0.0.1:3310/register", {
             username: formData.username,
             email: formData.email,
             password: formData.password,
@@ -79,6 +79,7 @@ const Register = () => {
           console.log(response.data);
         }
         catch (error) {
+          setSuccess('');
           setError('There was an error submitting the form');
           console.error(error);
         }
