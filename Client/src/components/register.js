@@ -67,7 +67,7 @@ const Register = () => {
 
         try {
         // POST request to your FastAPI backend
-          const response = await axios.post("http://127.0.0.1:8000/users/register", {
+          const response = await axios.post("http://127.0.0.1:8000/register", {
             username: formData.username,
             email: formData.email,
             password: formData.password,
