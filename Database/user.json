@@ -1,0 +1,29 @@
+[
+    {
+      "id": 1,
+      "username": "test_user1",
+      "is_admin": 0,
+      "email": "user1@example.com",
+      "user_password": "password123",
+      "date_inscription": "2024-10-23T10:00:00",
+      "picture_id": null
+    },
+    {
+      "id": 2,
+      "username": "test_user2",
+      "is_admin": 0,
+      "email": "user2@example.com",
+      "user_password": "password456",
+      "date_inscription": "2024-10-23T11:00:00",
+      "picture_id": null
+    },
+    {
+      "id": 3,
+      "username": "admin_user",
+      "is_admin": 1,
+      "email": "admin@example.com",
+      "user_password": "adminpassword",
+      "date_inscription": "2024-10-23T12:00:00",
+      "picture_id": null
+    }
+  ]

@@ -4,7 +4,7 @@ import mysql.connector
 # UNE FOIS CONFIGUREE, AJOUTER CE FICHIER A .GITIGNORE
 db_config = {
     'user': 'root',
-    'password': 'devia',
+    'password': '1234',
     'host': 'localhost',
     'database': 'xter'
 }
