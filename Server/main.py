@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import *
 
-
 app = FastAPI()
 
 # Configuration de CORS
@@ -16,4 +15,4 @@ app.add_middleware(
 
 app.include_router(register_router, prefix="/register")
 app.include_router(message_router, prefix="/messages")
-app.include_router(tag_route, prefix="/tags")
+app.include_router(tag_router, prefix="/tags")
