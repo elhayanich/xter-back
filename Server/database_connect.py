@@ -10,4 +10,5 @@ db_config = {
 }
 
 def get_db_connection():
-    return mysql.connector.connect(**db_config)
+    c = mysql.connector.connect(**db_config)
+    return c

@@ -17,7 +17,7 @@ export default function MessageInput() {
         };
 
         try {
-            const response = await axios.post('http://localhost:3310/messages', messageData);
+            const response = await axios.post('http://127.0.0.1:3310/messages', messageData);
             console.log("Message envoyé :", response.data);
             setMessage(''); // remettre l'input clear après l'envoi
         } catch (error) {

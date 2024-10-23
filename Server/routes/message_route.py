@@ -23,6 +23,7 @@ def get_messages():
 def create_message(message: MessageCreate):
     connection = database_connect.get_db_connection()
     cursor = connection.cursor()
+    print(message)
 
     try:
         # Insérer le message avec user_id dans la base de données
