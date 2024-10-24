@@ -71,16 +71,30 @@ const Register = () => {
             username: formData.username,
             email: formData.email,
             password: formData.password,
-          }
-        );
+          });
 
-          setSuccess('Registration successful!');
-          setError('');
-          console.log(response.data);
+          if (response.data.error) {
+            setError(response.data.error);
+            setSuccess('')
+          } else {
+            setSuccess('Registration successful!');
+            setError('');
+            toast('Registration successful!', {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Slide,
+              });
+          }
         }
         catch (error) {
-          setSuccess('');
-          setError('There was an error submitting the form');
+          setSuccess('')
+          setError('Request error')
           console.error(error);
         }
 
