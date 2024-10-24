@@ -26,3 +26,18 @@ def create_tags(tags: List[TagCreate]):
     finally:
         cursor.close()
         connection.close()
+
+
+@router.get("")
+def get_tags():
+    connection = database_connect.get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM tag;")  
+    tags = cursor.fetchall()  
+    cursor.close()
+    connection.close()
+
+    if tags:
+        return tags 
+    return {"message": "No tags found."}
+
