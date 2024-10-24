@@ -10,7 +10,6 @@ DROP TABLE IF EXISTS tag;
 DROP TABLE IF EXISTS reactiontype;
 DROP TABLE IF EXISTS reaction;
 DROP TABLE IF EXISTS tagmessages;
-DROP TABLE IF EXISTS tagmessages;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS pictures;
@@ -138,3 +137,4 @@ CREATE TABLE reaction (
 );
 
 INSERT INTO reaction (user_id, message_id, reaction_id) VALUES (1, 1, 1);
+
