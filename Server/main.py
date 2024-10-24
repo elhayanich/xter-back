@@ -17,3 +17,4 @@ app.add_middleware(
 
 app.include_router(register_router, prefix="/register", tags=["Register"])
 app.include_router(message_router, prefix="/messages", tags=["Messages"])
+app.include_router(tag_router, prefix="/tags")
