@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function MessageInput() {
     const [message, setMessage] = useState('');
@@ -45,6 +47,7 @@ export default function MessageInput() {
                 await axios.post('http://localhost:3310/tags', tagData);
                 console.log("Tags envoyés :", tagData);
             }
+            toast.success("Votre message à été publié !");
             setMessage('');
             setTags([]);
         } catch (error) {
