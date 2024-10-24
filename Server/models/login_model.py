@@ -1,4 +1,6 @@
 from pydantic import BaseModel, EmailStr
+from typing import Optional
+from datetime import datetime
 
 class UserBase(BaseModel):
     username: str
@@ -8,8 +10,10 @@ class UserCreate(UserBase):
     password: str
 
 class UserInDB(UserBase):
-    id: int
-    is_active: bool
+    hashed_password: str
+    is_admin: bool
+    date_inscription: datetime = datetime.now()
 
     class Config:
         orm_mode = True
+

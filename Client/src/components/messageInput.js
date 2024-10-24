@@ -3,25 +3,52 @@ import axios from 'axios';
 
 export default function MessageInput() {
     const [message, setMessage] = useState('');
+    const [tagInput, setTagInput] = useState('');  
+    const [tags, setTags] = useState([]);  
 
-    const handleChange = (e) => {
+    const handleMessageChange = (e) => {
         setMessage(e.target.value);
     };
 
+    const handleTagChange = (e) => {
+        setTagInput(e.target.value);
+    };
+
+   
+    const handleAddTag = () => {
+        // S'assurer que le tag commence par un #, sinon l'ajouter
+        const formattedTag = tagInput.startsWith('#') ? tagInput : `#${tagInput}`;
+
+       
+        if (formattedTag && !tags.includes(formattedTag)) {
+            setTags([...tags, formattedTag]);
+        }
+
+        setTagInput('');  
+    };
+
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        
         const messageData = {
-            user_id: 1,  // Ajoutez un user_id ici pour éviter l'erreur de clé étrangère : à changer plus tard ofc quand on aura les users automatiquements
+            user_id: 1,  // Utilisateur statique, à remplacer plus tard par le vrai utilisateur
             content: message,
         };
 
         try {
-            const response = await axios.post('http://127.0.0.1:3310/messages', messageData);
-            console.log("Message envoyé :", response.data);
-            setMessage(''); // remettre l'input clear après l'envoi
+            const messageResponse = await axios.post('http://localhost:3310/messages', messageData);
+            console.log("Message envoyé :", messageResponse.data);
+            if (tags.length > 0) {
+                const tagData = tags.map(tagname => ({ tagname }));
+                await axios.post('http://localhost:3310/tags', tagData);
+                console.log("Tags envoyés :", tagData);
+            }
+            setMessage('');
+            setTags([]);
         } catch (error) {
-            console.error("Erreur lors de l'envoi du message :", error);
+            console.error("Erreur lors de l'envoi du message ou des tags :", error);
         }
     };
 
@@ -33,11 +60,40 @@ export default function MessageInput() {
                         <input
                             type="text"
                             value={message}
-                            onChange={handleChange}
+                            onChange={handleMessageChange}
                             placeholder="Écrire un message..."
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                         />
                     </div>
+                    <div className="mb-4 flex">
+                        <input
+                            type="text"
+                            value={tagInput}
+                            onChange={handleTagChange}
+                            placeholder="Ajouter un tag (ex: #amitié)"
+                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        />
+                        <button
+                            type="button"
+                            onClick={handleAddTag}
+                            className="ml-2 px-4 py-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition"
+                        >
+                            Ajouter
+                        </button>
+                    </div>
+
+                    <div className="mb-4">
+                        {tags.length > 0 && (
+                            <div className="flex flex-wrap">
+                                {tags.map((tag, index) => (
+                                    <span key={index} className="mr-2 mb-2 px-3 py-1 bg-gray-200 text-gray-800 rounded-lg">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
                     <div className="flex justify-end">
                         <button
                             type="submit"

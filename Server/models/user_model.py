@@ -1,5 +1,8 @@
 from pydantic import BaseModel
 from typing import List, Optional
+from pydantic import BaseModel, EmailStr
+from typing import Optional
+from datetime import datetime
 
 # Modèle Pydantic pour la validation des données
 class UserCreate(BaseModel):
@@ -8,3 +11,15 @@ class UserCreate(BaseModel):
     password: str
     picture_path: Optional[str] = None
     is_admin: bool = False
+    
+
+# Schéma pour les données renvoyées de la BDD
+class UserInDB(BaseModel):
+    username: str
+    email: EmailStr
+    hashed_password: str
+    is_admin: bool
+    date_inscription: datetime = datetime.now()
+
+    class Config:
+        from_attributes = True
