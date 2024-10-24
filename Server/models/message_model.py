@@ -5,5 +5,6 @@ from typing import List, Optional
 class MessageCreate(BaseModel):
     user_id: int
     content: str
+    tag_ids: Optional[List[int]] = None 
     picture_path: Optional[str] = None
     message_parent: Optional[int] = None

@@ -71,16 +71,19 @@ const Register = () => {
             username: formData.username,
             email: formData.email,
             password: formData.password,
-          }
-        );
+          });
 
-          setSuccess('Registration successful!');
-          setError('');
-          console.log(response.data);
+          if (response.data.error) {
+            setError(response.data.error);
+            setSuccess('')
+          } else {
+            setSuccess('Registration successful!');
+            setError('');
+          }
         }
         catch (error) {
-          setSuccess('');
-          setError('There was an error submitting the form');
+          setSuccess('')
+          setError('Request error')
           console.error(error);
         }
 

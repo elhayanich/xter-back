@@ -25,7 +25,7 @@ def register_user(user: UserCreate):
         return {"message": "User registration successful!"}
     except Error as e:
         print(f"The error' '{e}' 'occured")
-        return {"error": "Error with user registration"}
+        return {"error": "An error occured during registration. Username and email may already be taken."}
     finally:
         cursor.close()
         connection.close()
