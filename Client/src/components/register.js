@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { Slide, ToastContainer, toast } from 'react-toastify';
 const Register = () => {
     // State to hold form values
     const [formData, setFormData] = useState({
@@ -71,16 +71,30 @@ const Register = () => {
             username: formData.username,
             email: formData.email,
             password: formData.password,
-          }
-        );
+          });
 
-          setSuccess('Registration successful!');
-          setError('');
-          console.log(response.data);
+          if (response.data.error) {
+            setError(response.data.error);
+            setSuccess('')
+          } else {
+            setSuccess('Registration successful!');
+            setError('');
+            toast('Registration successful!', {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Slide,
+              });
+          }
         }
         catch (error) {
-          setSuccess('');
-          setError('There was an error submitting the form');
+          setSuccess('')
+          setError('Request error')
           console.error(error);
         }
 
@@ -172,5 +186,6 @@ const Register = () => {
           </form>
         </div>
       );
+      
 }
 export default Register;
