@@ -53,11 +53,11 @@ const LoginForm = () => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="username">Nom d'utilisateur:</label>
+                <label htmlFor="email">email d'utilisateur:</label>
                 <input
                     type="text"
-                    id="username"
-                    name="username"
+                    id="email"
+                    name="email"
                     value={formData.username}
                     onChange={handleInputChange}
                     required
@@ -93,7 +93,6 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-
 
 
 

@@ -48,6 +48,7 @@ def get_messages_with_tags():
 def create_message(message: MessageCreate):
     connection = database_connect.get_db_connection()
     cursor = connection.cursor()
+    print(message)
 
     try:
         cursor.execute(
