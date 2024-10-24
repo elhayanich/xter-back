@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Slide, ToastContainer, toast } from 'react-toastify';
+
 const Register = () => {
     // State to hold form values
     const [formData, setFormData] = useState({
@@ -186,6 +186,5 @@ const Register = () => {
           </form>
         </div>
       );
-      
 }
 export default Register;
