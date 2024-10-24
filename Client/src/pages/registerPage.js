@@ -5,6 +5,7 @@ const RegisterPage = () => {
   return (
     <div className="">
       <Register />
+      <ToastContainer />
     </div>
   )
 };
