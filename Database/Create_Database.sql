@@ -43,9 +43,9 @@ INSERT INTO picture (entity_type, entity_id, image_path) VALUES ('user', 1, 'htt
 
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
     is_admin TINYINT(1) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     user_password VARCHAR(255) NOT NULL,
     date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     picture_id INT
