@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+# Importing all the routes from routes/__init__.py
 from routes import *
 
 app = FastAPI()
@@ -13,6 +14,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(register_router, prefix="/register")
-app.include_router(message_router, prefix="/messages")
+
+app.include_router(register_router, prefix="/register", tags=["Register"])
+app.include_router(message_router, prefix="/messages", tags=["Messages"])
 app.include_router(tag_router, prefix="/tags")
