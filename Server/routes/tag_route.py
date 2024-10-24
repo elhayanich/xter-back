@@ -13,13 +13,12 @@ def create_tags(tags: List[TagCreate]):
     cursor = connection.cursor()
 
     try:
-        # Insérer chaque tag dans la base de données
         for tag in tags:
             cursor.execute(
                 "INSERT INTO tag (tagname) VALUES (%s)",
                 (tag.tagname,)
             )
-        connection.commit()  # Valider la transaction
+        connection.commit()
         return {"message": "Tags envoyés avec succès!"}
     except Error as e:
         print(f"L'erreur suivante est survenue : '{e}'")
