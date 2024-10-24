@@ -74,7 +74,8 @@ INSERT INTO follow (followed_by_id, following_id) VALUES (1, 2);
 
 CREATE TABLE tag (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    tagname VARCHAR(255) NOT NULL
+    tagname VARCHAR(255) NOT NULL,
+    date_post TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO tag (tagname) VALUES ('freebritney');
@@ -113,12 +114,13 @@ INSERT INTO message (user_id, content) VALUES (1, "bonjour comment ça va les co
 
 -- TAG MESSAGES 
 CREATE TABLE tagmessage (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    message_id INT NOT NULL,
-    tag_id INT NOT NULL,
-    FOREIGN KEY (message_id) REFERENCES message(id),
-    FOREIGN KEY (tag_id) REFERENCES tag(id)
+    message_id INT,
+    tag_id INT,
+    PRIMARY KEY (message_id, tag_id),
+    FOREIGN KEY (message_id) REFERENCES message(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tag(id) ON DELETE CASCADE
 );
+
 
 INSERT INTO tagmessage (message_id, tag_id) VALUES (1, 1);
 
@@ -137,4 +139,5 @@ CREATE TABLE reaction (
 );
 
 INSERT INTO reaction (user_id, message_id, reaction_id) VALUES (1, 1, 1);
+
 
