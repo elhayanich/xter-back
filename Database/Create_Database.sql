@@ -74,8 +74,7 @@ INSERT INTO follow (followed_by_id, following_id) VALUES (1, 2);
 
 CREATE TABLE tag (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    tagname VARCHAR(255) NOT NULL,
-    date_post TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    tagname VARCHAR(255) NOT NULL
 );
 
 INSERT INTO tag (tagname) VALUES ('freebritney');
