@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const Message = () => {
     const [messages, setMessages] = useState([]);  
-    const [tags, setTags] = useState([]);  // État pour stocker les tags
+    const [tags, setTags] = useState([]); 
     const [error, setError] = useState(null);      
 
     useEffect(() => {
@@ -20,7 +20,7 @@ const Message = () => {
 
         const fetchTags = async () => {
             try {
-                const response = await axios.get('http://localhost:3310/tags');  // Récupération des tags
+                const response = await axios.get('http://localhost:3310/tags');  
                 if (response.status === 200) {
                     setTags(response.data); 
                 }
@@ -30,7 +30,7 @@ const Message = () => {
         };
 
         fetchMessages();
-        fetchTags();  // Appel de la fonction pour récupérer les tags
+        fetchTags(); 
     }, []);
 
     return (
@@ -57,7 +57,7 @@ const Message = () => {
                     {tags.length > 0 ? (
                         tags.map((tag) => (
                             <li key={tag.id} className="p-4 border border-gray-300 rounded-lg bg-white">
-                                {tag.tagname}  {/* Affichage du nom du tag */}
+                                {tag.tagname} 
                             </li>
                         ))
                     ) : (

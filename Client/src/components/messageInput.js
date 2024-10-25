@@ -18,7 +18,6 @@ export default function MessageInput() {
 
    
     const handleAddTag = () => {
-        // S'assurer que le tag commence par un #, sinon l'ajouter
         const formattedTag = tagInput.startsWith('#') ? tagInput : `#${tagInput}`;
 
        
@@ -35,7 +34,7 @@ export default function MessageInput() {
 
         
         const messageData = {
-            user_id: 1,  // Utilisateur statique, à remplacer plus tard par le vrai utilisateur
+            user_id: 1,  // Utilisateur statique, à remplacer plus tard par le vrai utilisateur of course
             content: message,
         };
 
