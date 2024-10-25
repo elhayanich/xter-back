@@ -3,6 +3,7 @@ from typing import List, Optional
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import datetime
+from .message_model import MessageCreate
 
 # Modèle Pydantic pour la validation des données
 class UserCreate(BaseModel):
@@ -23,3 +24,12 @@ class UserInDB(BaseModel):
 
     class Config:
         from_attributes = True
+
+# Utilisé pour afficher les messages d'un User
+class UserMessages(BaseModel):
+    username: str
+    email: str
+    password: str
+    picture_path: Optional[str] = None
+    is_admin: bool = False
+    messages: List[MessageCreate] = []
