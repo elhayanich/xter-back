@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function MessageInput() {
     const [message, setMessage] = useState('');
@@ -16,7 +18,6 @@ export default function MessageInput() {
 
    
     const handleAddTag = () => {
-        // S'assurer que le tag commence par un #, sinon l'ajouter
         const formattedTag = tagInput.startsWith('#') ? tagInput : `#${tagInput}`;
 
        
@@ -33,7 +34,7 @@ export default function MessageInput() {
 
         
         const messageData = {
-            user_id: 1,  // Utilisateur statique, à remplacer plus tard par le vrai utilisateur
+            user_id: 1,  // Utilisateur statique, à remplacer plus tard par le vrai utilisateur of course
             content: message,
         };
 
@@ -45,6 +46,7 @@ export default function MessageInput() {
                 await axios.post('http://localhost:3310/tags', tagData);
                 console.log("Tags envoyés :", tagData);
             }
+            toast.success("Votre message à été publié !");
             setMessage('');
             setTags([]);
         } catch (error) {
