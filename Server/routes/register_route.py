@@ -3,13 +3,8 @@ from fastapi import APIRouter
 from models import *
 import database_connect
 from mysql.connector import Error
-from passlib.context import CryptContext
 from auth_tools import AuthTool
 
-"""
-# This will be used to "hash" password
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-"""
 
 # Creating a router
 router = APIRouter()
@@ -18,7 +13,6 @@ router = APIRouter()
 @router.post("")
 def register_user(user: UserCreate):    
     try:
-        print(f"user : {user}")
         connection = database_connect.get_db_connection()
         cursor = connection.cursor()
         cursor.execute(
