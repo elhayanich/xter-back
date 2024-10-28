@@ -27,7 +27,7 @@ def login_user(user_to_log: UserAuth):
         if not AuthTool.password_verify(user_to_log.password, user_data[4]):
             raise HTTPException(status_code=401, detail="Wrong password!")
 
-        user = UserInDB(
+        user = User(
             id = user_data[0],
             username = user_data[1],
             is_admin = user_data[2],

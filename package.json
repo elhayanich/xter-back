@@ -2,9 +2,12 @@
   "dependencies": {
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
-    "react-toastify": "^10.0.6"
+    "react-markdown": "^9.0.1",
+    "react-toastify": "^10.0.6",
+    "tailwindcss": "^3.4.14"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.15",
     "concurrently": "^9.0.1"
   },
   "scripts": {
