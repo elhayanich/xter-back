@@ -5,7 +5,7 @@ from mysql.connector import Error
 
 router = APIRouter()
 
-@router.get("/{user_id}", response_model=u)
+@router.get("/{user_id}", response_model=User)
 def get_user_from_db(user_id: int):
     connection = database_connect.get_db_connection()
     cursor = connection.cursor()
@@ -13,8 +13,10 @@ def get_user_from_db(user_id: int):
     # try
     try: 
         #requête sql
+        cursor.execute("SELECT id from user where id = (?);", [user_id])
+        user_data = cursor.fetchone()[0]
 
-        # transformer infos sql en ça ↓
+        # récupérer les données sous forme d'User
         user = User(
                 id = user_data[0],
                 username = user_data[1],
