@@ -8,6 +8,7 @@ import HomePage from './pages/homePage';
 import RegisterPage from './components/register';
 import LoginPage from './pages/loginPage';
 import ProfilePage from './pages/ProfilePage';
+import HomePageVisitor from './pages/homePageVisitor';
 
 
 const router = createBrowserRouter([
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />,
+        element: <HomePageVisitor />,
       },
       {
         path: "/register",
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/testProfile",
         element: <ProfilePage />,
+      },
+      {
+        path: "/home",
+        element: <HomePage/>,
       }
     ],
   },

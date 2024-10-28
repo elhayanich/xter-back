@@ -51,7 +51,7 @@ const Login = () => {
 
                 // Redirect to home page after 2 seconds
                 setTimeout(() => {
-                    navigate('/');
+                    navigate('/home');
                 }, 2000);
             }
         } catch (error) {
