@@ -47,11 +47,11 @@ class AuthTool:
     @classmethod
     async def get_current_user(cls, token : str = Depends(oauth2_scheme)):
         try:
-            payload = jwt.decode(token, cls.secret_key, cls.algo)               # Decodage de notre token
-            user = payload.get("sub")                                           # Avec JWT, "sub" contient le sujet du token (et donc notre user)
-            if user is None:
+            payload = jwt.decode(token, cls.secret_key, algorithm=cls.algo)     # Decodage de notre token
+            user_id = payload.get("sub")                                           # "sub" contient le sujet du token (et donc notre user)
+            if user_id is None:
                 raise Exception.add_note("No user for this credential")
-            return user
+            return user_id
         
         except JWTError:
             raise HTTPException(
