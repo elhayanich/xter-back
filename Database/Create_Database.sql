@@ -1,4 +1,3 @@
-CREATE DATABASE xter;
 USE xter;
 
 SET FOREIGN_KEY_CHECKS = 0; -- Desactivation des cles etrangeres pour drop les tables sans soucis

@@ -7,4 +7,4 @@ class MessageCreate(BaseModel):
     content: str
     tag_ids: Optional[List[int]] = None 
     picture_path: Optional[str] = None
-    message_parent: Optional[int] = None
+    parent_id: Optional[int] = None 
