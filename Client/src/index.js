@@ -7,6 +7,7 @@ import App from './App';
 import HomePage from './pages/homePage';
 import RegisterPage from './components/register';
 import LoginPage from './pages/loginPage';
+import ProfilePage from './pages/ProfilePage';
 
 
 const router = createBrowserRouter([
@@ -24,6 +25,11 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      // route test pour le profil
+      {
+        path: "/testProfile",
+        element: <ProfilePage />,
       }
     ],
   },
