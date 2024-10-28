@@ -23,7 +23,7 @@ const Login = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Pour éviter de rafraichir la page lors de l'envoi du formulaire
 
         if (!formData.email || !formData.password) {
             setError('All fields are required!');
@@ -36,6 +36,10 @@ const Login = () => {
             const response = await axios.post("http://127.0.0.1:3310/login", {
                 email,
                 password
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
             });
 
             if (response.data.error) {
@@ -52,8 +56,18 @@ const Login = () => {
             }
         } catch (error) {
             setSuccess('');
-                setError(error.response.data.detail);
-                console.error(error);
+
+            if (error.response) {
+                // Erreur serveur avec réponse
+                setError(error.response.data.detail || "An error occurred.");
+            } else if (error.request) {
+                // La requête a été faite mais aucune réponse n'a été reçue
+                setError(error.request.detail || "No response from server. Please try again later.");
+            } else {
+                // Autre erreur (problème de configuration ou réseau)
+                setError("An unexpected error occurred.");
+            }
+            console.error(error);
         }
     };
 

@@ -10,7 +10,7 @@ class UserCreate(BaseModel):
     username: str
     email: str
     password: str
-    picture_path: Optional[str] = None
+    picture: Optional[str] = None
     is_admin: bool = False
     
 
@@ -21,7 +21,7 @@ class UserInDB(BaseModel):
     is_admin: bool
     email: str
     date_inscription: datetime = datetime.now()
-    picture_id: Optional[int]
+    picture: Optional[str]
 
 # Modele utilisé pour s'authentifier
 class UserAuth(BaseModel):
@@ -32,6 +32,6 @@ class UserAuth(BaseModel):
 class UserMessages(BaseModel):
     username: str
     email: str
-    picture_path: Optional[str] = None
+    picture: Optional[str] = None
     is_admin: bool = False
     messages: List[MessageCreate] = []

@@ -33,7 +33,7 @@ def login_user(user_to_log: UserAuth):
             is_admin = user_data[2],
             email = user_data[3],
             date_inscription = user_data[5],
-            picture_id = user_data[6]
+            picture = user_data[6]
         )
 
         #AuthTool.create_token(user_id)

@@ -16,7 +16,7 @@ def register_user(user: UserCreate):
         connection = database_connect.get_db_connection()
         cursor = connection.cursor()
         cursor.execute(
-            "INSERT INTO user (username, is_admin, email, user_password, picture_id) VALUES (%s, 0, %s, %s, 0)",
+            "INSERT INTO user (username, is_admin, email, user_password, picture) VALUES (%s, 0, %s, %s, '../Client/public/images/NOPICTURE.png')",
             (user.username, user.email, AuthTool.pwd_context.hash(user.password))
         )
         connection.commit()
