@@ -10,26 +10,28 @@ class UserCreate(BaseModel):
     username: str
     email: str
     password: str
-    picture_path: Optional[str] = None
+    picture: Optional[str] = None
     is_admin: bool = False
     
 
-# Schéma pour les données renvoyées de la BDD
+# Modele pour les données renvoyées de la BDD
 class UserInDB(BaseModel):
+    id : int
     username: str
-    email: EmailStr
-    hashed_password: str
     is_admin: bool
+    email: str
     date_inscription: datetime = datetime.now()
+    picture: Optional[str]
 
-    class Config:
-        from_attributes = True
+# Modele utilisé pour s'authentifier
+class UserAuth(BaseModel):
+    email: str
+    password: str
 
 # Utilisé pour afficher les messages d'un User
 class UserMessages(BaseModel):
     username: str
     email: str
-    password: str
-    picture_path: Optional[str] = None
+    picture: Optional[str] = None
     is_admin: bool = False
     messages: List[MessageCreate] = []
