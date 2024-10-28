@@ -1,3 +1,6 @@
+// J'ai demandé à chat GPT de générer les commentaires pour expliquer le code , derien
+
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from "react-toastify";
@@ -5,52 +8,55 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function MessageInput() {
     const [message, setMessage] = useState('');
-    const [tagInput, setTagInput] = useState('');  
-    const [tags, setTags] = useState([]);  
+    const [tagInput, setTagInput] = useState('');
+    const [tags, setTags] = useState([]);
 
-    const handleMessageChange = (e) => {
-        setMessage(e.target.value);
+    // Fonction pour gérer les changements dans le champ de message
+    const handleMessageChange = (event) => {
+        setMessage(event.target.value);
     };
 
-    const handleTagChange = (e) => {
-        setTagInput(e.target.value);
+    // Fonction pour gérer les changements dans le champ de tag
+    const handleTagChange = (event) => {
+        setTagInput(event.target.value);
     };
 
-   
+    // Fonction pour ajouter un tag
     const handleAddTag = () => {
-        const formattedTag = tagInput.startsWith('#') ? tagInput : `#${tagInput}`;
-
-       
-        if (formattedTag && !tags.includes(formattedTag)) {
-            setTags([...tags, formattedTag]);
+        if (tagInput) { // Vérifie si le champ n'est pas vide
+            const formattedTag = tagInput.startsWith('#') ? tagInput : `#${tagInput}`;
+            if (!tags.includes(formattedTag)) { // Évite les doublons
+                setTags([...tags, formattedTag]); // Ajoute le tag à la liste
+                setTagInput(''); // Réinitialise le champ d'entrée de tag
+            }
         }
-
-        setTagInput('');  
     };
 
-    
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        
-        const messageData = {
-            user_id: 1,  // Utilisateur statique, à remplacer plus tard par le vrai utilisateur of course
-            content: message,
-        };
-
+    // Fonction pour soumettre le message et les tags
+    const handleSubmit = async (event) => {
+        event.preventDefault(); // Empêche le rechargement de la page
         try {
-            const messageResponse = await axios.post('http://localhost:3310/messages', messageData);
-            console.log("Message envoyé :", messageResponse.data);
-            if (tags.length > 0) {
-                const tagData = tags.map(tagname => ({ tagname }));
-                await axios.post('http://localhost:3310/tags', tagData);
-                console.log("Tags envoyés :", tagData);
-            }
-            toast.success("Votre message à été publié !");
-            setMessage('');
-            setTags([]);
+            // Envoi des tags
+            const tagData = tags.map(tagname => ({ tagname }));
+            const tagResponse = await axios.post('http://localhost:3310/tags', tagData);
+
+            // Récupération des IDs des tags
+            const tagIds = tagResponse.data.map(tag => tag.id);
+
+            // Préparation des données de message
+            const messageData = {
+                user_id: 1, // ID d'utilisateur statique
+                content: message,
+                tag_ids: tagIds,
+            };
+
+            // Envoi du message
+            await axios.post('http://localhost:3310/messages', messageData);
+            toast.success("Votre message a été publié !");
+            setMessage(''); // Réinitialise le champ de message
+            setTags([]); // Réinitialise la liste de tags
         } catch (error) {
-            console.error("Erreur lors de l'envoi du message ou des tags :", error);
+            console.error("Erreur lors de l'envoi :", error);
         }
     };
 
@@ -64,7 +70,7 @@ export default function MessageInput() {
                             value={message}
                             onChange={handleMessageChange}
                             placeholder="Écrire un message..."
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="w-full p-3 border border-gray-300 rounded-lg"
                         />
                     </div>
                     <div className="mb-4 flex">
@@ -73,12 +79,12 @@ export default function MessageInput() {
                             value={tagInput}
                             onChange={handleTagChange}
                             placeholder="Ajouter un tag (ex: #amitié)"
-                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="w-full p-2 border border-gray-300 rounded-lg"
                         />
                         <button
                             type="button"
                             onClick={handleAddTag}
-                            className="ml-2 px-4 py-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition"
+                            className="ml-2 px-4 py-2 bg-green-500 text-white rounded-lg"
                         >
                             Ajouter
                         </button>
@@ -88,7 +94,7 @@ export default function MessageInput() {
                         {tags.length > 0 && (
                             <div className="flex flex-wrap">
                                 {tags.map((tag, index) => (
-                                    <span key={index} className="mr-2 mb-2 px-3 py-1 bg-gray-200 text-gray-800 rounded-lg">
+                                    <span key={index} className="mr-2 mb-2 px-3 py-1 bg-gray-200 rounded-lg">
                                         {tag}
                                     </span>
                                 ))}
@@ -99,7 +105,7 @@ export default function MessageInput() {
                     <div className="flex justify-end">
                         <button
                             type="submit"
-                            className="px-6 py-2 bg-pink-500 text-white font-bold rounded-lg hover:bg-green-600 transition"
+                            className="px-6 py-2 bg-pink-500 text-white rounded-lg"
                         >
                             Envoyer
                         </button>
