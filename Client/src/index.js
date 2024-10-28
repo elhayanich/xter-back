@@ -7,6 +7,7 @@ import App from './App';
 import HomePage from './pages/homePage';
 import RegisterPage from './components/register';
 import LoginPage from './pages/loginPage';
+import HomePageVisitor from './pages/homePageVisitor';
 
 
 const router = createBrowserRouter([
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />,
+        element: <HomePageVisitor />,
       },
       {
         path: "/register",
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "/home",
+        element: <HomePage/>,
       }
     ],
   },
