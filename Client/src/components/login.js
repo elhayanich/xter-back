@@ -46,13 +46,21 @@ const Login = () => {
                 setError(response.data.error);
                 setSuccess('');
             } else {
-                setSuccess(`Login successful! Welcome ${response.data.username}!`);
-                setError('');
+                // Réception du token
 
-                // Redirect to home page after 2 seconds
-                setTimeout(() => {
-                    navigate('/');
-                }, 2000);
+                if (response.data.token) {
+                    // Stocker le token dans localStorage
+                    localStorage.setItem("token", response.data.token);
+                    setSuccess(`Login successful! Welcome ${response.data.username}!`);
+                    setError(''); 
+
+                    // Redirect to home page after 2 seconds
+                    setTimeout(() => {
+                        navigate('/');
+                    }, 2000);
+                } else {
+                    setError("You have no rights to be here");
+                }
             }
         } catch (error) {
             setSuccess('');

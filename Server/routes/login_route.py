@@ -27,17 +27,13 @@ def login_user(user_to_log: UserAuth):
         if not AuthTool.password_verify(user_to_log.password, user_data[4]):
             raise HTTPException(status_code=401, detail="Wrong password!")
 
-        user = UserInDB(
-            id = user_data[0],
-            username = user_data[1],
-            is_admin = user_data[2],
-            email = user_data[3],
-            date_inscription = user_data[5],
-            picture = user_data[6]
-        )
 
-        #AuthTool.create_token(user_id)
-        return {"message": "Authentification successfull!!", "username" : user.username}
+        try:
+            token = AuthTool.create_token(user_data[0])
+
+            return {"message": "Authentification successfull!!", "user" : user_data[1], "token" : token}
+        except Error as e:
+            return {"error": "Can't create token"}
         
     except Error as e:
         return {"error": "An error occured during registration. Cannot get authentification."}

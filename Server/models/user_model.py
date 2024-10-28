@@ -13,15 +13,20 @@ class UserCreate(BaseModel):
     picture: Optional[str] = None
     is_admin: bool = False
     
-
-# Modele pour les données renvoyées de la BDD
-class UserInDB(BaseModel):
-    id : int
+# Modele pour l'utilisateur actuel
+class User(BaseModel):
+    id: int
     username: str
     is_admin: bool
     email: str
     date_inscription: datetime = datetime.now()
-    picture: Optional[str]
+    picture : Optional[str]
+
+
+# Modele pour les données renvoyées de la BDD
+class UserLogin(BaseModel):
+    id : int
+    username: str
 
 # Modele utilisé pour s'authentifier
 class UserAuth(BaseModel):
