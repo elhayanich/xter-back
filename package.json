@@ -5,8 +5,7 @@
     "react-toastify": "^10.0.6"
   },
   "devDependencies": {
-    "concurrently": "^9.0.1",
-    "tailwindcss": "^3.4.14"
+    "concurrently": "^9.0.1"
   },
   "scripts": {
     "dev": "concurrently -c green,yellow -t \"HH:mm:ss\" -p \"{name} {time}\" \"npm run dev:client\" \"npm run dev:server\"",

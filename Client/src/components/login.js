@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Register = () => {
+const Login = () => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        username: '',
         email: '',
-        password: '',
-        confirmPassword: ''
+        password: ''
     });
 
     const [showPassword, setShowPassword] = useState(false);
@@ -25,79 +23,62 @@ const Register = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Pour éviter de rafraichir la page lors de l'envoi du formulaire
 
-        if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
+        if (!formData.email || !formData.password) {
             setError('All fields are required!');
             return;
         }
 
-        if (formData.password !== formData.confirmPassword) {
-            setError('Passwords must match');
-            return;
-        }
-
-        const { username, email, password } = formData;
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            setError('Invalid email format');
-            return;
-        }
-
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-        if (!passwordRegex.test(password)) {
-            setError('Password must be at least 8 characters long and contain at least one letter and one number');
-            return;
-        }
+        const {email, password } = formData;
 
         try {
-            const response = await axios.post("http://127.0.0.1:3310/register", {
-                username,
+            const response = await axios.post("http://127.0.0.1:3310/login", {
                 email,
-                password,
+                password
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
             });
 
             if (response.data.error) {
                 setError(response.data.error);
                 setSuccess('');
             } else {
-                setSuccess('Registration successful!');
+                setSuccess(`Login successful! Welcome ${response.data.username}!`);
                 setError('');
 
                 // Redirect to home page after 2 seconds
                 setTimeout(() => {
-                    navigate('/login');
+                    navigate('/');
                 }, 2000);
             }
         } catch (error) {
             setSuccess('');
-            setError('Request error');
+
+            if (error.response) {
+                // Erreur serveur avec réponse
+                setError(error.response.data.detail || "An error occurred.");
+            } else if (error.request) {
+                // La requête a été faite mais aucune réponse n'a été reçue
+                setError(error.request.detail || "No response from server. Please try again later.");
+            } else {
+                // Autre erreur (problème de configuration ou réseau)
+                setError("An unexpected error occurred.");
+            }
             console.error(error);
         }
     };
 
     return (
         <div className="max-w-md mx-auto p-8 bg-white shadow-md rounded-lg mt-10">
-            <h2 className="text-2xl font-bold text-center mb-6 text-pink-600">Register</h2>
+            <h2 className="text-2xl font-bold text-center mb-6 text-pink-600">Login</h2>
 
             {error && <p className="text-pink-500 text-center mb-4">{error}</p>}
             {success && <p className="text-green-500 text-center mb-4">{success}</p>}
 
             <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                    <label htmlFor="username" className="block text-pink-700 font-bold mb-2">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border border-pink-300 rounded focus:outline-none focus:border-pink-500"
-                        placeholder="Enter your username"
-                    />
-                </div>
-
                 <div className="mb-4">
                     <label htmlFor="email" className="block text-pink-700 font-bold mb-2">Email:</label>
                     <input
@@ -124,19 +105,6 @@ const Register = () => {
                     />
                 </div>
 
-                <div className="mb-4">
-                    <label htmlFor="confirmPassword" className="block text-pink-700 font-bold mb-2">Confirm Password:</label>
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border border-pink-300 rounded focus:outline-none focus:border-pink-500"
-                        placeholder="Confirm your password"
-                    />
-                </div>
-
                 <div className="flex justify-between items-center mb-4">
                     <button
                         type="button"
@@ -151,11 +119,11 @@ const Register = () => {
                     type="submit"
                     className="w-full bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600 transition"
                 >
-                    Register
+                    Login
                 </button>
             </form>
         </div>
     );
 }
 
-export default Register;
+export default Login;
