@@ -15,7 +15,7 @@ class UserCreate(BaseModel):
     
 
 # Modele pour les données renvoyées de la BDD
-class UserInDB(BaseModel):
+class User(BaseModel):
     id : int
     username: str
     is_admin: bool

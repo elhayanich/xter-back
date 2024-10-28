@@ -1,3 +1,5 @@
+// J'ai demandé à chat GPT de générer les commentaires pour expliquer le code , derien
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from "react-toastify";
@@ -55,11 +57,11 @@ export default function MessageInput({ parentId, onSubmit }) {  // Ajout de pare
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md mb-4"> 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <input
-                            type="text"
+                        <textarea //J'ai changé "input" en "textarea" pour éviter l'envoi par entrée et permettre le retour à la ligne
                             value={message}
                             onChange={handleMessageChange}
                             placeholder="Écrire un message..."
+                            rows="3"
                             className="w-full p-3 border border-gray-300 rounded-lg"
                         />
                     </div>
