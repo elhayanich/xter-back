@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from models import User
 import database_connect
 from mysql.connector import Error
@@ -13,8 +13,11 @@ def get_user_from_db(user_id: int):
     # try
     try: 
         #requête sql
-        cursor.execute("SELECT id from user where id = (?);", [user_id])
-        user_data = cursor.fetchone()[0]
+        cursor.execute("SELECT * from user where id = %s;", (user_id,))
+        user_data = cursor.fetchone()
+
+        if user_data is None:
+            raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
 
         # récupérer les données sous forme d'User
         user = User(
@@ -30,7 +33,8 @@ def get_user_from_db(user_id: int):
     
     except Error as e:
         print(f"L'erreur suivante est survenue : '{e}'")
-        return {"error": "Une erreur s'est produite lors de a récupération de l'utilisateur."}
+        raise HTTPException(status_code=500, detail="Erreur de connexion à la base de données")
+    
     finally:
         cursor.close()
         connection.close() 
