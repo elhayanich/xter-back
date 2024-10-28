@@ -6,6 +6,7 @@ from mysql.connector import Error
 router = APIRouter()
 
 
+
 @router.get("/")
 def get_messages():
     connection = database_connect.get_db_connection()
@@ -41,8 +42,8 @@ def create_message(message: MessageCreate):
     try:
         # inssérer le message dans sa
         cursor.execute(
-            "INSERT INTO message (user_id, content) VALUES (%s, %s)",
-            (message.user_id, message.content)
+            "INSERT INTO message (user_id, content, parent_id) VALUES (%s, %s, %s)",
+            (message.user_id, message.content, message.parent_id)
         )
         message_id = cursor.lastrowid  # Récupérer l'ID du message inséré
         connection.commit()
@@ -64,3 +65,25 @@ def create_message(message: MessageCreate):
         cursor.close()
         connection.close()
 
+
+
+@router.post("/reply")
+def create_reply(message: MessageCreate):
+    connection = database_connect.get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        # Insertion de la réponse dans la table message, avec le parent_id
+        cursor.execute(
+            "INSERT INTO message (user_id, content, parent_id) VALUES (%s, %s, %s)",
+            (message.user_id, message.content, message.parent_id)
+        )
+        connection.commit()
+
+        return {"message": "Réponse ajoutée avec succès!"}
+    except Error as e:
+        print(f"L'erreur suivante est survenue : '{e}'")
+        return {"error": "Une erreur s'est produite lors de l'envoi de la réponse."}
+    finally:
+        cursor.close()
+        connection.close()
