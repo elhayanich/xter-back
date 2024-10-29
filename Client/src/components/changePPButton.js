@@ -11,9 +11,8 @@ const ChangePictureButton = () => {
     const handleURLBtnClick = () => {
         setShowURLBtn(!showURLBtn);}
 
-
     //Changer photo par url
-    const handleUpload = async () => {
+    const handleURLUpload = async () => {
         if (!imageUrl) {
             alert("Veuillez entrer une URL d'image.");
             return;}
@@ -24,6 +23,8 @@ const ChangePictureButton = () => {
         } catch (error) {
             console.error("Erreur lors de l'upload :", error);
             alert("Erreur lors de l'upload de l'image.");}}
+    
+
 
     return (
         <div className="flex justify-center items-center">
@@ -47,7 +48,7 @@ const ChangePictureButton = () => {
                             type="text"
                             value={imageUrl}
                             onChange={(e) => setImageUrl(e.target.value)}></input>
-                        <button onClick={handleUpload} className="bg-blue-500 text-white p-2 rounded">
+                        <button onClick={handleURLUpload} className="bg-pink-500 text-white p-2 rounded">
                             Uploader l'image
                         </button>
                     </div>}

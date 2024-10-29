@@ -37,37 +37,37 @@ def get_user_from_db(user_id: int):
         cursor.close()
         connection.close() 
 
-@router.get("/{picture}", response_model=User) # À FINIR !!!
-def get_user_picture_from_db(user_id: int):
-    connection = database_connect.get_db_connection()
-    cursor = connection.cursor()
+# @router.get("/{picture}", response_model=User) # À FINIR !!!
+# def get_user_picture_from_db(user_id: int):
+#     connection = database_connect.get_db_connection()
+#     cursor = connection.cursor()
 
-    try: 
-        cursor.execute("SELECT picture from user where id = %s;", (user_id,))
-        user_data = cursor.fetchone()
+#     try: 
+#         cursor.execute("SELECT picture from user where id = %s;", (user_id,))
+#         user_data = cursor.fetchone()
 
-        if user_data is None:
-            raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+#         if user_data is None:
+#             raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
 
-        # récupérer les données sous forme d'User
-        user = User(
-                id = user_data[0],
-                username = user_data[1],
-                is_admin = user_data[2],
-                email = user_data[3],
-                date_inscription = user_data[5],
-                picture = user_data[6]
-            )
-        #retourner la photo uniquement
-        return user.picture
+#         # récupérer les données sous forme d'User
+#         user = User(
+#                 id = user_data[0],
+#                 username = user_data[1],
+#                 is_admin = user_data[2],
+#                 email = user_data[3],
+#                 date_inscription = user_data[5],
+#                 picture = user_data[6]
+#             )
+#         #retourner la photo uniquement
+#         return user.picture
     
-    except Error as e:
-        print(f"L'erreur suivante est survenue : '{e}'")
-        raise HTTPException(status_code=500, detail="Erreur de connexion à la base de données")
+#     except Error as e:
+#         print(f"L'erreur suivante est survenue : '{e}'")
+#         raise HTTPException(status_code=500, detail="Erreur de connexion à la base de données")
     
-    finally:
-        cursor.close()
-        connection.close() 
+#     finally:
+#         cursor.close()
+#         connection.close() 
 
 @router.post("/{user_id}/uploadImgUrl")
 def upload_img_url(user_id: int, data: UserPictureUpdate):
