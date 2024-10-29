@@ -1,11 +1,9 @@
-// J'ai demandé à chat GPT de générer les commentaires pour expliquer le code , derien
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function MessageInput({ parentId, onSubmit }) {  // Ajout de parentId
+export default function MessageInput() {
     const [message, setMessage] = useState('');
     const [tagInput, setTagInput] = useState('');
     const [tags, setTags] = useState([]);
@@ -39,14 +37,12 @@ export default function MessageInput({ parentId, onSubmit }) {  // Ajout de pare
                 user_id: 1,
                 content: message,
                 tag_ids: tagIds,
-                parent_id: parentId,  // Ajout du parentId ici
             };
 
             await axios.post('http://localhost:3310/messages', messageData);
             toast.success("Votre message a été publié !");
             setMessage('');
             setTags([]);
-            onSubmit(parentId, message);  // Appel de la fonction onSubmit
         } catch (error) {
             console.error("Erreur lors de l'envoi :", error);
         }
@@ -54,10 +50,10 @@ export default function MessageInput({ parentId, onSubmit }) {  // Ajout de pare
 
     return (
         <div className="flex justify-center items-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md mb-4"> 
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md mb-4">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <textarea //J'ai changé "input" en "textarea" pour éviter l'envoi par entrée et permettre le retour à la ligne
+                        <textarea
                             value={message}
                             onChange={handleMessageChange}
                             placeholder="Écrire un message..."
@@ -81,7 +77,6 @@ export default function MessageInput({ parentId, onSubmit }) {  // Ajout de pare
                             Ajouter
                         </button>
                     </div>
-
                     <div className="mb-4">
                         {tags.length > 0 && (
                             <div className="flex flex-wrap">
@@ -93,7 +88,6 @@ export default function MessageInput({ parentId, onSubmit }) {  // Ajout de pare
                             </div>
                         )}
                     </div>
-
                     <div className="flex justify-end">
                         <button
                             type="submit"
@@ -107,3 +101,4 @@ export default function MessageInput({ parentId, onSubmit }) {  // Ajout de pare
         </div>
     );
 }
+
