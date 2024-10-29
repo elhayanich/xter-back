@@ -13,7 +13,7 @@ const ProfileBanner = ({onImageClick}) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/user/${user_id}`);
+                const response = await axios.get(`http://localhost:3310/user/${user_id}`);
                 setUser(response.data)
             } catch (err) {
                 setUserError(err.message);

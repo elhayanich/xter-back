@@ -3,9 +3,11 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 const ChangePictureButton = () => {
+    const {user_id} = useParams()
     const [showURLBtn, setShowURLBtn] = useState(false); {/*Le bouton Url donne accès à un input*/}
     const [imageUrl, setImageUrl] = useState('')
 
+    // Affiche-cache les input pour upload
     const handleURLBtnClick = () => {
         setShowURLBtn(!showURLBtn);}
 
@@ -14,22 +16,14 @@ const ChangePictureButton = () => {
     const handleUpload = async () => {
         if (!imageUrl) {
             alert("Veuillez entrer une URL d'image.");
-            return;
-        }
-
+            return;}
         try {
-            const response = await axios.post('http://localhost:8000/upload-image', { url: imageUrl })
+            const response = await axios.post(`http://localhost:3310/user/${user_id}/uploadImgUrl`, { url: imageUrl })
             alert("Image uploadée avec succès");
             setImageUrl('') //réinitialiser champ url après upload
-
         } catch (error) {
             console.error("Erreur lors de l'upload :", error);
-            alert("Erreur lors de l'upload de l'image.");
-        }
-    }
-
-
-
+            alert("Erreur lors de l'upload de l'image.");}}
 
     return (
         <div className="flex justify-center items-center">

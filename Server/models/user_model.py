@@ -41,3 +41,7 @@ class UserMessages(BaseModel):
     picture: Optional[str] = None
     is_admin: bool = False
     messages: List[MessageCreate] = []
+
+# Modèle court pour réduire les envois de photos par url 
+class UserPictureUpdate(BaseModel):
+    url: str

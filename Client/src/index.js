@@ -29,7 +29,6 @@ const router = createBrowserRouter([
         path: "/login",
         element: <LoginPage />,
       },
-      // route test pour le profil
       {
         path: "/user/:user_id",
         element: <ProfilePage />,
