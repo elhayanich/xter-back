@@ -7,6 +7,10 @@ import App from './App';
 import HomePage from './pages/homePage';
 import RegisterPage from './components/register';
 import LoginPage from './pages/loginPage';
+import ProfilePage from './pages/ProfilePage';
+import HomePageVisitor from './pages/homePageVisitor';
+import TestToken from './pages/tokenPage';
+import TestToken2 from './pages/tokenPage2';
 
 
 const router = createBrowserRouter([
@@ -15,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />,
+        element: <HomePageVisitor />,
       },
       {
         path: "/register",
@@ -24,6 +28,23 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      // route test pour le profil
+      {
+        path: "/testProfile",
+        element: <ProfilePage />,
+      },
+      {
+        path: "/testToken",
+        element: <TestToken />,
+      },
+      {
+        path: "/testToken2",
+        element: <TestToken2 />,
+      },
+      {
+        path: "/home",
+        element: <HomePage/>,
       }
     ],
   },

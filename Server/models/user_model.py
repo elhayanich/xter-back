@@ -13,9 +13,10 @@ class UserCreate(BaseModel):
     picture: Optional[str] = None
     is_admin: bool = False
     
-# Modele pour l'utilisateur actuel
+
+# Modele pour les données renvoyées de la BDD
 class User(BaseModel):
-    id: int
+    id : int
     username: str
     is_admin: bool
     email: str

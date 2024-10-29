@@ -29,9 +29,11 @@ def login_user(user_to_log: UserAuth):
 
 
         try:
-            token = AuthTool.create_token(user_data[0])
+            token = AuthTool.create_token(str(user_data[0]))
+            print(user_data[0])
+            print(token)
 
-            return {"message": "Authentification successfull!!", "user" : user_data[1], "token" : token}
+            return {"message": "Authentification successfull!!", "username" : user_data[1], "token" : token}
         except Error as e:
             return {"error": "Can't create token"}
         

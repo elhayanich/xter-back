@@ -1,41 +1,36 @@
-from fastapi import APIRouter, HTTPException, Depends
-from models.user_model import User
+from fastapi import APIRouter
+from models import User
 import database_connect
 from mysql.connector import Error
-from auth_tools import AuthTool
 
 router = APIRouter()
 
-# Route pour récupérer un User à partir de son Id, et le retourner au format User
 @router.get("/{user_id}", response_model=User)
-def get_user(user_id: int):
-    try :
-        connection = database_connect.get_db_connection()
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute(f"SELECT * FROM user WHERE id = {user_id};")  # Récupère un utilisateur
-        user_data = cursor.fetchone()
+def get_user_from_db(user_id: int):
+    connection = database_connect.get_db_connection()
+    cursor = connection.cursor()
 
+    # try
+    try: 
+        #requête sql
+        cursor.execute("SELECT id from user where id = (?);", [user_id])
+        user_data = cursor.fetchone()[0]
+
+        # récupérer les données sous forme d'User
         user = User(
-            id = user_data[0],
-            username = user_data[1],
-            is_admin = user_data[2],
-            email = user_data[3],
-            date_inscription = user_data[5],
-            picture = user_data[6]
-        )
+                id = user_data[0],
+                username = user_data[1],
+                is_admin = user_data[2],
+                email = user_data[3],
+                date_inscription = user_data[5],
+                picture = user_data[6]
+            )
         
         return user
-    except Error as e:
-        raise HTTPException(status_code=500, detail=str(e))
     
+    except Error as e:
+        print(f"L'erreur suivante est survenue : '{e}'")
+        return {"error": "Une erreur s'est produite lors de a récupération de l'utilisateur."}
     finally:
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
-
-"""
-@router.get("/me")
-async def get_myslef(current_user: dict = Depends(AuthTool.get_current_user)):
-    return 
-"""
+        cursor.close()
+        connection.close() 

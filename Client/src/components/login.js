@@ -54,9 +54,8 @@ const Login = () => {
                     setSuccess(`Login successful! Welcome ${response.data.username}!`);
                     setError(''); 
 
-                    // Redirect to home page after 2 seconds
                     setTimeout(() => {
-                        navigate('/');
+                        navigate('/home');
                     }, 2000);
                 } else {
                     setError("You have no rights to be here");
