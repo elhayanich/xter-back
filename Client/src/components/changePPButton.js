@@ -28,30 +28,42 @@ const ChangePictureButton = () => {
 
     return (
         <div className="flex justify-center items-center">
-            <div className="flex-col bg-white p-1 rounded-lg shadow-lg w-full max-w-md mb-4 items-center p-5">
-                <p className="text-xs text-pink-500 font-medium pb-3">Veuillez choisir une nouvelle image.</p>
+            <div className="flex-col  bg-white p-1 rounded-lg shadow-lg w-full max-w-md mb-4 p-5 w-full">
+                {/*Boutons upload photo*/}
                 <div>
-                    <button
-                            type="button"
-                            // onClick={}
-                            className="w-16 bg-gray-400 text-white text-sm hover:bg-gray-600 transition pt-0.5 pb-0.5 rounded-md mr-5"
-                        > Local</button>
-                    <button
-                            type="button"
-                            onClick={handleURLBtnClick}
-                            className="w-16 bg-gray-400 text-white text-sm hover:bg-gray-600 transition pt-0.5 pb-0.5 rounded-md"
-                        > Url</button>
+                    <p className="text-base text-pink-500 font-medium pb-3 flex justify-center items-center">Veuillez choisir une nouvelle image.</p>
+                    <div className='pb-5 flex justify-center items-center'>
+                        <button
+                                type="button"
+                                // onClick={}
+                                className="w-16 bg-gray-500 text-white text-sm hover:bg-gray-600 transition pt-0.5 pb-0.5 rounded-md mr-5"
+                            > Local</button>
+                        <button
+                                type="button"
+                                onClick={handleURLBtnClick}
+                                className="w-16 bg-gray-500 text-white text-sm hover:bg-gray-600 transition pt-0.5 pb-0.5 rounded-md"
+                            > Url</button>
+                </div>
+                </div>
+                {/*Inputs local / url*/}
+                <div>
                     {showURLBtn && 
-                    <div>
-                        <label>Veuillez entrer l'url de votre image</label>
-                        <input
-                            type="text"
-                            value={imageUrl}
-                            onChange={(e) => setImageUrl(e.target.value)}></input>
-                        <button onClick={handleURLUpload} className="bg-pink-500 text-white p-2 rounded">
-                            Uploader l'image
-                        </button>
-                    </div>}
+                        <div className='flex justify-center flex-col items-center'>
+                            <div className='pb-5'>
+                                <label className='text-base text-pink-500 font-normal pb-5 flex justify-center items-center'>Veuillez entrer l'url de votre image</label>
+                                <input
+                                    type="text"
+                                    value={imageUrl}
+                                    onChange={(e) => setImageUrl(e.target.value)}
+                                    className='border-2 border border-gray-300 rounded-lg w-full pt-'></input>
+                            </div>
+                            <div className='flex justify-center items-center'>
+                                <button onClick={handleURLUpload} className="bg-pink-500 text-white px-10 ps-5 rounded hover:bg-pink-600 transition">
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                        }
                 </div>
             </div>
         </div>
