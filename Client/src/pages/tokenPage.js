@@ -1,10 +1,12 @@
 import React from "react";
-import TestonsLeToken from "../components/test_token";
+import SendAuthoredMessage from "../components/sendAuthedMessage.js";
 
 const TestToken = () => {
+  const messageToSend = {"message" : "ceci est le message", "id" : 12};
+  const route = "/token/message";
   return (
     <div>
-      <TestonsLeToken />
+      <SendAuthoredMessage messageToSend={messageToSend} route={route}/>
     </div>
   )
 };
