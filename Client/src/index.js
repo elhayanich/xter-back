@@ -9,6 +9,7 @@ import RegisterPage from './components/register';
 import LoginPage from './pages/loginPage';
 import ProfilePage from './pages/ProfilePage';
 import HomePageVisitor from './pages/homePageVisitor';
+import TestToken from './pages/tokenPage';
 
 
 const router = createBrowserRouter([
@@ -27,10 +28,13 @@ const router = createBrowserRouter([
         path: "/login",
         element: <LoginPage />,
       },
-      // route test pour le profil
       {
-        path: "/testProfile",
+        path: "/user/:user_id",
         element: <ProfilePage />,
+      },
+      {
+        path: "/testToken",
+        element: <TestToken />,
       },
       {
         path: "/home",

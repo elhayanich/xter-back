@@ -21,7 +21,13 @@ class User(BaseModel):
     is_admin: bool
     email: str
     date_inscription: datetime = datetime.now()
-    picture: Optional[str]
+    picture : Optional[str]
+
+
+# Modele pour les données renvoyées de la BDD
+class UserLogin(BaseModel):
+    id : int
+    username: str
 
 # Modele utilisé pour s'authentifier
 class UserAuth(BaseModel):
