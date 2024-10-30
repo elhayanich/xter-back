@@ -1,0 +1,37 @@
+.sideBar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 2.5rem; /* Espacement à ajuster selon votre design */
+    z-index: 1;
+    width: 100%;
+    background: #ec4899; /* Couleur de fond de la navbar pour correspondre à la sidebar */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); /* Ombre douce pour donner de la profondeur */
+}
+
+.sideBar-sticky {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateY(360deg);
+    }
+    100% {
+        transform: rotateY(0);
+    }
+}
+
+
+.sideBar .side-item {
+    color: white; /* Couleur du texte */
+    margin-left: 1rem; /* Espacement entre les éléments */
+    transition: color 0.3s; /* Transition douce pour le changement de couleur */
+}
+
+.sideBar .side-item:hover {
+    color: #ff77b3; /* Couleur au survol */
+}

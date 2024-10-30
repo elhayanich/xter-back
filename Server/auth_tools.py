@@ -40,8 +40,7 @@ class AuthTool:
         expire = datetime.now() + cls.delta_time                                
         expire = expire.timestamp()
         to_encode = {"exp" : expire, "sub" : user_id}
-        token = jwt.encode(to_encode, cls.secret_key, algorithm="HS256")       
-        print(token)
+        token = jwt.encode(to_encode, cls.secret_key, algorithm="HS256")
         return token                                                            
     
 
@@ -53,12 +52,8 @@ class AuthTool:
 
     @classmethod
     async def get_current_user(cls, token : Annotated[str, Depends(oauth2_scheme)]):
-        print(cls.oauth2_scheme)
         try:
-            print(f"token : {token} key : {cls.secret_key}")
-            print(token)
-            payload = jwt.decode(token, cls.secret_key, algorithms=["HS256"])     
-            print(payload)
+            payload = jwt.decode(token, cls.secret_key, algorithms=["HS256"])  
             user_id = payload.get("sub")                                        # "sub" contient le sujet du token (et donc notre user)
             if user_id is None:
                 raise Exception.add_note("No user for this token")
