@@ -12,5 +12,5 @@ const TestToken = () => {
     </div>
   )
 };
-//<CheckAuth />
+
 export default TestToken
