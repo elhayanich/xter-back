@@ -1,4 +1,45 @@
 import axios from "axios";
+import { useState, useEffect } from "react";
+
+// La route doit être au format "/maRoute"
+const useSendAuthoredMessage = ({ messageToSend, route }) => {
+    const [responseData, setResponseData] = useState(null);
+    
+    useEffect(() => {          
+        const sendMessage = async () => {
+            if (messageToSend && route && route.startsWith("/")) {
+                try{
+                    const responseMessage = await axios.post(
+                        'http://127.0.0.1:3310'.concat(route), 
+                        {"message" : messageToSend},
+                        {
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem("token")}`
+                            },
+                        }
+                    );
+
+                    if (responseMessage.data) {
+                        setResponseData(responseMessage.data);
+                    }
+                } catch (error) {
+                    console.error("Error fetching protected data:", error);
+                }
+            };
+        sendMessage();
+        }
+
+    }, [messageToSend, route]);
+
+    return { responseData };
+};
+
+export default useSendAuthoredMessage;
+
+
+
+/*
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 // La route doit être au format "/maRoute"
@@ -64,3 +105,4 @@ const SendAuthoredMessage = ({ messageToSend, route }) => {
 };
 
 export default SendAuthoredMessage;
+*/
