@@ -9,6 +9,7 @@ const Message = () => {
     const [error, setError] = useState(null);
     const [expandedMessages, setExpandedMessages] = useState({});
 
+    //récup des messages depuis notre api 
     useEffect(() => {
         const fetchMessages = async () => {
             try {
@@ -23,6 +24,7 @@ const Message = () => {
         fetchMessages();
     }, []);
 
+    // Recharger les messages après qu'un user répond à un msg 
     const handleReplySubmit = async () => {
         try {
             const response = await axios.get('http://localhost:3310/messages');
@@ -34,6 +36,7 @@ const Message = () => {
         }
     };
 
+    // Cette fonction inverse l’affichage des réponses pour chaque message. Quand on clique sur "Voir toutes les réponses", l'état change et affiche les réponses si elles étaient masquées, ou les masque si elles étaient visibles.
     const toggleReplies = (messageId) => {
         setExpandedMessages((prev) => ({
             ...prev,
