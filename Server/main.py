@@ -3,8 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 # Importing all the routes from routes/__init__.py
 from routes import *
 
-
-
 app = FastAPI()
 
 # Configuration de CORS
