@@ -5,8 +5,6 @@ from mysql.connector import Error
 
 router = APIRouter()
 
-
-
 @router.get("/")
 def get_messages():
     connection = database_connect.get_db_connection()
@@ -14,7 +12,7 @@ def get_messages():
 
     try:
         cursor.execute("""
-            SELECT m.id, m.content, m.user_id, m.date_post,
+            SELECT m.id, m.content, m.user_id, m.date_post, m.parent_id,
             GROUP_CONCAT(t.tagname) AS tags
             FROM message m
             LEFT JOIN tagmessage mt ON m.id = mt.message_id
@@ -33,6 +31,7 @@ def get_messages():
     finally:
         cursor.close()
         connection.close()
+
 
 @router.post("/")
 def create_message(message: MessageCreate):
