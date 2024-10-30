@@ -34,9 +34,6 @@ const ChangePictureButtons = () => {
                 });
                 alert("Image locale uploadée avec succès");
                 setImagePath('');
-                // await axios.post(`http://localhost:3310/user/${user_id}/uploadImgLocal`, { path: imagePath });
-                // alert("Image locale uploadée avec succès");
-                // setImagePath(''); // idem
             }
         } catch (error) {
             console.error("Erreur lors de l'upload :", error);
@@ -45,6 +42,7 @@ const ChangePictureButtons = () => {
     };
 
     return (
+        //Boutons upload
         <div className="flex justify-center items-center">
             <div className="flex-col bg-white p-1 rounded-lg shadow-lg w-full max-w-md mb-4 p-5 w-full">
                 <p className="text-base text-pink-500 font-medium pb-3 flex justify-center items-center">
