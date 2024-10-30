@@ -1,134 +1,15 @@
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import ReactMarkdown from "react-markdown";
-// import Reply from './reply';
-
-// const Message = () => {
-//     const [messages, setMessages] = useState([]);  
-//     const [replyTo, setReplyTo] = useState(null);  
-//     const [error, setError] = useState(null);
-//     const [activeParentId, setActiveParentId] = useState(null); // État pour suivre le parent actif
-
-//     useEffect(() => {
-//         const fetchMessages = async () => {
-//             try {
-//                 const response = await axios.get('http://localhost:3310/messages');
-//                 if (response.status === 200) {
-//                     setMessages(response.data);
-//                 }
-//             } catch (error) {
-//                 setError('Erreur lors de la récupération des messages');
-//             }
-//         };
-//         fetchMessages();
-//     }, []);
-
-//     const scrollToMessage = (messageId) => {
-//         const messageElement = document.getElementById(`message-${messageId}`);
-//         if (messageElement) {
-//             messageElement.scrollIntoView({ behavior: 'smooth' });
-
-//             // Définir l'ID du parent actif
-//             setActiveParentId(messageId);
-//             // Remettre à null après 6 secondes
-//             setTimeout(() => {
-//                 setActiveParentId(null);
-//             }, 6000); // 6000 ms = 6 secondes
-//         }
-//     };
-
-//     const handleReplySubmit = async () => {
-//         try {
-//             const response = await axios.get('http://localhost:3310/messages');
-//             if (response.status === 200) {
-//                 setMessages(response.data);
-//             }
-//         } catch (error) {
-//             setError('Erreur lors de la récupération des messages après la réponse');
-//         }
-//     };
-
-//     return (
-//         <div className="flex justify-center items-center">
-//             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md mb-4">
-//                 {error && <p className="text-red-500">{error}</p>}
-                
-//                 <h2 className="text-lg font-semibold mb-2">Messages avec Tags</h2>
-//                 <ul className="mt-4 space-y-4">
-//                     {messages.length > 0 ? (
-//                         messages.map((message) => {
-//                             console.log(`Message ID: ${message.id}, Parent ID: ${message.parent_id}`); // Log pour débogage
-//                             return (
-//                                 <li 
-//                                     key={message.id} 
-//                                     id={`message-${message.id}`} 
-//                                     className={`p-6 border border-gray-300 rounded-lg shadow w-full max-w-md ${activeParentId === message.id ? 'bg-fuchsia-50' : 'bg-white'}`} // Changez l'arrière-plan si c'est le parent actif
-//                                 >
-//                                     <p className="prose">
-//                                         <strong>Utilisateur {message.user_id}:</strong> 
-//                                         <ReactMarkdown>{message.content}</ReactMarkdown>
-//                                     </p>
-//                                     <p><em>Posté le : {new Date(message.date_post).toLocaleString()}</em></p>
-//                                     <p className="mt-2">
-//                                         <strong>Tags:</strong> 
-//                                         {message.tags ? message.tags.split(',').map(tag => (
-//                                             <span key={tag} className="text-blue-500 mr-2">{tag.trim()}</span>
-//                                         )) : "Aucun tag"}
-//                                     </p>
-                                    
-//                                     {message.parent_id && (
-//                                         <button 
-//                                             onClick={() => scrollToMessage(message.parent_id)} 
-//                                             className="text-blue-500 mt-2"
-//                                         >
-//                                             Voir le message parent
-//                                         </button>
-//                                     )}
-                                    
-//                                     <button 
-//                                         onClick={() => setReplyTo(message.id)} 
-//                                         className="text-blue-500 mt-2"
-//                                     >
-//                                         Répondre
-//                                     </button>
-
-//                                     {replyTo === message.id && (
-//                                         <Reply parentId={message.id} onSubmit={handleReplySubmit} />
-//                                     )}
-//                                 </li>
-//                             );
-//                         })
-//                     ) : (
-//                         <p>Aucun message trouvé.</p>
-//                     )}
-//                 </ul>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Message;
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReactMarkdown from "react-markdown";
-<<<<<<< HEAD
-import { useNavigate } from 'react-router-dom';
-=======
 import Reply from './reply';
->>>>>>> 9d720285943781f6bd1f0905aa308beec43367d0
 
 const Message = () => {
-    const [messages, setMessages] = useState([]);  
-    const [replyTo, setReplyTo] = useState(null);  
+    const [messages, setMessages] = useState([]);
+    const [replyTo, setReplyTo] = useState(null);
     const [error, setError] = useState(null);
-<<<<<<< HEAD
-    const navigate = useNavigate(); //Click sur psedo => Profile page
-=======
-    const [activeParentId, setActiveParentId] = useState(null); // État pour suivre le parent actif
-    const [expandedMessages, setExpandedMessages] = useState({}); // État pour suivre les messages dont les réponses sont affichées
->>>>>>> 9d720285943781f6bd1f0905aa308beec43367d0
+    const [expandedMessages, setExpandedMessages] = useState({});
 
+    //récup des messages depuis notre api 
     useEffect(() => {
         const fetchMessages = async () => {
             try {
@@ -143,25 +24,7 @@ const Message = () => {
         fetchMessages();
     }, []);
 
-<<<<<<< HEAD
-    // Naviguer vers la page de profil de l'utilisateur
-    const handleUserClick = (userId) => {
-        navigate(`/user/${userId}`); 
-=======
-    const scrollToMessage = (messageId) => {
-        const messageElement = document.getElementById(`message-${messageId}`);
-        if (messageElement) {
-            messageElement.scrollIntoView({ behavior: 'smooth' });
-
-            // Définir l'ID du parent actif
-            setActiveParentId(messageId);
-            // Remettre à null après 6 secondes
-            setTimeout(() => {
-                setActiveParentId(null);
-            }, 6000); // 6000 ms = 6 secondes
-        }
-    };
-
+    // Recharger les messages après qu'un user répond à un msg 
     const handleReplySubmit = async () => {
         try {
             const response = await axios.get('http://localhost:3310/messages');
@@ -173,105 +36,63 @@ const Message = () => {
         }
     };
 
+    // Cette fonction inverse l’affichage des réponses pour chaque message. Quand on clique sur "Voir toutes les réponses", l'état change et affiche les réponses si elles étaient masquées, ou les masque si elles étaient visibles.
     const toggleReplies = (messageId) => {
-        setExpandedMessages(prev => ({
+        setExpandedMessages((prev) => ({
             ...prev,
-            [messageId]: !prev[messageId] // Inverse l'état d'affichage des réponses pour ce message
+            [messageId]: !prev[messageId]
         }));
->>>>>>> 9d720285943781f6bd1f0905aa308beec43367d0
+    };
+
+    // Fonction récursive pour afficher un message et ses réponses en cascade
+    const renderMessageAndReplies = (message) => {
+        return (
+            <li key={message.id} className="p-6 border border-gray-300 rounded-lg shadow w-full max-w-md mb-4 bg-white">
+                <p className="prose">
+                    <strong>Utilisateur {message.user_id}:</strong>
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                </p>
+                <p><em>Posté le : {new Date(message.date_post).toLocaleString()}</em></p>
+                <p className="mt-2">
+                    <strong>Tags:</strong>
+                    {message.tags ? message.tags.split(',').map(tag => (
+                        <span key={tag} className="text-blue-500 mr-2">{tag.trim()}</span>
+                    )) : "Aucun tag"}
+                </p>
+
+                <button onClick={() => setReplyTo(message.id)} className="text-blue-500 mt-2">
+                    Répondre
+                </button>
+
+                <button onClick={() => toggleReplies(message.id)} className="text-blue-500 mt-2">
+                    {expandedMessages[message.id] ? "Masquer les réponses" : "Voir toutes les réponses"}
+                </button>
+
+                {replyTo === message.id && <Reply parentId={message.id} onSubmit={handleReplySubmit} />}
+
+                {/* Afficher les réponses en cascade */}
+                {expandedMessages[message.id] &&
+                    <ul className="ml-6 mt-4">
+                        {messages
+                            .filter(reply => reply.parent_id === message.id)
+                            .map(reply => renderMessageAndReplies(reply))}
+                    </ul>
+                }
+            </li>
+        );
     };
 
     return (
         <div className="flex justify-center items-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md mb-4">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
                 {error && <p className="text-red-500">{error}</p>}
                 
-                <h2 className="text-lg font-semibold mb-2">Messages avec Tags</h2>
+                <h2 className="text-lg font-semibold mb-2"> feed </h2>
                 <ul className="mt-4 space-y-4">
-                    {messages.length > 0 ? (
-<<<<<<< HEAD
-                        messages.map((message) => (
-                            <li key={message.id} className="p-6 border border-gray-300 rounded-lg shadow bg-white w-full max-w-md"> 
-                                <p className="prose cursor-pointer" onClick={() => handleUserClick(message.user_id)}>
-                                    <strong>Utilisateur {message.user_id}:</strong>
-                                </p>
-                                <div className="prose">
-                                    <ReactMarkdown>{message.content}</ReactMarkdown>
-                                </div>
-                                <p><em>Posté le : {new Date(message.date_post).toLocaleString()}</em></p>
-                                <p className="mt-2"><strong>Tags:</strong> {message.tags ? message.tags.split(',').map(tag => <span key={tag} className="text-blue-500 mr-2">{tag.trim()}</span>) : "Aucun tag"}</p>
-                            </li>
-                        ))
-=======
-                        messages.map((message) => {
-                            console.log(`Message ID: ${message.id}, Parent ID: ${message.parent_id}`); // Log pour débogage
-                            return (
-                                <li 
-                                    key={message.id} 
-                                    id={`message-${message.id}`} 
-                                    className={`p-6 border border-gray-300 rounded-lg shadow w-full max-w-md ${activeParentId === message.id ? 'bg-fuchsia-50' : 'bg-white'}`} // Changez l'arrière-plan si c'est le parent actif
-                                >
-                                    <p className="prose">
-                                        <strong>Utilisateur {message.user_id}:</strong> 
-                                        <ReactMarkdown>{message.content}</ReactMarkdown>
-                                    </p>
-                                    <p><em>Posté le : {new Date(message.date_post).toLocaleString()}</em></p>
-                                    <p className="mt-2">
-                                        <strong>Tags:</strong> 
-                                        {message.tags ? message.tags.split(',').map(tag => (
-                                            <span key={tag} className="text-blue-500 mr-2">{tag.trim()}</span>
-                                        )) : "Aucun tag"}
-                                    </p>
-                                    
-                                    {message.parent_id && (
-                                        <button 
-                                            onClick={() => scrollToMessage(message.parent_id)} 
-                                            className="text-blue-500 mt-2"
-                                        >
-                                            Voir le message parent
-                                        </button>
-                                    )}
-                                    
-                                    <button 
-                                        onClick={() => setReplyTo(message.id)} 
-                                        className="text-blue-500 mt-2"
-                                    >
-                                        Répondre
-                                    </button>
-
-                                    <button 
-                                        onClick={() => toggleReplies(message.id)} 
-                                        className="text-blue-500 mt-2"
-                                    >
-                                        {expandedMessages[message.id] ? "Masquer les réponses" : "Voir toutes les réponses"}
-                                    </button>
-
-                                    {expandedMessages[message.id] && messages.filter(msg => msg.parent_id === message.id).map((reply) => (
-                                        <div key={reply.id} className="ml-4 mt-2 p-4 border-l-4 border-gray-300 bg-gray-100 rounded">
-                                            <p className="prose">
-                                                <strong>Utilisateur {reply.user_id}:</strong> 
-                                                <ReactMarkdown>{reply.content}</ReactMarkdown>
-                                            </p>
-                                            <p><em>Posté le : {new Date(reply.date_post).toLocaleString()}</em></p>
-                                            <p className="mt-2">
-                                                <strong>Tags:</strong> 
-                                                {reply.tags ? reply.tags.split(',').map(tag => (
-                                                    <span key={tag} className="text-blue-500 mr-2">{tag.trim()}</span>
-                                                )) : "Aucun tag"}
-                                            </p>
-                                        </div>
-                                    ))}
-
-                                    {replyTo === message.id && (
-                                        <Reply parentId={message.id} onSubmit={handleReplySubmit} />
-                                    )}
-                                </li>
-                            );
-                        })
->>>>>>> 9d720285943781f6bd1f0905aa308beec43367d0
-                    ) : (
-                        <p>Aucun message trouvé.</p>
-                    )}
+                    {messages
+                        .filter(message => message.parent_id === null) // Filtre les messages principaux
+                        .map(message => renderMessageAndReplies(message))
+                    }
                 </ul>
             </div>
         </div>
