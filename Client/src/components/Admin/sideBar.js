@@ -1,5 +1,5 @@
 import React from "react";
-import "./SideBar.css";
+import "./sideBar.css";
 import SideNav, { NavItem, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
