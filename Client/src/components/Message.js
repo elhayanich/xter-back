@@ -14,9 +14,21 @@ const Message = () => {
         const fetchMessages = async () => {
             try {
                 const response = await axios.get('http://localhost:3310/messages');
-                if (response.status === 200) {
-                    setMessages(response.data);
-                }
+                
+                const messagesWithUser = await Promise.all(response.data.map(async (message) => {
+                    
+                    const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
+                    // Ajoute les informations à l'objet message
+                    return {
+                        ...message, // Copie toutes les propriétés de message
+                        username: responseUser.data.username,
+                        userPicture: responseUser.data.picture 
+                    };
+                }));
+                
+                // Mets à jour l'état avec les messages enrichis
+                setMessages(messagesWithUser);
+
             } catch (error) {
                 setError('Erreur lors de la récupération des messages');
             }
@@ -49,7 +61,7 @@ const Message = () => {
         return (
             <li key={message.id} className="p-6 border border-gray-300 rounded-lg shadow w-full max-w-md mb-4 bg-white">
                 <p className="prose">
-                    <strong>Utilisateur {message.user_id}:</strong>
+                    <strong>{message.username}</strong>
                     <ReactMarkdown>{message.content}</ReactMarkdown>
                 </p>
                 <p><em>Posté le : {new Date(message.date_post).toLocaleString()}</em></p>
