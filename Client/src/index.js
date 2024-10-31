@@ -5,6 +5,11 @@ import './index.css';
 import App from './App';
 
 import HomePage from './pages/homePage';
+import RegisterPage from './components/register';
+import LoginPage from './pages/loginPage';
+import ProfilePage from './pages/ProfilePage';
+import HomePageVisitor from './pages/homePageVisitor';
+import AdminPage from './pages/adminPage';
 
 
 const router = createBrowserRouter([
@@ -13,8 +18,28 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />,
+        element: <HomePageVisitor />,
       },
+      {
+        path: "/register",
+        element: <RegisterPage />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/user/:user_id",
+        element: <ProfilePage />,
+      },
+      {
+        path: "/home",
+        element: <HomePage/>,
+      },
+      {
+        path: "/Admin",
+        element: <AdminPage/>,
+      }
     ],
   },
 ]); 

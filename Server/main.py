@@ -1,46 +1,29 @@
 from fastapi import FastAPI
-import mysql.connector
-from mysql.connector import Error
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
+
+# Importing all the routes from routes/__init__.py
+from routes import *
 
 app = FastAPI()
 
 # Configuration de CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Configuration de la base de données
-def create_connection():
-    connection = None
-    try:
-        connection = mysql.connector.connect(
-            host='localhost',  
-            user='chaymae',  
-            password='chay',  
-            database='xter'  
-        )
-        print("Connection to MySQL DB successful")
-    except Error as e:
-        print(f"The error '{e}' occurred")
+app.include_router(register_router, prefix="/register", tags=["Register"])
+app.include_router(message_router, prefix="/messages", tags=["Messages"])
+app.include_router(tag_router, prefix="/tags")
+app.include_router(login_router, prefix="/login", tags=["Logins"])
+app.include_router(token_router, prefix="/token")
+app.include_router(user_router, prefix="/user", tags=["Users"])
 
-    return connection
+app.mount("/Server/profilePictures", StaticFiles(directory="profilePictures"), name="static") # to upload local files
 
-# Endpoint pour récupérer un message
-@app.get("/messages")
-def get_message():
-    connection = create_connection()
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM message LIMIT 1;")
-    message = cursor.fetchone()
-    cursor.close()
-    connection.close()
-    
-    if message:
-        return message  # Retourne le message
-    return {"message": "No message found."}
 
