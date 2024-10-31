@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # Importing all the routes from routes/__init__.py
 from routes import *
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -21,4 +22,5 @@ app.include_router(login_router, prefix="/login", tags=["Logins"])
 app.include_router(token_router, prefix="/token")
 app.include_router(user_router, prefix="/user", tags=["Users"])
 
+app.mount("/Server/profilePictures", StaticFiles(directory="profilePictures"), name="static") # to upload local files
 

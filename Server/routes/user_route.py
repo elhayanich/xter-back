@@ -7,7 +7,7 @@ import shutil
 
 router = APIRouter()
 UPLOAD_DIRECTORY = "profilePictures"
-# si le dossier n'existe pas, le crée, si existe, osef
+# si le dossier n'existe pas, le crée, si existe, ça ne fait pas d'erreur
 os.makedirs(UPLOAD_DIRECTORY, exist_ok=True)
 
 # Récupérer un user de la db 

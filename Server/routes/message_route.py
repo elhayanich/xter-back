@@ -1,5 +1,6 @@
-from fastapi import APIRouter
-from models import MessageCreate
+from fastapi import APIRouter, HTTPException
+from models import MessageCreate, MessageGet
+from typing import List
 import database_connect
 from mysql.connector import Error
 
@@ -86,3 +87,36 @@ def create_reply(message: MessageCreate):
     finally:
         cursor.close()
         connection.close()
+
+# route pour récupérer les messages d'une personne 
+@router.get("/{user_id}", response_model=List[MessageGet])
+def get_user_messages(user_id: int):
+    connection = database_connect.get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    try: 
+        cursor.execute("SELECT * from message where user_id = %s", (user_id,))
+        user_messages = cursor.fetchall()
+
+        if user_messages is None:
+                raise HTTPException(status_code=404, detail="Pas de messages trouvés pour cet utilisateur")
+        
+        user_messages_list = []
+        for message in user_messages:
+            current_message = MessageGet(
+                id = message[0],
+                user_id = message[1],
+                content = message[2],
+                picture = message[3],
+                date_post = message[4], 
+                reactions_id = message[5],
+                parent_id = message[6]
+            )
+            user_messages_list.append(current_message)
+        return user_messages_list
+        
+    
+    finally:
+        cursor.close()
+        connection.close()  
+        
