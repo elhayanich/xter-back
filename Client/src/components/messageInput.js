@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useGetCurrentUser from './useGetCurrentUser';
 
 export default function MessageInput() {
     const [message, setMessage] = useState('');
     const [tagInput, setTagInput] = useState('');
     const [tags, setTags] = useState([]);
+    
+    const { id, userName, isAdmin, email, dateInscription, picture } = useGetCurrentUser();
 
-    const handleMessageChange = (event) => {
+    function handleMessageChange(event) {
         setMessage(event.target.value);
-    };
+    }
 
     const handleTagChange = (event) => {
         setTagInput(event.target.value);
@@ -34,7 +37,7 @@ export default function MessageInput() {
             const tagIds = tagResponse.data.map(tag => tag.id);
 
             const messageData = {
-                user_id: 1,
+                user_id: id,
                 content: message,
                 tag_ids: tagIds,
             };

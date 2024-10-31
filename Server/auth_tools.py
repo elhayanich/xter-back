@@ -53,7 +53,7 @@ class AuthTool:
     @classmethod
     async def get_current_user(cls, token : Annotated[str, Depends(oauth2_scheme)]):
         try:
-            payload = jwt.decode(token, cls.secret_key, algorithms=["HS256"])  
+            payload = jwt.decode(token, cls.secret_key, algorithms=["HS256"])
             user_id = payload.get("sub")                                        # "sub" contient le sujet du token (et donc notre user)
             if user_id is None:
                 raise Exception.add_note("No user for this token")
