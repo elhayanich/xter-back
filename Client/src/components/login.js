@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+//import loginAdmin from "./loginAdmin";
+
 
 const Login = () => {
     const navigate = useNavigate();
@@ -51,11 +53,16 @@ const Login = () => {
                 if (response.data.token) {
                     // Stocker le token dans localStorage
                     localStorage.setItem("token", response.data.token);
+                    localStorage.setItem("isAdmin", response.data.is_admin === 1);
                     setSuccess(`Login successful! Welcome ${response.data.username}!`);
                     setError(''); 
 
                     setTimeout(() => {
-                        navigate('/home');
+                        if (response.data.is_admin) {
+                            navigate('/admin');
+                        } else {
+                            navigate('/home');
+                        }
                     }, 2000);
                 } else {
                     setError("You have no rights to be here");
@@ -134,3 +141,4 @@ const Login = () => {
 }
 
 export default Login;
+

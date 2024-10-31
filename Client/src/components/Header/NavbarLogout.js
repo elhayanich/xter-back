@@ -1,9 +1,10 @@
 import React from "react"
-import "./Navbar_admin.css"
+//import "./Navbar_admin.css"
 import Logo from "../../assets/images/logo.svg"
 import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar_admin = () => {
+
+const NavbarLogout = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -24,15 +25,10 @@ const Navbar_admin = () => {
               >
                   Déconnexion
               </button>
-              <Link 
-                  to="/search" 
-                  className="w-full bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600 transition"
-              >
-                  Recherche
-              </Link>
+             
           </div>
       </nav>
   );
 }
 
-export default Navbar_admin;
+export default NavbarLogout;
