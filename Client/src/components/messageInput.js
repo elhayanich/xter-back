@@ -47,6 +47,11 @@ export default function MessageInput() {
             setMessage('');
             setTags([]);
         } catch (error) {
+            if (error.response && error.response.status === 401) {
+                toast.error("Erreur lors de la publication : connectez-vous !");
+            } else {
+                toast.error("Erreur lors de la publication du message.");
+            }
             console.error("Erreur lors de l'envoi :", error);
         }
     };
