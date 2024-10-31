@@ -9,7 +9,7 @@ const useSendAuthoredMessage = ({ messageToSend, route }) => {
         const sendMessage = async () => {
             if (messageToSend && route && route.startsWith("/")) {
                 try{
-                    const responseMessage = await axios.post(
+                    const responseMessage = await axios.get(
                         'http://127.0.0.1:3310'.concat(route), 
                         {"message" : messageToSend},
                         {

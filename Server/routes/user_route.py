@@ -1,20 +1,26 @@
-from fastapi import APIRouter
+from fastapi import Depends, APIRouter
 from models import User
 import database_connect
 from mysql.connector import Error
+from auth_tools import AuthTool
+from typing import Annotated
 
 router = APIRouter()
 
-@router.get("/{user_id}", response_model=User)
-def get_user_from_db(user_id: int):
+@router.get("/current", response_model=User)
+async def get_user_name(token: Annotated[str, Depends(AuthTool.get_current_user)]):
+    
     connection = database_connect.get_db_connection()
     cursor = connection.cursor()
 
-    # try
+    identifiant = token
+    print(identifiant)
+    identifiant = int(identifiant)
+    print(identifiant)
+
     try: 
-        #requête sql
-        cursor.execute("SELECT id from user where id = (?);", [user_id])
-        user_data = cursor.fetchone()[0]
+        cursor.execute("SELECT * from user where id = %s;", [identifiant, ])
+        user_data = cursor.fetchone()
 
         # récupérer les données sous forme d'User
         user = User(
@@ -35,15 +41,17 @@ def get_user_from_db(user_id: int):
         cursor.close()
         connection.close() 
 
-@router.get("/me", response_model=User)
-def get_user_name():
+
+
+@router.get("/{user_id}", response_model=User)
+def get_user_from_db(user_id: int):
     connection = database_connect.get_db_connection()
     cursor = connection.cursor()
 
     # try
     try: 
         #requête sql
-        cursor.execute("SELECT username from user where id = (?);", [user_id])
+        cursor.execute("SELECT id from user where id = (?);", [user_id])
         user_data = cursor.fetchone()[0]
 
         # récupérer les données sous forme d'User
