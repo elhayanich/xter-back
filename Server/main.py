@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
+
 # Importing all the routes from routes/__init__.py
 from routes import *
 from fastapi.staticfiles import StaticFiles

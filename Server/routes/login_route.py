@@ -5,6 +5,7 @@ from mysql.connector import Error
 from auth_tools import AuthTool
 from fastapi import HTTPException
 
+
 router = APIRouter()
 
 # Endpoint to login a user (POST/login)
@@ -32,8 +33,11 @@ def login_user(user_to_log: UserAuth):
             token = AuthTool.create_token(str(user_data[0]))
             print(user_data[0])
             print(token)
-
-            return {"message": "Authentification successfull!!", "username" : user_data[1], "token" : token}
+            # si le user est admin
+            #is_admin = True
+            # sinon
+            #is_admin = False
+            return {"message": "Authentification successfull!!", "username" : user_data[1], "token" : token, "is_admin": user_data[2]}
         except Error as e:
             return {"error": "Can't create token"}
         
@@ -42,3 +46,4 @@ def login_user(user_to_log: UserAuth):
     finally:
         cursor.close()
         connection.close()
+        
