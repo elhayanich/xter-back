@@ -52,17 +52,7 @@ const SendAuthoredMessage = ({ messageToSend, route }) => {
                 setStatus("getToken");
 
                 console.log(messageToSend, route);
-
-                const response = await axios.get("http://127.0.0.1:3310/token", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`
-                    },
-                    withCredentials: true
-                });
-                setStatus("sending");
                 
-                console.log("Authentication response: ", response);
-
                 const sendMessage = async () => {
                     const sendAuthedMessage = await axios.post(
                         'http://127.0.0.1:3310'.concat(route), 
@@ -87,7 +77,7 @@ const SendAuthoredMessage = ({ messageToSend, route }) => {
             }
         };
 
-        if (messageToSend && route) {
+        if (messageToSend && route && route.startsWith("/")) {
             fetchAuth();
         }
 

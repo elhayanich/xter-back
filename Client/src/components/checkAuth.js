@@ -1,7 +1,9 @@
 import axios from "axios";
-import useEffect from "react";
+import React, { useState, useEffect } from "react";
 
 const CheckAuth = () => {
+    const [status, setStatus] = useState("idle");
+    const [userId, setUserId] = useState('');
     useEffect(() => {
         const fetchAuth = async () => {
             try {
@@ -9,8 +11,15 @@ const CheckAuth = () => {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
                     },
-                    withCredentials: true
                 });
+
+                if (response) {
+                    setStatus("yes");
+                    setUserId(response.data.user);
+                }
+                else {
+                    setStatus("no");
+                }
 
             } catch (error) {
                 console.error("Error fetching protected data:", error);
@@ -19,6 +28,14 @@ const CheckAuth = () => {
 
         fetchAuth();
     }, []);
+
+    return (
+        <div>
+            {status === "idle" && <p>Prêt à vérifier l'authentification</p>}
+            {status === "yes" && <p>Authentification réussie. Bienvenue {userId}</p>}
+            {status === "no" && <p>Authentification échouée</p>}
+        </div>
+    )
 };
 
 export default CheckAuth;
