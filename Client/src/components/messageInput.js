@@ -41,6 +41,8 @@ export default function MessageInput() {
                 content: message,
                 tag_ids: tagIds,
             };
+            console.log("OH");
+            console.log(messageData);
 
             await axios.post('http://localhost:3310/messages', messageData);
             toast.success("Votre message a été publié !");
