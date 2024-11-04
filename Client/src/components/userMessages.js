@@ -37,7 +37,9 @@ const UserMessagesList = () => {
         <div>
             <div>Test</div>
             <div>
-                {setMessages}
+                Route ? 
+                Test test
+                {/* {setMessages} */}
             </div>
         </div>
     )

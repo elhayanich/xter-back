@@ -99,7 +99,7 @@ def get_user_messages(user_id: int):
         user_messages = cursor.fetchall()
 
         if user_messages is None:
-                raise HTTPException(status_code=404, detail="Pas de messages trouvés pour cet utilisateur")
+            raise HTTPException(status_code=404, detail="Pas de messages trouvés pour cet utilisateur")
         
         user_messages_list = []
         for message in user_messages:
