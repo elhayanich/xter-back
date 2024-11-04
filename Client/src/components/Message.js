@@ -10,39 +10,35 @@ const Message = () => {
     const [expandedMessages, setExpandedMessages] = useState({});
 
     //récup des messages depuis notre api 
-    useEffect(() => {
-        const fetchMessages = async () => {
-            try {
-                const response = await axios.get('http://localhost:3310/messages');
+    const fetchMessages = async () => {
+        try {
+            const response = await axios.get('http://localhost:3310/messages');
+            
+            const messagesWithUser = await Promise.all(response.data.map(async (message) => {
+                const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
                 
-                const messagesWithUser = await Promise.all(response.data.map(async (message) => {
-                    
-                    const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
-                    // Ajoute les informations à l'objet message
-                    return {
-                        ...message, // Copie toutes les propriétés de message
-                        username: responseUser.data.username,
-                        userPicture: responseUser.data.picture 
-                    };
-                }));
-                
-                // Mets à jour l'état avec les messages enrichis
-                setMessages(messagesWithUser);
+                return {
+                    ...message,
+                    username: responseUser.data.username,
+                    userPicture: responseUser.data.picture 
+                };
+            }));
+            
+            setMessages(messagesWithUser);
+        } catch (error) {
+            setError('Erreur lors de la récupération des messages');
+        }
+    };
 
-            } catch (error) {
-                setError('Erreur lors de la récupération des messages');
-            }
-        };
+    // Appel initial pour récupérer les messages
+    useEffect(() => {
         fetchMessages();
     }, []);
 
     // Recharger les messages après qu'un user répond à un msg 
     const handleReplySubmit = async () => {
         try {
-            const response = await axios.get('http://localhost:3310/messages');
-            if (response.status === 200) {
-                setMessages(response.data);
-            }
+            await fetchMessages();  // Recharger les messages avec les informations utilisateur
         } catch (error) {
             setError('Erreur lors de la récupération des messages après la réponse');
         }
@@ -61,8 +57,17 @@ const Message = () => {
         return (
             <li key={message.id} className="p-6 border border-gray-300 rounded-lg shadow w-full max-w-md mb-4 bg-white">
                 <p className="prose">
-                    <strong>{message.username}</strong>
-                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                <div className="flex items-center space-x-2.5">
+                    <img 
+                        src={message.picture ? message.picture : '../../images/NOPICTURE.PNG'} 
+                        alt={`${message.username}'s picture`} 
+                        className="w-10 h-10 object-cover rounded-full border-2 border-pink-500 ring-2 "
+                    />
+                    <div>
+                        <strong>{message.username}</strong>
+                    </div>
+                </div>
+                <ReactMarkdown>{message.content}</ReactMarkdown>
                 </p>
                 <p><em>Posté le : {new Date(message.date_post).toLocaleString()}</em></p>
                 <p className="mt-2">
