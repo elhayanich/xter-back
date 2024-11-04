@@ -88,35 +88,56 @@ def create_reply(message: MessageCreate):
         cursor.close()
         connection.close()
 
-# route pour récupérer les messages d'une personne 
-@router.get("/{user_id}", response_model=List[MessageGet])
+# route pour récupérer les messages d'une personne MARCHE PAS
+# @router.get("/{user_id}", response_model=List[MessageGet])
+# def get_user_messages(user_id: int):
+#     connection = database_connect.get_db_connection()
+#     cursor = connection.cursor(dictionary=True)
+
+#     try: 
+#         cursor.execute("SELECT * from message where user_id = %s", (user_id,))
+#         user_messages = cursor.fetchall()
+
+#         if len(user_messages) == 0:
+#             raise HTTPException(status_code=404, detail="Pas de messages trouvés pour cet utilisateur")
+        
+#         user_messages_list = []
+#         for message in user_messages:
+#             print(message)
+#             current_message = MessageGet(**message)
+#             user_messages_list.append(current_message)
+#         return user_messages_list
+        
+    
+#     finally:
+#         cursor.close()
+#         connection.close()  
+        
+# test get user messages 
+@router.get("/{user_id}/messages")
 def get_user_messages(user_id: int):
     connection = database_connect.get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
-    try: 
-        cursor.execute("SELECT * from message where user_id = %s", (user_id,))
-        user_messages = cursor.fetchall()
-
-        if user_messages is None:
-            raise HTTPException(status_code=404, detail="Pas de messages trouvés pour cet utilisateur")
-        
-        user_messages_list = []
-        for message in user_messages:
-            current_message = MessageGet(
-                id = message[0],
-                user_id = message[1],
-                content = message[2],
-                picture = message[3],
-                date_post = message[4], 
-                reactions_id = message[5],
-                parent_id = message[6]
-            )
-            user_messages_list.append(current_message)
-        return user_messages_list
-        
-    
+    try:
+            cursor.execute("""
+                SELECT m.id, m.content, m.user_id, m.date_post, m.parent_id,
+                GROUP_CONCAT(t.tagname) AS tags
+                FROM message m
+                WHERE user_id = %s
+                LEFT JOIN tagmessage mt ON m.id = mt.message_id
+                LEFT JOIN tag t ON mt.tag_id = t.id
+                GROUP BY m.id
+                ORDER BY m.date_post DESC;
+            """, (user_id))
+            messages = cursor.fetchall()
+            
+            if messages:
+                return messages
+            return {"message": "Aucun message trouvé."}
+    except Error as e:
+        print(f"L'erreur suivante est survenue : '{e}'")
+        return {"error": "Une erreur s'est produite lors de la récupération des messages."}
     finally:
         cursor.close()
-        connection.close()  
-        
+        connection.close()

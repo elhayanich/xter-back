@@ -3,7 +3,7 @@ import axios from 'axios';
 import ReactMarkdown from "react-markdown";
 import Reply from './reply';
 
-const Message = () => {
+const Message = ({user_id}) => { {/*Rajout du paramètre user_id pour pouvoir trier les messages par user sur la profile page */}
     const [messages, setMessages] = useState([]);
     const [replyTo, setReplyTo] = useState(null);
     const [error, setError] = useState(null);
@@ -12,17 +12,20 @@ const Message = () => {
     //récup des messages depuis notre api 
     const fetchMessages = async () => {
         try {
-            const response = await axios.get('http://localhost:3310/messages');
+            const url = user_id
+            ? `http://localhost:3310/${user_id}/messages` // messages d'un utilisateur
+            : `http://localhost:3310/messages`; // tous les messages
+            const response = await axios.get(url); // modif adresse pour variable
             
             const messagesWithUser = await Promise.all(response.data.map(async (message) => {
-                const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
+            const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
                 
-                return {
-                    ...message,
-                    username: responseUser.data.username,
-                    userPicture: responseUser.data.picture 
-                };
-            }));
+            return {
+                ...message,
+                username: responseUser.data.username,
+                userPicture: responseUser.data.picture 
+            };
+        }));
             
             setMessages(messagesWithUser);
         } catch (error) {
@@ -33,7 +36,7 @@ const Message = () => {
     // Appel initial pour récupérer les messages
     useEffect(() => {
         fetchMessages();
-    }, []);
+    }, [user_id]);
 
     // Recharger les messages après qu'un user répond à un msg 
     const handleReplySubmit = async () => {

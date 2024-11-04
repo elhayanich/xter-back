@@ -18,3 +18,4 @@ class MessageGet(BaseModel):
     date_post: datetime = datetime.now()
     reactions_id: int
     parent_id: Optional[int] = None 
+
