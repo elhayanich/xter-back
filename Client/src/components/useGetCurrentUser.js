@@ -12,7 +12,6 @@ const useGetCurrentUser = () => {
     
     useEffect(() => {          
         const getInformations = async () => {
-            console.log(localStorage.getItem("token"));
             try{
                 const responseMessage = await axios.get(
                     'http://127.0.0.1:3310/user/current', 
@@ -23,7 +22,6 @@ const useGetCurrentUser = () => {
                     }
                 );
                 if (responseMessage.data) {
-                    console.log(responseMessage.data)
                     setId(responseMessage.data.id);
                     setUserName(responseMessage.data.username);
                     setIsAdmin(responseMessage.data.is_admin);

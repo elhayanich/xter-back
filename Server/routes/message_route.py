@@ -12,20 +12,20 @@ def get_messages():
     cursor = connection.cursor(dictionary=True)
 
     try:
-        cursor.execute("""
-            SELECT m.id, m.content, m.user_id, m.date_post, m.parent_id,
-            GROUP_CONCAT(t.tagname) AS tags
-            FROM message m
-            LEFT JOIN tagmessage mt ON m.id = mt.message_id
-            LEFT JOIN tag t ON mt.tag_id = t.id
-            GROUP BY m.id
-            ORDER BY m.date_post DESC;
-        """)
-        messages = cursor.fetchall()
-
-        if messages:
-            return messages
-        return {"message": "Aucun message trouvé."}
+            cursor.execute("""
+                SELECT m.id, m.content, m.user_id, m.date_post, m.parent_id,
+                GROUP_CONCAT(t.tagname) AS tags
+                FROM message m
+                LEFT JOIN tagmessage mt ON m.id = mt.message_id
+                LEFT JOIN tag t ON mt.tag_id = t.id
+                GROUP BY m.id
+                ORDER BY m.date_post DESC;
+            """)
+            messages = cursor.fetchall()
+            
+            if messages:
+                return messages
+            return {"message": "Aucun message trouvé."}
     except Error as e:
         print(f"L'erreur suivante est survenue : '{e}'")
         return {"error": "Une erreur s'est produite lors de la récupération des messages."}

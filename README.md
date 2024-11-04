@@ -2,6 +2,87 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Explications
+
+## Front
+
+
+### CheckAuth
+
+```js
+<CheckAuth />
+```
+
+#### Fonctionnalité
+
+Permet d'authentifier l'utilisateur actuel
+
+#### Prérequis
+
+L'utilisateur doit obligatoirement s'être authentifié via `/login` afin de recevoir un token
+
+#### Sortie
+
+* Affiche l'id de l'utilisateur
+
+
+
+### SendAuthauredMessage
+
+```js
+<SendAuthoredMessage messageToSend={messageToSend} route={route}/>
+```
+
+#### Fonctionnalité
+
+Permet d'envoyer un message sécurisé au serveur
+
+#### Prérequis
+
+L'utilisateur doit obligatoirement s'être authentifié via `/login` afin de recevoir un token
+
+#### Entrées
+
+* `messageToSend` : message à envoyer au serveur. Format String ou Dictionnaire
+* `route` route de notre Back. Format String forme `/ma_route` (ne pas oublier le '/')
+
+#### Sortie
+
+* Methode `POST` vers la route renseignée en entrée
+* `message` : Dictionnaire
+* `Header` : Token contenant l'ID de l'utilisateur actuel
+
+
+
+## Back
+
+
+### Réception d'un message authentifié
+
+```python
+from auth_tools import AuthTool
+
+
+async def ma_fonction(token: Annotated[str, Depends(AuthTool.oauth2_scheme)],
+                      message : dict):
+    user_id = await AuthTool.get_current_user(token)
+
+```
+
+#### Entrées
+
+* Cette fonction est appellée par 
+```js
+<SendAuthoredMessage messageToSend={messageToSend} route={route}/>
+```
+Voir la section dédiée dans la partie Front
+
+* `user_id` est un STRING!! le transformer en int si on veut l'utiliser dans la BDD
+
+#### Utilisation
+
+Permet de faire des actions avec l'ID de l'utilisateur
+
 ## Available Scripts
 
 In the project directory, you can run:
