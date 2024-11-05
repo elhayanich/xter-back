@@ -9,7 +9,7 @@ const MessagesByTag = () => {
     const [error, setError] = useState(null);
 
     // Couleurs pour les tags
-    const tagColors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200', 'bg-purple-200'];
+    const tagColors = ['bg-purple-200'];
 
     // Fonction pour récupérer les messages avec un tag spécifique
     const fetchMessagesByTag = async () => {
