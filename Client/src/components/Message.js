@@ -9,6 +9,7 @@ const Message = ({user_id}) => { {/*Rajout du paramètre user_id pour pouvoir tr
     const [replyTo, setReplyTo] = useState(null);
     const [error, setError] = useState(null);
     const [expandedMessages, setExpandedMessages] = useState({});
+    
 
     // Couleurs pour les tags
     const tagColors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200', 'bg-purple-200'];
@@ -67,7 +68,8 @@ const Message = ({user_id}) => { {/*Rajout du paramètre user_id pour pouvoir tr
                             className="w-10 h-10 object-cover rounded-full border-2 border-pink-500 ring-2 "
                         />
                         <div>
-                            <strong>{message.username}</strong>
+                        {/*test navigation*/} 
+                        <Link to={`http://localhost:3000/user/${message.user_id}`}><strong>{message.username}</strong></Link>
                         </div>
                     </div>
                     <ReactMarkdown>{message.content}</ReactMarkdown>
