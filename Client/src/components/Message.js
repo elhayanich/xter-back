@@ -17,7 +17,7 @@ const Message = ({user_id}) => { {/*Rajout du paramètre user_id pour pouvoir tr
     const fetchMessages = async () => {
         try {
             const url = user_id
-            ? `http://localhost:3310/${user_id}/messages` // messages d'un utilisateur
+            ? `http://localhost:3310/messages/${user_id}/messages` // messages d'un utilisateur
             : `http://localhost:3310/messages`; // tous les messages
             const response = await axios.get(url); // modif adresse pour variable
             
