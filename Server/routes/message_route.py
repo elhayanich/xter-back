@@ -1,5 +1,6 @@
-from fastapi import APIRouter
-from models import MessageCreate
+from fastapi import APIRouter, HTTPException
+from models import MessageCreate, MessageGet
+from typing import List
 import database_connect
 from mysql.connector import Error
 
@@ -83,6 +84,37 @@ def create_reply(message: MessageCreate):
     except Error as e:
         print(f"L'erreur suivante est survenue : '{e}'")
         return {"error": "Une erreur s'est produite lors de l'envoi de la réponse."}
+    finally:
+        cursor.close()
+        connection.close()
+
+  
+        
+# test get user messages 
+@router.get("/{user_id}/messages")
+def get_user_messages(user_id: int):
+    connection = database_connect.get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    try: #tags
+            cursor.execute("""
+                SELECT m.id, m.content, m.user_id, m.date_post, m.parent_id,
+                GROUP_CONCAT(t.tagname) AS tags
+                FROM message m
+                LEFT JOIN tagmessage mt ON m.id = mt.message_id
+                LEFT JOIN tag t ON mt.tag_id = t.id
+                where m.user_id = %s
+                GROUP BY m.id
+                ORDER BY m.date_post DESC;
+            """, (user_id,))
+            messages = cursor.fetchall()
+            
+            if messages:
+                return messages
+            return {"message": "Aucun message trouvé."}
+    except Error as e:
+        print(f"L'erreur suivante est survenue : '{e}'")
+        return {"error": "Une erreur s'est produite lors de la récupération des messages."}
     finally:
         cursor.close()
         connection.close()

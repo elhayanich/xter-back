@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-const ProfileBanner = ({onImageClick}) => {
-    const {user_id} = useParams();
+const ProfileBanner = ({onImageClick, user_id}) => {
     const [user, setUser] = useState(null);
     const default_profile_picture = 'https://i.pinimg.com/564x/85/7d/0c/857d0c374458c8c273b21940af4ce0ce.jpg'
     const [error, setUserError] = useState(null);

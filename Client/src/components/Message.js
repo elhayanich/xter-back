@@ -4,11 +4,12 @@ import ReactMarkdown from "react-markdown";
 import Reply from './reply';
 import { Link } from 'react-router-dom';
 
-const Message = () => {
+const Message = ({user_id}) => { {/*Rajout du paramètre user_id pour pouvoir trier les messages par user sur la profile page */}
     const [messages, setMessages] = useState([]);
     const [replyTo, setReplyTo] = useState(null);
     const [error, setError] = useState(null);
     const [expandedMessages, setExpandedMessages] = useState({});
+    
 
     // Couleurs pour les tags
     const tagColors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200', 'bg-purple-200'];
@@ -16,17 +17,20 @@ const Message = () => {
     // Fonction pour récupérer les messages depuis l'API
     const fetchMessages = async () => {
         try {
-            const response = await axios.get('http://localhost:3310/messages');
+            const url = user_id
+            ? `http://localhost:3310/messages/${user_id}/messages` // messages d'un utilisateur
+            : `http://localhost:3310/messages`; // tous les messages
+            const response = await axios.get(url); // modif adresse pour variable
             
             const messagesWithUser = await Promise.all(response.data.map(async (message) => {
-                const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
+            const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
                 
-                return {
-                    ...message,
-                    username: responseUser.data.username,
-                    userPicture: responseUser.data.picture 
-                };
-            }));
+            return {
+                ...message,
+                username: responseUser.data.username,
+                userPicture: responseUser.data.picture 
+            };
+        }));
             
             setMessages(messagesWithUser);
         } catch (error) {
@@ -36,7 +40,7 @@ const Message = () => {
 
     useEffect(() => {
         fetchMessages();
-    }, []);
+    }, [user_id]);
 
     const handleReplySubmit = async () => {
         try {
@@ -64,7 +68,8 @@ const Message = () => {
                             className="w-10 h-10 object-cover rounded-full border-2 border-pink-500 ring-2 "
                         />
                         <div>
-                            <strong>{message.username}</strong>
+                        {/*test navigation*/} 
+                        <Link to={`http://localhost:3000/user/${message.user_id}`}><strong>{message.username}</strong></Link>
                         </div>
                     </div>
                     <ReactMarkdown>{message.content}</ReactMarkdown>
