@@ -10,6 +10,7 @@ import LoginPage from './pages/loginPage';
 import ProfilePage from './pages/ProfilePage';
 import HomePageVisitor from './pages/homePageVisitor';
 import AdminPage from './pages/adminPage';
+import MessagesByTag from './components/MessagesByTag';
 
 
 const router = createBrowserRouter([
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "/Admin",
         element: <AdminPage/>,
+      },
+      {
+        path: "/tags/:tagname",  
+        element: <MessagesByTag />, 
       }
     ],
   },

@@ -46,3 +46,32 @@ def get_tags():
         raise HTTPException(status_code=500, detail="Erreur lors de la récupération des tags.")
     finally:
         connection.close()
+
+@router.get("/{tagname}")
+def get_messages_by_tag(tagname: str):
+    connection = database_connect.get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    #tagname = "#"+tagname
+    try:
+        cursor.execute("""
+            SELECT m.id, m.content, m.user_id, m.date_post, m.parent_id,
+            GROUP_CONCAT(t.tagname) AS tags
+            FROM message m
+            LEFT JOIN tagmessage mt ON m.id = mt.message_id
+            LEFT JOIN tag t ON mt.tag_id = t.id
+            WHERE t.tagname = %s
+            GROUP BY m.id
+            ORDER BY m.date_post DESC;
+        """, (tagname,))
+        
+        messages = cursor.fetchall()
+        
+        if messages:
+            return messages
+        return {"message": "Aucun message trouvé pour ce tag."}
+    except Error as e:
+        print(f"L'erreur suivante est survenue : '{e}'")
+        return {"error": "Une erreur s'est produite lors de la récupération des messages."}
+    finally:
+        cursor.close()
+        connection.close()
