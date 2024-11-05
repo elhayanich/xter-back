@@ -50,7 +50,7 @@ const MessagesByTag = () => {
                                     <div className="flex items-center space-x-2.5 mb-2">
                                         <img 
                                             src={message.userPicture ? message.userPicture : '../../images/NOPICTURE.PNG'} 
-                                            alt={`${message.username}'s picture`} 
+                                            alt={`${message.username}`} 
                                             className="w-10 h-10 object-cover rounded-full border-2 border-pink-500 ring-2 "
                                         />
                                         <div>
