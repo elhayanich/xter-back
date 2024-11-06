@@ -90,11 +90,18 @@ CREATE TABLE reaction (
 
 INSERT INTO user (id, username, is_admin, email, user_password) VALUES (1, "coco", 1, "coco@lala.s", "$2b$12$ILi3wTbklsacej3OXuy6P.HpLD50AIj6QTp4oJJgkq9cFGlUO6cKq");
 INSERT INTO user (id, username, is_admin, email, user_password) VALUES (2, "bob", 0, "bob@casualuser.com", "$2b$12$ILi3wTbklsacej3OXuy6P.HpLD50AIj6QTp4oJJgkq9cFGlUO6cKq");
-
+INSERT INTO user (id, username, is_admin, email, user_password ) VALUES (3, "lilo", 1, "lilo@lilo.lilo", "azertyazerty1" );
+INSERT INTO message (user_id, content) VALUES (1, "bonjour comment ça va les copaings");
+INSERT INTO message (user_id, content) VALUES (0, "AAAAAAAAAAAAAAAAAAAAAAaaaaaaaaaaaaaaaaaaaaaaaah");
+INSERT INTO message (user_id, content) VALUES (3, "Nana c'est la vie");
+INSERT INTO message (user_id, content) VALUES (3, "Bleu c'est comme le ciel, il pleure");
+INSERT INTO message (user_id, content) VALUES (1, "It's more like, u know, something going wrong with me... ");
 INSERT INTO message (user_id, content) VALUES (1, "bonjour comment ça va les copaings");
 
-
 INSERT INTO tag (tagname) VALUES ('freebritney');
+INSERT INTO tag (tagname) VALUES ("SUPERMOM")
+INSERT INTO tag (tagname) VALUES ("Books")
+
 
 
 INSERT INTO reactiontype (name, rate, picture) VALUES 

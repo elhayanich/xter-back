@@ -1,12 +1,19 @@
-.sideBar{
+.sideBar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 2.5rem; /* Espacement à ajuster selon votre design */
+    padding: 1rem 2rem; 
     z-index: 1;
     width: 100%;
-    background: #ec4899; /* Couleur de fond de la navbar pour correspondre à la sidebar */
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); /* Ombre douce pour donner de la profondeur */
+    background: #ec4899; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+    border-radius: 8px; 
+    font-family: 'Arial', sans-serif; 
+    transition: background 0.3s; 
+}
+
+.sideBar:hover {
+    background: #d63286; 
 }
 
 .sideBar-sticky {
@@ -25,13 +32,23 @@
     }
 }
 
-
 .sideBar .side-item {
-    color: white; /* Couleur du texte */
-    margin-left: 1rem; /* Espacement entre les éléments */
-    transition: color 0.3s; /* Transition douce pour le changement de couleur */
+    color: white; 
+    margin: 0 1.5rem; 
+    transition: color 0.3s, transform 0.3s; 
+    padding: 0.5rem 0; 
+.sideBar .side-item:hover {
+    color: #ff77b3; 
+    transform: scale(1.05);
 }
 
-.sideBar .side-item:hover {
-    color: #ff77b3; /* Couleur au survol */
+
+.sideBar .side-icon {
+    margin-right: 0.5rem; 
+    transition: color 0.3s; 
+}
+
+.sideBar .side-icon:hover {
+    color: #ff77b3; 
+}
 }

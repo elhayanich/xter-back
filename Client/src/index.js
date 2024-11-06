@@ -1,3 +1,5 @@
+// index.js
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -10,7 +12,8 @@ import LoginPage from './pages/loginPage';
 import ProfilePage from './pages/ProfilePage';
 import HomePageVisitor from './pages/homePageVisitor';
 import AdminPage from './pages/adminPage';
-
+import AdminLayout from './components/Admin/AdminLayout';
+import AdminStats from './components/Admin/adminStats';  // Importez AdminStats
 
 const router = createBrowserRouter([
   {
@@ -34,23 +37,29 @@ const router = createBrowserRouter([
       },
       {
         path: "/home",
-        element: <HomePage/>,
+        element: <HomePage />,
       },
       {
-        path: "/Admin",
-        element: <AdminPage/>,
-      }
+        path: "/admin",
+        element: <AdminLayout />, 
+        children: [
+          {
+            path: "", 
+            element: <AdminPage />,
+          },
+          {
+            path: "stats", 
+            element: <AdminStats />,
+          },
+        ],
+      },
     ],
   },
-]); 
-
-
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-
