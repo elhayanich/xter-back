@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 import Reply from './reply';
 import { Link } from 'react-router-dom';
 
-const Message = ({user_id}) => { {/*Rajout du paramètre user_id pour pouvoir trier les messages par user sur la profile page */}
+const Message = ({user_id}) => { 
     const [messages, setMessages] = useState([]);
     const [replyTo, setReplyTo] = useState(null);
     const [error, setError] = useState(null);
@@ -127,4 +127,5 @@ const Message = ({user_id}) => { {/*Rajout du paramètre user_id pour pouvoir tr
 };
 
 export default Message;
+
 
