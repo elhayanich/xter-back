@@ -7,7 +7,7 @@ class ReactionTypeGet(BaseModel):
     id: int
     name: str
     rate: float
-    picture: Optional[str] = None  # URL optionnelle pour l'image de la réaction
+    picture: Optional[str] = None 
 
     class Config:
-        orm_mode = True  # Permet de convertir les objets de la base de données en objets Pydantic
+        orm_mode = True  

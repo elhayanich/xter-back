@@ -2,36 +2,40 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReactMarkdown from "react-markdown";
 import Reply from './reply';
+import ReactionButtons from './reactionbuttons'; // Importation du composant ReactionButtons
 import { Link } from 'react-router-dom';
+import useGetCurrentUser from './useGetCurrentUser';
 
-const Message = ({user_id}) => { 
+const Message = ({ user_id }) => {
     const [messages, setMessages] = useState([]);
     const [replyTo, setReplyTo] = useState(null);
     const [error, setError] = useState(null);
     const [expandedMessages, setExpandedMessages] = useState({});
-    
+
+    // Utilisation du hook pour récupérer les données de l'utilisateur courant
+    const { id: currentUserId } = useGetCurrentUser(); 
 
     // Couleurs pour les tags
     const tagColors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200', 'bg-purple-200'];
 
     // Fonction pour récupérer les messages depuis l'API
-    const fetchMessages = async () => {
+    const fetchMessages = async () => {        
         try {
             const url = user_id
-            ? `http://localhost:3310/messages/${user_id}/messages` // messages d'un utilisateur
-            : `http://localhost:3310/messages`; // tous les messages
-            const response = await axios.get(url); // modif adresse pour variable
-            
+                ? `http://localhost:3310/messages/${user_id}/messages` 
+                : `http://localhost:3310/messages`; 
+            const response = await axios.get(url);
+
             const messagesWithUser = await Promise.all(response.data.map(async (message) => {
-            const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
+                const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
                 
-            return {
-                ...message,
-                username: responseUser.data.username,
-                userPicture: responseUser.data.picture 
-            };
-        }));
-            
+                return {
+                    ...message,
+                    username: responseUser.data.username,
+                    userPicture: responseUser.data.picture
+                };
+            }));
+
             setMessages(messagesWithUser);
         } catch (error) {
             setError('Erreur lors de la récupération des messages');
@@ -68,8 +72,7 @@ const Message = ({user_id}) => {
                             className="w-10 h-10 object-cover rounded-full border-2 border-pink-500 ring-2 "
                         />
                         <div>
-                        {/*test navigation*/} 
-                        <Link to={`http://localhost:3000/user/${message.user_id}`}><strong>{message.username}</strong></Link>
+                            <Link to={`http://localhost:3000/user/${message.user_id}`}><strong>{message.username}</strong></Link>
                         </div>
                     </div>
                     <ReactMarkdown>{message.content}</ReactMarkdown>
@@ -87,6 +90,11 @@ const Message = ({user_id}) => {
                         </Link>
                     )) : "Aucun tag"}
                 </div>
+
+                {/* Boutons de réaction */}
+                {currentUserId && (
+                    <ReactionButtons messageId={message.id} userId={currentUserId} />
+                )}
 
                 <button onClick={() => setReplyTo(message.id)} className="text-blue-500 mt-2">
                     Répondre
@@ -127,5 +135,3 @@ const Message = ({user_id}) => {
 };
 
 export default Message;
-
-
