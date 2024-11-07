@@ -1,11 +1,12 @@
 from fastapi import Depends, APIRouter, HTTPException, UploadFile, File
-from models import User, UserPictureUpdateURL, UserPictureUpdatePath
+from models import User, UserPictureUpdateURL, FollowRequest
 import database_connect
 from mysql.connector import Error
 import os
 import shutil
 from auth_tools import AuthTool
 from typing import Annotated
+
 
 router = APIRouter()
 UPLOAD_DIRECTORY = "profilePictures"
@@ -45,8 +46,6 @@ async def get_user_name(token: Annotated[str, Depends(AuthTool.get_current_user)
     finally:
         cursor.close()
         connection.close() 
-
-
 
 # Récupérer un user de la db 
 @router.get("/{user_id}", response_model=User)
@@ -133,6 +132,43 @@ async def upload_img_local(user_id: int, file: UploadFile=File(...)): # Gestion 
         print(f"L'erreur suivante est survenue : '{e}'")
         raise HTTPException(status_code=500, detail="Erreur lors de l'enregistrement de l'image")
 
+    finally:
+        cursor.close()
+        connection.close()
+
+# Follow quelqu'un 
+@router.post("/follow/{followed}")
+async def get_new_follow(follow_request: FollowRequest):
+    connection = database_connect.get_db_connection()
+    cursor = connection.cursor()
+
+    try : 
+        cursor.execute("insert into follow (follower, followed) values (%s, %s);", (follow_request.follower, follow_request.followed))
+        connection.commit()
+        return {"Message" : "L'utilisateur 5 vient de follow l'utilisateur 7"}
+    except Error as e:
+        print(f"L'erreur suivante est survenue : '{e}'")
+        return {"error": "Une erreur s'est produite lors du follow."}
+    finally:
+        cursor.close()
+        connection.close()
+
+# Vérifier si on follow la personne 
+@router.get("/follow/{followed}/{follower}")
+async def is_following(followed: int, follower: int):
+    connection = database_connect.get_db_connection()
+    cursor = connection.cursor()
+
+    try : 
+        cursor.execute("select * from follow where follower = %s and followed = %s", (follower, followed))
+        result = cursor.fetchone()
+        if not result :
+            return {"follow_status":"no"}
+        else : 
+            return {"follow_status":"yes"}
+    except Error as e:
+        print(f"L'erreur suivante est survenue : '{e}'")
+        return {"error": "Une erreur s'est produite, on ne sait pas si tu follow ou pas."}
     finally:
         cursor.close()
         connection.close()
