@@ -24,6 +24,8 @@ app.include_router(tag_router, prefix="/tags")
 app.include_router(login_router, prefix="/login", tags=["Logins"])
 app.include_router(token_router, prefix="/token")
 app.include_router(user_router, prefix="/user", tags=["Users"])
+app.include_router(reaction_router, prefix="/reactions")
+app.include_router(reactiontype_router, prefix="/reactiontypes")
 
 app.mount("/Server/profilePictures", StaticFiles(directory="profilePictures"), name="static") # to upload local files
 

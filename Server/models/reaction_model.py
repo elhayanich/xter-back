@@ -1,7 +1,16 @@
+#reaction_model.py
 from pydantic import BaseModel
 
-# Modèle Pydantic pour la validation des données
+# Modèle pour la création d'une réaction
 class ReactionCreate(BaseModel):
-    type: str
-    value: float
+    user_id: int      
+    message_id: int   
+    reaction_id: int   # type de réaction l'autre table
+
+    class Config:
+        orm_mode = True
+
+
+
+
 
