@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReactMarkdown from "react-markdown";
 import Reply from './reply';
-import ReactionButtons from './reactionbuttons'; // Importation du composant ReactionButtons
+import ReactionButtons from './reactionbuttons'; 
 import { Link } from 'react-router-dom';
 import useGetCurrentUser from './useGetCurrentUser';
 
@@ -12,13 +12,11 @@ const Message = ({ user_id }) => {
     const [error, setError] = useState(null);
     const [expandedMessages, setExpandedMessages] = useState({});
 
-    // Utilisation du hook pour récupérer les données de l'utilisateur courant
     const { id: currentUserId } = useGetCurrentUser(); 
 
-    // Couleurs pour les tags
+
     const tagColors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200', 'bg-purple-200'];
 
-    // Fonction pour récupérer les messages depuis l'API
     const fetchMessages = async () => {        
         try {
             const url = user_id
