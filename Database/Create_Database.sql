@@ -102,8 +102,6 @@ INSERT INTO reactiontype (name, rate, picture) VALUES
     ('disgust', -1, 'https://i.pinimg.com/originals/59/42/d9/5942d9add3506de9b7f1a25a278c69c6.png');
 
 
-    
-INSERT INTO follow (followed_by_id, following_id) VALUES (1, 2);
 
 INSERT INTO tagmessage (message_id, tag_id) VALUES (1, 1);
 
