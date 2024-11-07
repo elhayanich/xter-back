@@ -9,14 +9,7 @@ DROP TABLE IF EXISTS follow;
 DROP TABLE IF EXISTS tag;
 DROP TABLE IF EXISTS reactiontype;
 DROP TABLE IF EXISTS reaction;
-DROP TABLE IF EXISTS tagmessages;
-DROP TABLE IF EXISTS messages;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS pictures;
-DROP TABLE IF EXISTS follows;
-DROP TABLE IF EXISTS tags;
-DROP TABLE IF EXISTS reactiontypes;
-DROP TABLE IF EXISTS reactions;
+DROP TABLE IF EXISTS reaction;
 
 DROP TABLE IF EXISTS tagmessage;
 
@@ -43,14 +36,6 @@ CREATE TABLE message (
     reactions_id INT,
     parent_id INT,
     FOREIGN KEY (user_id) REFERENCES user(id)
-);
-
-CREATE TABLE follow (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    followed_by_id INT NOT NULL,
-    following_id INT NOT NULL,
-    FOREIGN KEY (followed_by_id) REFERENCES user(id),
-    FOREIGN KEY (following_id) REFERENCES user(id)
 );
 
 CREATE TABLE tag (
@@ -86,6 +71,15 @@ CREATE TABLE reaction (
     FOREIGN KEY (reaction_id) REFERENCES reaction(id)
 );
 
+ CREATE Table follow(
+    follower int REFERENCES user(id),
+    followed int REFERENCES user(id),
+    unique(follower, followed)
+); 
+
+INSERT INTO follow (follower, followed) VALUES (1,2);
+INSERT INTO follow (follower, followed) VALUES (1,4);
+INSERT INTO follow (follower, followed) VALUES (1,3);
 
 
 INSERT INTO user (id, username, is_admin, email, user_password) VALUES (1, "coco", 1, "coco@lala.s", "$2b$12$ILi3wTbklsacej3OXuy6P.HpLD50AIj6QTp4oJJgkq9cFGlUO6cKq");
@@ -107,13 +101,15 @@ INSERT INTO tag (tagname) VALUES ("Books")
 INSERT INTO reactiontype (name, rate, picture) VALUES 
     ('Like', 1, '../Client/public/images/LIKE.png'), 
     ('Dislike', -1, '../Client/public/images/DISLIKE.png'), 
-    ('Neutral', 0, '../Client/public/images/NEUTRAL.png');
+    ('Neutral', 0, '../Client/public/images/NEUTRAL.png');  
 
-    
-INSERT INTO follow (followed_by_id, following_id) VALUES (1, 2);
 
 INSERT INTO tagmessage (message_id, tag_id) VALUES (1, 1);
 
 INSERT INTO reaction (user_id, message_id, reaction_id) VALUES (1, 1, 1);
 
+
+SELECT COUNT(*) AS num_messages FROM message;
+SELECT COUNT(*) AS num_reactions FROM reactiontype;
+SELECT COUNT(*) AS num_users FROM user;
 

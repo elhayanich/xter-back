@@ -12,8 +12,10 @@ import LoginPage from './pages/loginPage';
 import ProfilePage from './pages/ProfilePage';
 import HomePageVisitor from './pages/homePageVisitor';
 import AdminPage from './pages/adminPage';
+import MessagesByTag from './components/MessagesByTag';
 import AdminLayout from './components/Admin/AdminLayout';
-import AdminStats from './components/Admin/adminStats';  // Importez AdminStats
+import AdminStats from './components/Admin/adminStats';  
+import UserList from './components/Admin/UserList';
 
 const router = createBrowserRouter([
   {
@@ -40,7 +42,14 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/admin",
+        path: "/Admin",
+        element: <AdminPage/>,
+      },
+      {
+        path: "/tags/:tagname",  
+        element: <MessagesByTag />, 
+      },
+       { path: "/admin",
         element: <AdminLayout />, 
         children: [
           {
@@ -50,6 +59,10 @@ const router = createBrowserRouter([
           {
             path: "stats", 
             element: <AdminStats />,
+          },
+          {
+            path: "Utilisateurs", 
+            element: <UserList />,
           },
         ],
       },

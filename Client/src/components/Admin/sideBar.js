@@ -1,76 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import UserList from "./UserList";
+import SideNav, { NavItem, NavText } from '@trendmicro/react-sidenav';
 import "./sideBar.css";
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-import { useNavigate } from 'react-router-dom';
-import SideNav, { NavItem, NavText } from '@trendmicro/react-sidenav';
 
 const SideBar = () => {
   const navigate = useNavigate();
+  const [showUserList, setShowUserList] = useState(false);
+
+  const handleSelect = (selected) => {
+    if (selected === "Utilisateurs") {
+      setShowUserList(prevShow => !prevShow); // Affiche ou masque UserList
+    } else {
+      setShowUserList(false); // Cache UserList si une autre option est sélectionnée
+    }
+    navigate(`/admin/${selected}`);
+  };
 
   return (
-    <SideNav
-      onSelect={(selected) => {
-        navigate(`/admin/${selected}`);  // Mettez à jour ici pour naviguer vers la route enfant
-      }}
-    >
-      <SideNav.Toggle />
-      <SideNav.Nav defaultSelected="Général">
-        
-       
-        <NavItem eventKey="stats"> {/* Nouvelle entrée pour AdminStats */}
-          <NavText
-            style={{
-              color: 'white',
-              backgroundColor: '#ec4899',
-              padding: '1em',
-              borderRadius: '5px'
-            }}
-          >
-            Statistiques
-          </NavText>
-        </NavItem>
+    <div>
+      <SideNav onSelect={handleSelect}>
+        <SideNav.Toggle />
+        <SideNav.Nav defaultSelected="Général">
+          
+          <NavItem eventKey="stats">
+            <NavText>Statistiques</NavText>
+          </NavItem>
 
-        <NavItem eventKey="Général">
-          <NavText
-            style={{
-              color: 'white',
-              backgroundColor: '#ec4899',
-              padding: '1em',
-              borderRadius: '5px'
-            }}
-          >
-            Général
-          </NavText>
-        </NavItem>
+          <NavItem eventKey="Réaction">
+            <NavText>Réaction</NavText>
+          </NavItem>
 
-        <NavItem eventKey="Réaction">
-          <NavText
-            style={{
-              color: 'white',
-              backgroundColor: '#ec4899',
-              padding: '1em',
-              borderRadius: '5px'
-            }}
-          >
-            Réaction
-          </NavText>
-        </NavItem>
+          <NavItem eventKey="Utilisateurs">
+            <NavText>Utilisateurs</NavText>
+          </NavItem>
 
-        <NavItem eventKey="Utilisateurs">
-          <NavText
-            style={{
-              color: 'white',
-              backgroundColor: '#ec4899',
-              padding: '1em',
-              borderRadius: '5px'
-            }}
-          >
-            Utilisateurs
-          </NavText>
-        </NavItem>
+        </SideNav.Nav>
+      </SideNav>
 
-      </SideNav.Nav>
-    </SideNav>
+      {/* Affiche la liste des utilisateurs en dessous de la SideBar si `showUserList` est vrai */}
+      {showUserList && <UserList />}
+    </div>
   );
 };
 

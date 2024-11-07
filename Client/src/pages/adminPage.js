@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import SideBar from "../components/Admin/sideBar";
 import NavbarAdmin from "../components/Admin/NavbarAdmin";
 import GeneralInfos from "../components/Admin/generalInfos";
-import UserList from '../components/Admin/UserList';
+
 
 
 
@@ -28,7 +28,7 @@ const AdminPage = () => {
             <NavbarAdmin/>
             <SideBar/>
             <GeneralInfos/>
-            <UserList/>{}
+          
         </div>
     );
 };

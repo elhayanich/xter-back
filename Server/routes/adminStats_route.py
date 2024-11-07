@@ -1,48 +1,63 @@
-import mysql.connector
 from fastapi import APIRouter
-import mysql.connector
-router = APIRouter
+from database_connect import get_db_connection
 
-def get_db_connection():
-    connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="1234",
-        database="xter"
-    )
-    return connection
+router = APIRouter()
 
-@router.get("/admin/stats")
+@router.get("/stats")
 async def get_stats():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
     
- # Requête pour le nombre de messages
-    cursor.execute("SELECT COUNT(*) AS num_messages FROM messages")
-    num_messages = cursor.fetchone()["num_messages"]
+    try:
+        # Requête pour le nombre de messages
+        cursor.execute("SELECT COUNT(*) AS num_messages FROM message")
+        num_messages = cursor.fetchone()["num_messages"]
+        print("Nombre de messages :", num_messages)
 
-    # Requête pour le nombre de réactions
-    cursor.execute("SELECT COUNT(*) AS num_reactions FROM reactions")
-    num_reactions = cursor.fetchone()["num_reactions"]
+        # Requête pour le nombre de réactions
+        cursor.execute("SELECT COUNT(*) AS num_reactions FROM reaction")
+        num_reactions = cursor.fetchone()["num_reactions"]
+        print("Nombre de réactions :", num_reactions)
+        
+          # Requête pour le nombre d'utilisateurs
+        cursor.execute("SELECT COUNT(*) AS num_users FROM user")
+        num_users = cursor.fetchone()["num_users"]
+        print("Nombre d'utilisateurs :", num_users) # type: ignore
 
-    # Requête pour les utilisateurs actifs
-    cursor.execute("SELECT COUNT(*) AS active_users FROM users WHERE is_active = 1")
-    active_users = cursor.fetchone()["active_users"]
-
-    cursor.close()
-    connection.close()
+       
+    except Exception as e:
+        print("Erreur lors de la récupération des statistiques :", e)
+        return {"error": "Erreur lors de la récupération des statistiques"}
+    
+    finally:
+        cursor.close()
+        connection.close()
 
     return {
         "num_messages": num_messages,
         "num_reactions": num_reactions,
-        "active_users": active_users
+        "num_users": num_users
+       
     }
-@router.get("/admin/users")
+
+# Route pour récupérer la liste des utilisateurs
+@router.get("/users")
 async def get_users():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM user") 
+    cursor.execute("SELECT * FROM user")  # Remplacez par le bon nom de table si nécessaire
     users = cursor.fetchall()
     cursor.close()
     connection.close()
     return users
+
+# Route pour supprimer des utilisateurs 
+@router.delete("/users/{username}")
+async def delete_user(username : str):
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM user")  # Remplacez par le bon nom de table si nécessaire
+    users = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return {'message' : 'f Supression de l utilisateur : {username} '}
