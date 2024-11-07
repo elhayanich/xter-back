@@ -20,7 +20,7 @@ const FollowBtn = () => {
         if (follower && followed) { // vérifier que les paramètres soient pas vides
             isFollowing(follower, followed);
         }
-    }); 
+    }, [follower, followed]); 
     
 
 
