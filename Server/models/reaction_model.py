@@ -12,12 +12,5 @@ class ReactionCreate(BaseModel):
 
 
 
-class ReactionGet(BaseModel):
-    user_id: int      
-    message_id: int   
-    reaction_id: int   
-
-    class Config:
-        orm_mode = True 
 
 

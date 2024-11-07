@@ -98,8 +98,10 @@ INSERT INTO tag (tagname) VALUES ('freebritney');
 
 
 INSERT INTO reactiontype (name, rate, picture) VALUES 
-    ('Like', 1, 'https://cdn-icons-png.flaticon.com/512/10307/10307920.png');
-    ;
+    ('Like', 1, 'https://cdn-icons-png.flaticon.com/512/10307/10307920.png'),
+    ('pokemon', 5, 'https://dextraneous.blog/wp-content/uploads/2019/09/092.png'),
+    ('disgust', -1, 'https://i.pinimg.com/originals/59/42/d9/5942d9add3506de9b7f1a25a278c69c6.png');
+
 
     
 INSERT INTO follow (followed_by_id, following_id) VALUES (1, 2);
