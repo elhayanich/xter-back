@@ -2,15 +2,13 @@ import { useState, useEffect, React } from "react";
 import axios from 'axios';
 import useGetCurrentUser from "./useGetCurrentUser";
 import { useLocation } from 'react-router-dom';
-// à faire : cacher le bouton follow si je suis sur ma page (follow == followed ?)
-// vérifier si bien caché quand je suis pas registered
 
 const FollowBtn = () => {
      
     const location = useLocation(); // récupérer l'id du followed via l'url ↓
     const path = location.pathname.split("/user/");
-    const followed = parseInt(path[1])
-    const follower = useGetCurrentUser().id ?? null;
+    const followed = parseInt(path[1]) // transformer le followed en int car vient en string
+    const follower = useGetCurrentUser().id ?? null; //null ok pour ne pas afficher si pas registered
     const [error, setError] = useState('');
     const [btnColor, setBtnColor] = useState("bg-pink-500")
     const [btnMessg, setBtnMessg] = useState("")
@@ -43,6 +41,7 @@ const FollowBtn = () => {
             let result = await axios.get(`http://localhost:3310/user/follow/${followed}/${follower}`, 
             )
             console.log(result)
+            // gérer l'affichage du bouton follow en f° 
             if (result.data.follow_status == "no") {
                 setBtnColor("bg-pink-500");
                 setBtnMessg("Follow me !")
