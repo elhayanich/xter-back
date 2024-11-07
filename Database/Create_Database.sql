@@ -45,13 +45,12 @@ CREATE TABLE message (
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-CREATE TABLE follow (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    followed_by_id INT NOT NULL,
-    following_id INT NOT NULL,
-    FOREIGN KEY (followed_by_id) REFERENCES user(id),
-    FOREIGN KEY (following_id) REFERENCES user(id)
-);
+ CREATE Table follow(
+    follower int REFERENCES user(id),
+    followed int REFERENCES user(id),
+    unique(follower, followed)
+); 
+
 
 CREATE TABLE tag (
     id INT AUTO_INCREMENT PRIMARY KEY,
