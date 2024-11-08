@@ -8,7 +8,8 @@ import database_connect
 router = APIRouter()
 
 # Route pour obtenir tous les types de réactions
-@router.get("/", response_model=List[ReactionTypeGet])
+# ..localhost:3310/reactiontypes
+@router.get("/", response_model=List[ReactionTypeGet]) 
 def get_reactiontypes():
     connection = database_connect.get_db_connection()
     cursor = connection.cursor(dictionary=True)
@@ -26,3 +27,5 @@ def get_reactiontypes():
     finally:
         cursor.close()
         connection.close()
+
+# Route pour supprimer reactiontype
