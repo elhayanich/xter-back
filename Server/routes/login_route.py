@@ -33,10 +33,7 @@ def login_user(user_to_log: UserAuth):
             token = AuthTool.create_token(str(user_data[0]))
             print(user_data[0])
             print(token)
-            # si le user est admin
-            #is_admin = True
-            # sinon
-            #is_admin = False
+        
             return {"message": "Authentification successfull!!", "username" : user_data[1], "token" : token, "is_admin": user_data[2]}
         except Error as e:
             return {"error": "Can't create token"}

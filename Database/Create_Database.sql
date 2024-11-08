@@ -9,14 +9,7 @@ DROP TABLE IF EXISTS follow;
 DROP TABLE IF EXISTS tag;
 DROP TABLE IF EXISTS reactiontype;
 DROP TABLE IF EXISTS reaction;
-DROP TABLE IF EXISTS tagmessages;
-DROP TABLE IF EXISTS messages;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS pictures;
-DROP TABLE IF EXISTS follows;
-DROP TABLE IF EXISTS tags;
-DROP TABLE IF EXISTS reactiontypes;
-DROP TABLE IF EXISTS reactions;
+DROP TABLE IF EXISTS reaction;
 
 DROP TABLE IF EXISTS tagmessage;
 
@@ -89,11 +82,16 @@ CREATE TABLE reaction (
 
 INSERT INTO user (id, username, is_admin, email, user_password) VALUES (1, "coco", 1, "coco@lala.s", "$2b$12$ILi3wTbklsacej3OXuy6P.HpLD50AIj6QTp4oJJgkq9cFGlUO6cKq");
 INSERT INTO user (id, username, is_admin, email, user_password) VALUES (2, "bob", 0, "bob@casualuser.com", "$2b$12$ILi3wTbklsacej3OXuy6P.HpLD50AIj6QTp4oJJgkq9cFGlUO6cKq");
-
+INSERT INTO user (id, username, is_admin, email, user_password ) VALUES (3, "lilo", 1, "lilo@lilo.lilo", "azertyazerty1" );
+INSERT INTO message (user_id, content) VALUES (1, "bonjour comment ça va les copaings");
+INSERT INTO message (user_id, content) VALUES (3, "Nana c'est la vie");
+INSERT INTO message (user_id, content) VALUES (3, "Bleu c'est comme le ciel, il pleure");
+INSERT INTO message (user_id, content) VALUES (1, "It's more like, u know, something going wrong with me... ");
 INSERT INTO message (user_id, content) VALUES (1, "bonjour comment ça va les copaings");
 
-
 INSERT INTO tag (tagname) VALUES ('freebritney');
+
+
 
 
 INSERT INTO reactiontype (name, rate, picture) VALUES 
@@ -107,4 +105,8 @@ INSERT INTO tagmessage (message_id, tag_id) VALUES (1, 1);
 
 INSERT INTO reaction (user_id, message_id, reaction_id) VALUES (1, 1, 1);
 
+
+SELECT COUNT(*) AS num_messages FROM message;
+SELECT COUNT(*) AS num_reactions FROM reactiontype;
+SELECT COUNT(*) AS num_users FROM user;
 

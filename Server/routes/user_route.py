@@ -172,3 +172,7 @@ async def is_following(followed: int, follower: int):
     finally:
         cursor.close()
         connection.close()
+        
+        
+        # Route pour delete un user
+        

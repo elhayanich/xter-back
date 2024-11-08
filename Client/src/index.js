@@ -1,3 +1,5 @@
+// index.js
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -11,7 +13,10 @@ import ProfilePage from './pages/ProfilePage';
 import HomePageVisitor from './pages/homePageVisitor';
 import AdminPage from './pages/adminPage';
 import MessagesByTag from './components/MessagesByTag';
-
+import AdminLayout from './components/Admin/AdminLayout';
+import AdminStats from './components/Admin/adminStats';  
+import UserList from './components/Admin/UserList';
+import AdminReactions from './components/Admin/AdminReaction';
 
 const router = createBrowserRouter([
   {
@@ -35,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/home",
-        element: <HomePage/>,
+        element: <HomePage />,
       },
       {
         path: "/Admin",
@@ -44,18 +49,35 @@ const router = createBrowserRouter([
       {
         path: "/tags/:tagname",  
         element: <MessagesByTag />, 
-      }
+      },
+       { path: "/admin",
+        element: <AdminLayout />, 
+        children: [
+          {
+            path: "", 
+            element: <AdminPage />,
+          },
+          {
+            path: "stats", 
+            element: <AdminStats />,
+          },
+          {
+            path: "Utilisateurs", 
+            element: <UserList />,
+          },
+          {
+            path: "Reactions", 
+            element: <AdminReactions />,
+          },
+        ],
+      },
     ],
   },
-]); 
-
-
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-

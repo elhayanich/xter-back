@@ -5,9 +5,10 @@ import GeneralInfos from "../components/Admin/generalInfos";
 
 
 
+
 const AdminPage = () => {
 
-   
+
       // Vérifie si l'utilisateur a un token stocké dans localStorage
       useEffect(() => {
         const token = localStorage.getItem("token");
@@ -20,12 +21,14 @@ const AdminPage = () => {
       }, []);
     
       return (
+  
        
     
         <div className="max-w-2xl mx-auto p-4">
             <NavbarAdmin/>
             <SideBar/>
             <GeneralInfos/>
+          
         </div>
     );
 };
