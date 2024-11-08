@@ -4,45 +4,39 @@ import UserList from "./UserList";
 import SideNav, { NavItem, NavText } from '@trendmicro/react-sidenav';
 import "./sideBar.css";
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
+import AdminReactions from "./AdminReaction";
 
 const SideBar = () => {
-  const navigate = useNavigate();
-  const [showUserList, setShowUserList] = useState(false);
+    const navigate = useNavigate();
+    const [activeSection, setActiveSection] = useState(""); // Track which section is active
 
-  const handleSelect = (selected) => {
-    if (selected === "Utilisateurs") {
-      setShowUserList(prevShow => !prevShow); // Affiche ou masque UserList
-    } else {
-      setShowUserList(false); // Cache UserList si une autre option est sélectionnée
-    }
-    navigate(`/admin/${selected}`);
-  };
+    const handleSelect = (selected) => {
+        setActiveSection(selected); // Set the active section based on selection
+        navigate(`/admin/${selected}`);
+    };
 
-  return (
-    <div>
-      <SideNav onSelect={handleSelect}>
-        <SideNav.Toggle />
-        <SideNav.Nav defaultSelected="Général">
-          
-          <NavItem eventKey="stats">
-            <NavText>Statistiques</NavText>
-          </NavItem>
+    return (
+        <div>
+            <SideNav onSelect={handleSelect}>
+                <SideNav.Toggle />
+                <SideNav.Nav defaultSelected="Général">
+                    <NavItem eventKey="stats">
+                        <NavText>Statistiques</NavText>
+                    </NavItem>
+                    <NavItem eventKey="Reactions">
+                        <NavText>Réactions</NavText>
+                    </NavItem>
+                    <NavItem eventKey="Utilisateurs">
+                        <NavText>Utilisateurs</NavText>
+                    </NavItem>
+                </SideNav.Nav>
+            </SideNav>
 
-          <NavItem eventKey="Réaction">
-            <NavText>Réaction</NavText>
-          </NavItem>
-
-          <NavItem eventKey="Utilisateurs">
-            <NavText>Utilisateurs</NavText>
-          </NavItem>
-
-        </SideNav.Nav>
-      </SideNav>
-
-      {/* Affiche la liste des utilisateurs en dessous de la SideBar si `showUserList` est vrai */}
-      {showUserList && <UserList />}
-    </div>
-  );
+            {/* Render components based on the active section */}
+            {activeSection === "Utilisateurs" && <UserList />}
+            {activeSection === "Reactions" && <AdminReactions />}
+        </div>
+    );
 };
 
 export default SideBar;

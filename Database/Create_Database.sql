@@ -38,6 +38,14 @@ CREATE TABLE message (
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
+CREATE TABLE follow (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    followed_by_id INT NOT NULL,
+    following_id INT NOT NULL,
+    FOREIGN KEY (followed_by_id) REFERENCES user(id),
+    FOREIGN KEY (following_id) REFERENCES user(id)
+);
+
 CREATE TABLE tag (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tagname VARCHAR(255) NOT NULL
@@ -48,7 +56,7 @@ CREATE TABLE reactiontype (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(31) NOT NULL,
     rate FLOAT NOT NULL,
-    picture VARCHAR(255)
+    picture TEXT
 );
 
 -- TAG MESSAGES 
@@ -71,15 +79,6 @@ CREATE TABLE reaction (
     FOREIGN KEY (reaction_id) REFERENCES reaction(id)
 );
 
- CREATE Table follow(
-    follower int REFERENCES user(id),
-    followed int REFERENCES user(id),
-    unique(follower, followed)
-); 
-
-INSERT INTO follow (follower, followed) VALUES (1,2);
-INSERT INTO follow (follower, followed) VALUES (1,4);
-INSERT INTO follow (follower, followed) VALUES (1,3);
 
 
 INSERT INTO user (id, username, is_admin, email, user_password) VALUES (1, "coco", 1, "coco@lala.s", "$2b$12$ILi3wTbklsacej3OXuy6P.HpLD50AIj6QTp4oJJgkq9cFGlUO6cKq");
@@ -99,10 +98,13 @@ INSERT INTO tag (tagname) VALUES ("Books")
 
 
 INSERT INTO reactiontype (name, rate, picture) VALUES 
-    ('Like', 1, '../Client/public/images/LIKE.png'), 
-    ('Dislike', -1, '../Client/public/images/DISLIKE.png'), 
-    ('Neutral', 0, '../Client/public/images/NEUTRAL.png');  
+    ('Like', 1, 'https://cdn-icons-png.flaticon.com/512/10307/10307920.png'),
+    ('pokemon', 5, 'https://dextraneous.blog/wp-content/uploads/2019/09/092.png'),
+    ('disgust', -1, 'https://i.pinimg.com/originals/59/42/d9/5942d9add3506de9b7f1a25a278c69c6.png');
 
+
+    
+INSERT INTO follow (followed_by_id, following_id) VALUES (1, 2);
 
 INSERT INTO tagmessage (message_id, tag_id) VALUES (1, 1);
 

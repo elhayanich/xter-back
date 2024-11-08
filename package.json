@@ -10,6 +10,7 @@
   "devDependencies": {
     "@babel/cli": "^7.25.9",
     "@babel/core": "^7.26.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.26.0",
     "@tailwindcss/typography": "^0.5.15",
     "concurrently": "^9.0.1",

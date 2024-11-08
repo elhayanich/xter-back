@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import useGetCurrentUser from './useGetCurrentUser';
 
 export default function Reply({ parentId, onSubmit }) {
     const [replyContent, setReplyContent] = useState('');
     const [tagInput, setTagInput] = useState('');
     const [tags, setTags] = useState([]);
+
+    const { id} = useGetCurrentUser();
 
     const handleReplyChange = (event) => {
         setReplyContent(event.target.value);
@@ -31,8 +34,9 @@ export default function Reply({ parentId, onSubmit }) {
             const tagResponse = await axios.post('http://localhost:3310/tags', tagData);
             const tagIds = tagResponse.data.map(tag => tag.id);
 
+
             const replyData = {
-                user_id: 1,
+                user_id: id,
                 content: replyContent,
                 tag_ids: tagIds,
                 parent_id: parentId,

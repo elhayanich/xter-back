@@ -9,7 +9,7 @@ export default function MessageInput() {
     const [tagInput, setTagInput] = useState('');
     const [tags, setTags] = useState([]);
     
-    const { id, userName, isAdmin, email, dateInscription, picture } = useGetCurrentUser();
+    const { id } = useGetCurrentUser();
 
     function handleMessageChange(event) {
         setMessage(event.target.value);

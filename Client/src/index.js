@@ -16,6 +16,7 @@ import MessagesByTag from './components/MessagesByTag';
 import AdminLayout from './components/Admin/AdminLayout';
 import AdminStats from './components/Admin/adminStats';  
 import UserList from './components/Admin/UserList';
+import AdminReactions from './components/Admin/AdminReaction';
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
           {
             path: "Utilisateurs", 
             element: <UserList />,
+          },
+          {
+            path: "Reactions", 
+            element: <AdminReactions />,
           },
         ],
       },
