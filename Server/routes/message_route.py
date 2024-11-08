@@ -118,3 +118,59 @@ def get_user_messages(user_id: int):
     finally:
         cursor.close()
         connection.close()
+
+
+# @router.get("/follow/{user_id}")
+# async def is_following(user_id: int) -> list[int]:
+#     connection = database_connect.get_db_connection()
+#     cursor = connection.cursor()
+#     followed_ids = []
+
+#     try:
+#         cursor.execute("select followed from follow where follower = %s", (user_id,))
+#         result = cursor.fetchall()
+#         for row in result:
+#             followed_ids.append(row[0])  # récupérer les valeurs id dans les tuples
+#         return followed_ids
+#     except Error as e:
+#         print(f"L'erreur suivante est survenue : '{e}'")
+#         return {"error": "Une erreur s'est produite, on ne sait pas qui tu follow."}
+#     finally:
+#         cursor.close()
+#         connection.close()
+
+@router.get("/followed-messages/{user_id}")
+def get_followed_messages(user_id: int):
+    connection = database_connect.get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+        # First, get the IDs of followed users
+        cursor.execute("SELECT followed FROM follow WHERE follower = %s", (user_id,))
+        followed_ids = [row['followed'] for row in cursor.fetchall()]
+
+        if not followed_ids:
+            return {"message": "Aucun message trouvé pour les utilisateurs suivis."}
+
+        # Fetch messages from followed users
+        format_strings = ','.join(['%s'] * len(followed_ids))
+        cursor.execute(f"""
+            SELECT m.id, m.content, m.user_id, m.date_post, m.parent_id,
+            GROUP_CONCAT(t.tagname) AS tags
+            FROM message m
+            LEFT JOIN tagmessage mt ON m.id = mt.message_id
+            LEFT JOIN tag t ON mt.tag_id = t.id
+            WHERE m.user_id IN ({format_strings})
+            GROUP BY m.id
+            ORDER BY m.date_post DESC;
+        """, tuple(followed_ids))
+
+        messages = cursor.fetchall()
+        
+        return messages if messages else {"message": "Aucun message trouvé pour les utilisateurs suivis."}
+    except Error as e:
+        print(f"L'erreur suivante est survenue : '{e}'")
+        return {"error": "Une erreur s'est produite lors de la récupération des messages suivis."}
+    finally:
+        cursor.close()
+        connection.close()

@@ -2,4 +2,4 @@
 *.pyc
 .database_connect.py
 .__pycache__
-.node_modules
+node_modules
