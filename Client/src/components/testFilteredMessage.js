@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
-import Reply from './reply';  
-import ReactionButtons from './reactionbuttons'; 
+import ReactMarkdown from "react-markdown";
+import Reply from './reply';
+import ReactionButtons from './reactionbuttons'; // Importation du composant ReactionButtons
+import { Link } from 'react-router-dom';
+import useGetCurrentUser from './useGetCurrentUser';
 
-const MessagesByTag = () => {
-    const { tagname } = useParams(); 
+const TestMessage = ({ user_id }, {followFilter}) => {
     const [messages, setMessages] = useState([]);
+    const [replyTo, setReplyTo] = useState(null);
     const [error, setError] = useState(null);
-    const [replyTo, setReplyTo] = useState(null);  
-    const [expandedMessages, setExpandedMessages] = useState({}); 
+    const [expandedMessages, setExpandedMessages] = useState({});
 
-    
-    const tagColors = ['bg-purple-200'];
+    // Utilisation du hook pour récupérer les données de l'utilisateur courant
+    const { id: currentUserId } = useGetCurrentUser(); 
 
-    
-    const fetchMessagesByTag = async () => {
+    // Couleurs pour les tags
+    const tagColors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200', 'bg-purple-200'];
+
+    // Fonction pour récupérer les messages depuis l'API
+    const fetchMessages = async () => {        
         try {
-            const response = await axios.get(`http://localhost:3310/tags/${tagname}`);
+            const url = user_id
+                ? `http://localhost:3310/messages/${user_id}/messages` 
+                : `http://localhost:3310/messages`; 
+            const response = await axios.get(url);
 
             const messagesWithUser = await Promise.all(response.data.map(async (message) => {
                 const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
+                
                 return {
                     ...message,
                     username: responseUser.data.username,
@@ -31,17 +38,20 @@ const MessagesByTag = () => {
 
             setMessages(messagesWithUser);
         } catch (error) {
-            setError("Erreur lors de la récupération des messages par tag");
+            setError('Erreur lors de la récupération des messages');
         }
     };
 
     useEffect(() => {
-        fetchMessagesByTag();
-    }, [tagname]);
+        fetchMessages();
+    }, [user_id]);
 
-    
-    const addNewMessage = (newMessage) => {
-        setMessages(prevMessages => [newMessage, ...prevMessages]); 
+    const handleReplySubmit = async () => {
+        try {
+            await fetchMessages();
+        } catch (error) {
+            setError('Erreur lors de la récupération des messages après la réponse');
+        }
     };
 
     const toggleReplies = (messageId) => {
@@ -62,7 +72,7 @@ const MessagesByTag = () => {
                             className="w-10 h-10 object-cover rounded-full border-2 border-pink-500 ring-2 "
                         />
                         <div>
-                            <strong>{message.username}</strong>
+                            <Link to={`http://localhost:3000/user/${message.user_id}`}><strong>{message.username}</strong></Link>
                         </div>
                     </div>
                     <ReactMarkdown>{message.content}</ReactMarkdown>
@@ -81,26 +91,28 @@ const MessagesByTag = () => {
                     )) : "Aucun tag"}
                 </div>
 
-                <ReactionButtons messageId={message.id} userId={message.user_id} />
+                {/* Boutons de réaction */}
+                {currentUserId && (
+                    <ReactionButtons messageId={message.id} userId={currentUserId} />
+                )}
 
-                <button onClick={() => setReplyTo(replyTo === message.id ? null : message.id)} className="text-blue-500 mt-2">
-                    {replyTo === message.id ? "Masquer le formulaire de réponse" : "Répondre"}
+                <button onClick={() => setReplyTo(message.id)} className="text-blue-500 mt-2">
+                    Répondre
                 </button>
 
                 <button onClick={() => toggleReplies(message.id)} className="text-blue-500 mt-2">
                     {expandedMessages[message.id] ? "Masquer les réponses" : "Voir toutes les réponses"}
                 </button>
 
-                {replyTo === message.id && <Reply parentId={message.id} onNewMessage={addNewMessage} />}
+                {replyTo === message.id && <Reply parentId={message.id} onSubmit={handleReplySubmit} />}
 
-                {expandedMessages[message.id] && (
+                {expandedMessages[message.id] &&
                     <ul className="ml-6 mt-4">
                         {messages
-                            .filter(reply => reply.parent_id === message.id) 
-                            .map(reply => renderMessageAndReplies(reply)) 
-                        }
+                            .filter(reply => reply.parent_id === message.id)
+                            .map(reply => renderMessageAndReplies(reply))}
                     </ul>
-                )}
+                }
             </li>
         );
     };
@@ -110,20 +122,16 @@ const MessagesByTag = () => {
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
                 {error && <p className="text-red-500">{error}</p>}
                 
-                <h2 className="text-lg font-semibold mb-2">Messages avec le tag : {tagname}</h2>
+                <h2 className="text-lg font-semibold mb-2">Feed</h2>
                 <ul className="mt-4 space-y-4">
-                    {messages.length > 0 ? (
-                        messages
-                            .filter(message => message.tags && message.tags.includes(tagname))
-                            .map((message) => renderMessageAndReplies(message)) 
-                    ) : (
-                        <p>Aucun message trouvé pour ce tag.</p>
-                    )}
+                    {messages
+                        .filter(message => message.parent_id === null)
+                        .map(message => renderMessageAndReplies(message))
+                    }
                 </ul>
             </div>
         </div>
     );
 };
 
-export default MessagesByTag;
-
+export default TestMessage;

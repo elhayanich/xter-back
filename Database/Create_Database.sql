@@ -38,13 +38,12 @@ CREATE TABLE message (
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-CREATE TABLE follow (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    followed_by_id INT NOT NULL,
-    following_id INT NOT NULL,
-    FOREIGN KEY (followed_by_id) REFERENCES user(id),
-    FOREIGN KEY (following_id) REFERENCES user(id)
-);
+ CREATE Table follow(
+    follower int REFERENCES user(id),
+    followed int REFERENCES user(id),
+    unique(follower, followed)
+); 
+
 
 CREATE TABLE tag (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -103,8 +102,6 @@ INSERT INTO reactiontype (name, rate, picture) VALUES
     ('disgust', -1, 'https://i.pinimg.com/originals/59/42/d9/5942d9add3506de9b7f1a25a278c69c6.png');
 
 
-    
-INSERT INTO follow (followed_by_id, following_id) VALUES (1, 2);
 
 INSERT INTO tagmessage (message_id, tag_id) VALUES (1, 1);
 

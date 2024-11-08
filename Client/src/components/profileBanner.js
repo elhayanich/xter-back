@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 
 const ProfileBanner = ({onImageClick, user_id}) => {
     const [user, setUser] = useState(null);
