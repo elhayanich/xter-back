@@ -8,7 +8,6 @@ import UserMessagesList from '../components/userMessages.js';
 
 const ProfilePage = () => {
     const {user_id} = useParams();
-    //Faire apparaître ou disparaître les boutons upload image
     const [showButtons, setShowButtons] = useState(false);
     const handleImageClick = () => {
         setShowButtons(!showButtons);}
