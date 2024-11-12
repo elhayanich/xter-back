@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import MessageInput from '../components/messageInput';
 import Message from '../components/Message';
-import NavbarLogout from '../components/Header/NavbarLogout';
-import FollowFilter from '../components/followerFilter';
 import useGetCurrentUser from '../components/useGetCurrentUser';
+import NavbarLogout from '../components/Header/NavbarLogout';
 import Welcome from '../components/welcome'; 
 
 const HomePage = () => {
@@ -30,3 +29,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
