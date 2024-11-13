@@ -4,6 +4,7 @@ from models import *
 import database_connect
 from mysql.connector import Error
 from auth_tools import AuthTool
+from create_fake_profiles import *
 
 
 # Creating a router
@@ -27,3 +28,12 @@ def register_user(user: UserCreate):
     finally:
         cursor.close()
         connection.close()
+
+# route pour récupérer les fake profiles sur le front 
+@router.get("/fake-users", response_model=List[UserCreate])
+def get_fake_users():
+    try:
+        return fake_users_set1
+    except Exception as e:
+        print(f"Error: {e}")
+        return {"error": "Failed to fetch fake users"}

@@ -3,6 +3,7 @@ from models import MessageCreate, MessageGet
 from typing import List
 import database_connect
 from mysql.connector import Error
+from create_fake_profiles import *
 
 router = APIRouter()
 
@@ -171,6 +172,33 @@ def get_followed_messages(user_id: int):
     except Error as e:
         print(f"L'erreur suivante est survenue : '{e}'")
         return {"error": "Une erreur s'est produite lors de la récupération des messages suivis."}
+    finally:
+        cursor.close()
+        connection.close()
+    
+# Insérer la liste de faux messages du data set1 (kaggle) dans la db 
+@router.post("/fake-messages")
+def post_fake_users():
+    connection = database_connect.get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+        for message in fake_messages_set1 : 
+            # récupérer l'id d'un user au hasard
+            cursor.execute("select user_id from user order by rand() limit 1")
+            random_user = cursor.fetchone()
+            user_id = random_user['user_id']
+            # lui attribuer un message
+            cursor.execute("""
+                INSERT INTO message (user_id, content) 
+                VALUES (%s, %s)
+            """, (user_id, message))
+        connection.commit()
+        return {"success": "Fake messages added successfully"}
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return {"error": "Failed to add fake messages"}
     finally:
         cursor.close()
         connection.close()
