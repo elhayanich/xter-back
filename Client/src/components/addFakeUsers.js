@@ -39,7 +39,7 @@ const AddFakeUsers = () => {
             const email = profile.email;
             const password = profile.password;
 
-            axios.post("http://localhost:3310//register", {
+            axios.post("http://localhost:3310/register", {
                     username,
                     email,
                     password
