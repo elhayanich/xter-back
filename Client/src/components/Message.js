@@ -36,13 +36,20 @@ const Message = ({ user_id, onlyFollowed }) => {
 
             setMessages(messagesWithUser);
         } catch (error) {
-            setError('Erreur lors de la récupération des messages');
+            setError('Chargement de messages en cours.. Vérifiez votre connexion!');
         }
     };
 
     useEffect(() => {
         fetchMessages();
     }, [user_id, onlyFollowed]); // Fetch messages whenever user_id or onlyFollowed changes
+
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => setError(null), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
 
     const handleReplySubmit = async () => {
         try {

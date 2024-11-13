@@ -4,6 +4,7 @@ from typing import List
 import database_connect
 from mysql.connector import Error
 from create_fake_profiles import *
+import subprocess
 
 router = APIRouter()
 
@@ -121,25 +122,6 @@ def get_user_messages(user_id: int):
         connection.close()
 
 
-# @router.get("/follow/{user_id}")
-# async def is_following(user_id: int) -> list[int]:
-#     connection = database_connect.get_db_connection()
-#     cursor = connection.cursor()
-#     followed_ids = []
-
-#     try:
-#         cursor.execute("select followed from follow where follower = %s", (user_id,))
-#         result = cursor.fetchall()
-#         for row in result:
-#             followed_ids.append(row[0])  # récupérer les valeurs id dans les tuples
-#         return followed_ids
-#     except Error as e:
-#         print(f"L'erreur suivante est survenue : '{e}'")
-#         return {"error": "Une erreur s'est produite, on ne sait pas qui tu follow."}
-#     finally:
-#         cursor.close()
-#         connection.close()
-
 @router.get("/followed-messages/{user_id}")
 def get_followed_messages(user_id: int):
     connection = database_connect.get_db_connection()
@@ -176,29 +158,14 @@ def get_followed_messages(user_id: int):
         cursor.close()
         connection.close()
     
-# Insérer la liste de faux messages du data set1 (kaggle) dans la db 
 @router.post("/fake-messages")
-def post_fake_users():
-    connection = database_connect.get_db_connection()
-    cursor = connection.cursor(dictionary=True)
-
+async def add_fake_messages():
     try:
-        for message in fake_messages_set1 : 
-            # récupérer l'id d'un user au hasard
-            cursor.execute("select user_id from user order by rand() limit 1")
-            random_user = cursor.fetchone()
-            user_id = random_user['user_id']
-            # lui attribuer un message
-            cursor.execute("""
-                INSERT INTO message (user_id, content) 
-                VALUES (%s, %s)
-            """, (user_id, message))
-        connection.commit()
-        return {"success": "Fake messages added successfully"}
-        
+        # Exécutez le script Python pour ajouter des messages
+        result = subprocess.run(["python3", "insert_messages.py"], capture_output=True, text=True)
+        if result.returncode == 0:
+            return {"message": "Fake messages added successfully"}
+        else:
+            return {"error": f"Failed to add fake messages: {result.stderr}"}
     except Exception as e:
-        print(f"Error: {e}")
-        return {"error": "Failed to add fake messages"}
-    finally:
-        cursor.close()
-        connection.close()
+        return {"error": str(e)}
