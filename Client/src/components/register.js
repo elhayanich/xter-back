@@ -52,20 +52,25 @@ const Register = () => {
         }
 
         try {
-            const response = await axios.post("http://127.0.0.1:3310/register", {
+            const response = await axios.post("http://localhost:3310/register", {
                 username,
                 email,
                 password,
             });
-
+    
             if (response.data.error) {
                 setError(response.data.error);
                 setSuccess('');
             } else {
                 setSuccess('Registration successful!');
                 setError('');
-
-                // Redirect to home page after 2 seconds
+    
+                // Display the avatar URL if available
+                if (response.data.avatar_url) {
+                    console.log("User avatar URL:", response.data.avatar_url);
+                }
+    
+                // Redirect to login page after 2 seconds
                 setTimeout(() => {
                     navigate('/login');
                 }, 2000);
@@ -77,6 +82,7 @@ const Register = () => {
         }
     };
 
+      
     return (
         <div className="max-w-md mx-auto p-8 bg-white shadow-md rounded-lg mt-10">
             <h2 className="text-2xl font-bold text-center mb-6 text-pink-600">Register</h2>
