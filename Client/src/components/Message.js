@@ -13,7 +13,7 @@ const Message = ({ user_id, onlyFollowed }) => {
     const [expandedMessages, setExpandedMessages] = useState({});
     const { id: currentUserId } = useGetCurrentUser(); 
 
-    const tagColors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200', 'bg-purple-200'];
+    const tagColors = ['bg-yellow-200' , 'bg-purple-200'];
 
     const fetchMessages = async () => {        
         try {
@@ -36,7 +36,6 @@ const Message = ({ user_id, onlyFollowed }) => {
 
             setMessages(messagesWithUser);
         } catch (error) {
-            setError('Chargement de messages en cours.. Vérifiez votre connexion!');
         }
     };
 
