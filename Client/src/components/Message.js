@@ -13,7 +13,7 @@ const Message = ({ user_id, onlyFollowed }) => {
     const [expandedMessages, setExpandedMessages] = useState({});
     const { id: currentUserId } = useGetCurrentUser(); 
 
-    const tagColors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200', 'bg-purple-200'];
+    const tagColors = ['bg-yellow-200' , 'bg-purple-200'];
 
     const fetchMessages = async () => {        
         try {
@@ -36,13 +36,19 @@ const Message = ({ user_id, onlyFollowed }) => {
 
             setMessages(messagesWithUser);
         } catch (error) {
-            setError('Erreur lors de la récupération des messages');
         }
     };
 
     useEffect(() => {
         fetchMessages();
     }, [user_id, onlyFollowed]); // Fetch messages whenever user_id or onlyFollowed changes
+
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => setError(null), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
 
     const handleReplySubmit = async () => {
         try {
