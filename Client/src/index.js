@@ -1,5 +1,3 @@
-// index.js
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -17,6 +15,7 @@ import AdminLayout from './components/Admin/AdminLayout';
 import AdminStats from './components/Admin/adminStats';  
 import UserList from './components/Admin/UserList';
 import AdminReactions from './components/Admin/AdminReaction';
+
 
 const router = createBrowserRouter([
   {
@@ -42,33 +41,32 @@ const router = createBrowserRouter([
         path: "/home",
         element: <HomePage />,
       },
+      
       {
-        path: "/Admin",
-        element: <AdminPage/>,
+        path: "/tags/:tagname",
+        element: <MessagesByTag />,
       },
       {
-        path: "/tags/:tagname",  
-        element: <MessagesByTag />, 
-      },
-       { path: "/admin",
-        element: <AdminLayout />, 
+        path: "/admin",
+        element: <AdminLayout />,
         children: [
           {
-            path: "", 
+            path: "",
             element: <AdminPage />,
           },
           {
-            path: "stats", 
+            path: "stats",
             element: <AdminStats />,
           },
           {
-            path: "Utilisateurs", 
+            path: "Utilisateurs",
             element: <UserList />,
           },
           {
-            path: "Reactions", 
+            path: "Reactions",
             element: <AdminReactions />,
           },
+          
         ],
       },
     ],

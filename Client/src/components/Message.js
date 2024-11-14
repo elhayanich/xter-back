@@ -161,11 +161,11 @@ const Message = ({ user_id, onlyFollowed }) => {
                 
             const response = await axios.get(url);
 
-            const messagesWithUser = await Promise.all(response.data.map(async (message) => {
-                const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
+            const messagesWithUser = await Promise.all(response.data.map(async (messages) => {
+                const responseUser = await axios.get(`http://localhost:3310/user/${messages.user_id}`);
                 
                 return {
-                    ...message,
+                    ...messages,
                     username: responseUser.data.username,
                     userPicture: responseUser.data.picture
                 };
@@ -207,7 +207,7 @@ const Message = ({ user_id, onlyFollowed }) => {
                             className="w-10 h-10 object-cover rounded-full border-2 border-pink-500 ring-2 "
                         />
                         <div>
-                            <Link to={`http://localhost:3000/user/${message.user_id}`}><strong>{message.username}</strong></Link>
+                            <Link to={`http://localhost:3310/user/${message.user_id}`}><strong>{message.username}</strong></Link>
                         </div>
                     </div>
                     <ReactMarkdown>{message.content}</ReactMarkdown>

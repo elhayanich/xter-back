@@ -11,7 +11,7 @@ const AdminReactions = () => {
     // Fonction pour récupérer toutes les réactions
     const fetchReactions = async () => {
         try {
-            const response = await axios.get('http://localhost:3310/admin/reactions');
+            const response = await axios.get('http://localhost:3310/reactiontypes');
             setReactions(response.data);
         } catch (err) {
             console.error("Erreur lors de la récupération des réactions:", err);
@@ -22,7 +22,7 @@ const AdminReactions = () => {
     // Fonction pour supprimer une réaction spécifique
     const handleDeleteReaction = async (reactionId) => {
         try {
-            await axios.delete(`http://localhost:3310/admin/reactions/${reactionId}`);
+            await axios.delete(`http://localhost:3310/reactiontypes/${reactionId}`);
             setReactions(reactions.filter(reaction => reaction.id !== reactionId));
         } catch (err) {
             console.error("Erreur lors de la suppression de la réaction:", err);
@@ -33,7 +33,7 @@ const AdminReactions = () => {
     // Fonction pour mettre à jour une réaction
     const handleUpdateReaction = async (reactionId) => {
         try {
-            await axios.patch(`http://localhost:3310/admin/reactions/${reactionId}`, {
+            await axios.patch(`http://localhost:3310/reactiontypes/${reactionId}`, {
                 reaction_type: newReactionType
             });
             fetchReactions();
