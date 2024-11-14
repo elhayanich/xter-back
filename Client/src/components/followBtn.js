@@ -60,7 +60,7 @@ const FollowBtn = () => {
             {/*Montrer-Cacher le bouton follow si connecté */}
             {follower && <button
                  onClick={() => handleClick(followed, follower)}
-                 className={`mt-2 px-4 py-2 ${btnColor} text-white rounded-lg`}
+                 className={`mt-2 px-4 py-2 ${btnColor} text-white rounded-lg xter-common-button`}
             >
                 {btnMessg} 
             </button>}
