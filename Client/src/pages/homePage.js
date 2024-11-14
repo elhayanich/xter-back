@@ -21,7 +21,7 @@ const HomePage = () => {
             <AddFakeUsers />
             {currentUserName && currentUserId && <Welcome currentUserName={currentUserName} user_id={currentUserId} />} 
             <MessageInput />
-            <button onClick={toggleFilter} className={`mt-2 px-4 py-2 bg-${btnColor} text-white rounded-lg`}>
+            <button onClick={toggleFilter} className={`mt-2 px-4 py-2 bg-${btnColor} text-white rounded-lg xter-common-button`}>
                 {onlyFollowed ? "Afficher tous les messages" : "Afficher uniquement les abonnés"}
             </button>
             <Message user_id={currentUserId} onlyFollowed={onlyFollowed} />

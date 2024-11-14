@@ -16,13 +16,3 @@ for i in range(len(ds)):
     new_user.username = new_user.username.replace(" ", "")
     new_user.email= new_user.email.replace(" ", "")
     fake_users_set1.append(new_user)
-
-# récupérer les nouveaux messages
-fake_messages_set1 = []
-for i in range(len(ds)):
-    new_message = ds.iloc[i]["Text"]
-    fake_messages_set1.append(new_message)
-
-
-
-## .iloc[i] pour accéder à une ligne spécifique

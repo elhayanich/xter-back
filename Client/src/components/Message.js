@@ -100,11 +100,11 @@ const Message = ({ user_id, onlyFollowed }) => {
                     <ReactionButtons messageId={message.id} userId={currentUserId} />
                 )}
 
-                <button onClick={() => setReplyTo(message.id)} className="text-blue-500 mt-2">
+                <button onClick={() => setReplyTo(message.id)} className="mt-2 px-4 py-2 bg-pink-500 text-white rounded-lg replies-button">
                     Répondre
                 </button>
 
-                <button onClick={() => toggleReplies(message.id)} className="text-blue-500 mt-2">
+                <button onClick={() => toggleReplies(message.id)} className="mt-2 px-4 py-2 bg-gray-500 text-white rounded-lg replies-button">
                     {expandedMessages[message.id] ? "Masquer les réponses" : "Voir toutes les réponses"}
                 </button>
 
