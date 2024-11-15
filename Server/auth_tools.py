@@ -42,13 +42,6 @@ class AuthTool:
         to_encode = {"exp" : expire, "sub" : user_id}
         token = jwt.encode(to_encode, cls.secret_key, algorithm="HS256")
         return token                                                            
-    
-
-    # Comment appelle la fonction suivante : 
-    # async def ma_fonction_de_route(token: Annotated[str, Depends(oauth2_scheme)]):
-    #      user = AuthTool.get_current_user(token)
-    #
-    # Annotated[str, Depends(oauth2_scheme)] permet d'extraire automatiquement le token depuis l'url
 
     @classmethod
     async def get_current_user(cls, token : Annotated[str, Depends(oauth2_scheme)]):
