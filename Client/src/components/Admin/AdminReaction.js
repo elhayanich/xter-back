@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Admin_reaction.css'; 
+import './Admin_reaction.css';
 
 const AdminReactions = () => {
     const [reactions, setReactions] = useState([]);
     const [error, setError] = useState("");
-    const [editReactionId, setEditReactionId] = useState(null);
-    const [newReactionType, setNewReactionType] = useState("");
+    const [editStates, setEditStates] = useState({});
+    const [newReactionUrl, setNewReactionUrl] = useState("");
 
-    // Fonction pour récupérer toutes les réactions
+    // Fonction pour récupérer les réactions
     const fetchReactions = async () => {
         try {
             const response = await axios.get('http://localhost:3310/reactiontypes');
@@ -19,7 +19,7 @@ const AdminReactions = () => {
         }
     };
 
-    // Fonction pour supprimer une réaction spécifique
+    // Fonction pour supprimer une réaction
     const handleDeleteReaction = async (reactionId) => {
         try {
             await axios.delete(`http://localhost:3310/reactiontypes/${reactionId}`);
@@ -30,15 +30,15 @@ const AdminReactions = () => {
         }
     };
 
-    // Fonction pour mettre à jour une réaction
+    // Fonction pour mettre à jour l'URL d'une réaction
     const handleUpdateReaction = async (reactionId) => {
         try {
             await axios.patch(`http://localhost:3310/reactiontypes/${reactionId}`, {
-                reaction_type: newReactionType
+                picture_url: newReactionUrl
             });
-            fetchReactions();
-            setEditReactionId(null);
-            setNewReactionType("");
+            fetchReactions(); 
+            setEditStates({ ...editStates, [reactionId]: false }); 
+            setNewReactionUrl(""); 
         } catch (err) {
             console.error("Erreur lors de la mise à jour de la réaction:", err);
             setError("Erreur lors de la mise à jour de la réaction");
@@ -52,27 +52,40 @@ const AdminReactions = () => {
     return (
         <div className="container">
             <h1>Gestion des réactions</h1>
-            {error && <p>{error}</p>}
+            {error && <p className="error">{error}</p>}
 
             <h2>Liste des réactions</h2>
             <ul>
                 {reactions.map(reaction => (
                     <li key={reaction.id}>
-                        <span>{reaction.user_id}  {reaction.message_id}  {reaction.reaction_id}</span>
+                        <div className="reaction-info">
+                            <img 
+                                src={reaction.picture_url} 
+                                alt="Réaction" 
+                                style={{ width: '50px', height: '50px', marginRight: '10px' }} 
+                            />
+                            <span>{reaction.reaction_type}</span>
+                        </div>
                         <button onClick={() => handleDeleteReaction(reaction.id)}>Supprimer</button>
-                        {editReactionId === reaction.id ? (
+                        
+                        {editStates[reaction.id] ? (
                             <div>
                                 <input 
                                     type="text" 
-                                    value={newReactionType} 
-                                    onChange={(e) => setNewReactionType(e.target.value)} 
-                                    placeholder="Nouveau type de réaction" 
+                                    value={newReactionUrl} 
+                                    onChange={(e) => setNewReactionUrl(e.target.value)} 
+                                    placeholder="Nouvelle URL de l'image" 
                                 />
                                 <button onClick={() => handleUpdateReaction(reaction.id)}>Mettre à jour</button>
-                                <button onClick={() => setEditReactionId(null)}>Annuler</button>
+                                <button onClick={() => setEditStates({ ...editStates, [reaction.id]: false })}>
+                                    Annuler
+                                </button>
                             </div>
                         ) : (
-                            <button onClick={() => setEditReactionId(reaction.id)}>
+                            <button onClick={() => {
+                                setEditStates({ ...editStates, [reaction.id]: true });
+                                setNewReactionUrl(reaction.picture_url); 
+                            }}>
                                 Modifier
                             </button>
                         )}

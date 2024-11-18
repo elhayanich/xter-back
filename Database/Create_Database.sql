@@ -57,8 +57,8 @@ CREATE TABLE tag (
 CREATE TABLE reactiontype (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(31) NOT NULL,
-    rate FLOAT NOT NULL,
-    picture TEXT
+    rate  INT NULL,
+    picture VARCHAR (255) NOT NULL
 );
 
 -- Table tagmessage

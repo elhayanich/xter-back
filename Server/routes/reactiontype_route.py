@@ -5,6 +5,7 @@ from models import ReactionTypeGet
 from mysql.connector import Error
 import database_connect
 from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 
 router = APIRouter()
 
@@ -53,30 +54,50 @@ async def delete_reaction(reactiontype_id: int):
 
 
 
-# Route pour modifier les réactions
+class ReactionUpdate(BaseModel):
+    rate: int = None  
+    picture_url: str = None  
+
 @router.patch("/{reactiontype_id}")
-async def update_reactiontype(reactiontype_id: int, reactiontype_data: dict):
+async def update_reactiontype(reactiontype_id: int, reactiontype_data: ReactionUpdate):
     connection = database_connect.get_db_connection()
     cursor = connection.cursor(dictionary=True)
     
     try:
-        # Exemple de requête pour mettre à jour un champ de la réaction, par exemple "rate"
-        update_query = """
-            UPDATE reaction 
-            SET rate = %s 
+        # Préparer les champs à mettre à jour
+        fields_to_update = []
+        values = []
+
+        if reactiontype_data.rate is not None:
+            fields_to_update.append("rate = %s")
+            values.append(reactiontype_data.rate)
+
+        if reactiontype_data.picture_url is not None:
+            fields_to_update.append("picture = %s")
+            values.append(reactiontype_data.picture_url)
+
+        if not fields_to_update:
+            raise HTTPException(status_code=400, detail="Aucun champ valide à mettre à jour.")
+
+        update_query = f"""
+            UPDATE reactiontype
+            SET {', '.join(fields_to_update)}
             WHERE id = %s
-            SET picture = %s
         """
-        cursor.execute(update_query, (reactiontype_data["rate"], reactiontype_id))
+        values.append(reactiontype_id)
+
+        cursor.execute(update_query, tuple(values))
         connection.commit()
-        
+
         if cursor.rowcount == 0:
-            raise HTTPException(status_code=404, detail="Réaction non trouvée")
+            raise HTTPException(status_code=404, detail="Réaction non trouvée.")
 
         return {"message": "Réaction mise à jour avec succès."}
+
     except Error as e:
-        print(f"L'erreur suivante est survenue : '{e}'")
-        return {"error": "Une erreur s'est produite lors de la mise à jour des réactions."}
+        print(f"L'erreur suivante est survenue : {e}")
+        raise HTTPException(status_code=500, detail="Erreur lors de la mise à jour des réactions.")
+    
     finally:
         cursor.close()
         connection.close()
