@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from models import ReactionCreate
 from mysql.connector import Error
 import database_connect
+import random
 
 router = APIRouter()
 
@@ -49,6 +50,38 @@ def get_reactions(message_id: int):
     finally:
         cursor.close()
         connection.close()
+
+# Post fake reactions
+@router.get("/fake-reactions")
+def post_fake_reactions():
+    connection = database_connect.get_db_connection()
+    cursor = connection.cursor()
+ 
+    try: 
+        # Récupérer tous les utilisateurs id dans un tableau à partir de user
+        cursor.execute("select id from user;")
+        user_list = cursor.fetchall()
+        # Récupérer tous les messages id dans un tableau à partir de message
+        cursor.execute("select id from message;")
+        messages_list = cursor.fetchall()
+        print(user_list, messages_list)
+        # Attribuer un user et une réaction au hasard à chaque message (table reaction)
+        for message_id in messages_list: 
+            random_user = random.choice(user_list)
+            random_reaction = random.randint(1,3)
+            cursor.execute("insert into reaction (user_id, message_id, reaction_id) values (%s, %s, %s)", (random_user[0], message_id[0], random_reaction))
+            print("Line added : ", random_user, message_id, random_reaction)
+
+        connection.commit()
+        return {"message" : "plein de fakes reactions ajoutées !"}
+
+    except Error as e:
+        print(f"L'erreur is : '{e}'")
+        return {"error": "erreur lors ajout de fausse réaction."}
+    finally:
+        cursor.close()
+        connection.close()
+
 
 
 # @router.get("/{message_id}/reactions", response_model=List[ReactionGet])

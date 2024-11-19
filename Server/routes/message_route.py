@@ -3,6 +3,8 @@ from models import MessageCreate, MessageGet
 from typing import List
 import database_connect
 from mysql.connector import Error
+from create_fake_profiles import *
+import subprocess
 
 router = APIRouter()
 
@@ -120,25 +122,6 @@ def get_user_messages(user_id: int):
         connection.close()
 
 
-# @router.get("/follow/{user_id}")
-# async def is_following(user_id: int) -> list[int]:
-#     connection = database_connect.get_db_connection()
-#     cursor = connection.cursor()
-#     followed_ids = []
-
-#     try:
-#         cursor.execute("select followed from follow where follower = %s", (user_id,))
-#         result = cursor.fetchall()
-#         for row in result:
-#             followed_ids.append(row[0])  # récupérer les valeurs id dans les tuples
-#         return followed_ids
-#     except Error as e:
-#         print(f"L'erreur suivante est survenue : '{e}'")
-#         return {"error": "Une erreur s'est produite, on ne sait pas qui tu follow."}
-#     finally:
-#         cursor.close()
-#         connection.close()
-
 @router.get("/followed-messages/{user_id}")
 def get_followed_messages(user_id: int):
     connection = database_connect.get_db_connection()
@@ -174,3 +157,15 @@ def get_followed_messages(user_id: int):
     finally:
         cursor.close()
         connection.close()
+    
+@router.post("/fake-messages")
+async def add_fake_messages():
+    try:
+        # Exécutez le script Python pour ajouter des messages
+        result = subprocess.run(["python3", "insert_messages.py"], capture_output=True, text=True)
+        if result.returncode == 0:
+            return {"message": "Fake messages added successfully"}
+        else:
+            return {"error": f"Failed to add fake messages: {result.stderr}"}
+    except Exception as e:
+        return {"error": str(e)}
