@@ -45,19 +45,18 @@ async def get_stats():
 async def get_users():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM user")  # Remplacez par le bon nom de table si nécessaire
+    cursor.execute("SELECT * FROM user")  
     users = cursor.fetchall()
     cursor.close()
     connection.close()
     return users
 
-# Route pour supprimer des utilisateurs 
-@router.delete("/users/{username}")
-async def delete_user(username : str):
+@router.delete("/{id}")
+async def delete_user(id: int):
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM user")  # Remplacez par le bon nom de table si nécessaire
-    users = cursor.fetchall()
+    cursor.execute("DELETE FROM user WHERE id = %s;", (id,))  
     cursor.close()
+    connection.commit()
     connection.close()
-    return {'message' : 'f Supression de l utilisateur : {username} '}
+    return "ok"

@@ -1,5 +1,6 @@
 from fastapi import Depends, APIRouter, HTTPException, UploadFile, File
 from models import User, UserPictureUpdateURL, FollowRequest
+
 import database_connect
 from mysql.connector import Error
 import os
@@ -40,9 +41,7 @@ async def get_user_name(token: Annotated[str, Depends(AuthTool.get_current_user)
         
         return user
     
-    except Error as e:
-        print(f"L'erreur suivante est survenue : '{e}'")
-        return {"error": "Une erreur s'est produite lors de a récupération de l'utilisateur."}
+   
     finally:
         cursor.close()
         connection.close() 
@@ -174,5 +173,5 @@ async def is_following(followed: int, follower: int):
         connection.close()
         
         
-# Route pour delete un user
+        # Route pour delete un user
         

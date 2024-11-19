@@ -1,13 +1,13 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-
-
-# Importing all the routes from routes/__init__.py
 from routes import *
-from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
+
+
+
+
 
 app = FastAPI()
+from fastapi.staticfiles import StaticFiles
 
 # Configuration de CORS
 app.add_middleware(
@@ -27,7 +27,7 @@ app.include_router(user_router, prefix="/user", tags=["Users"])
 app.include_router(reaction_router, prefix="/reactions")
 app.include_router(reactiontype_router, prefix="/reactiontypes")
 app.include_router(admin_router, prefix="/admin", tags=["admin"])
-app.include_router(adminreactions_router, prefix="/admin/reactions", tags=["reactions"] )
+
 
 
 app.mount("/Server/profilePictures", StaticFiles(directory="profilePictures"), name="static") # to upload local files

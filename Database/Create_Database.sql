@@ -15,7 +15,8 @@ DROP TABLE IF EXISTS tagmessage;
 
 SET FOREIGN_KEY_CHECKS = 1;  -- Maintenant que les tables sont droppées on peut réactiver les foreign keys
 
-
+-- Table utilisateur
+-- Table utilisateur
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -27,7 +28,7 @@ CREATE TABLE user (
     last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
+-- Table message
 CREATE TABLE message (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -36,48 +37,50 @@ CREATE TABLE message (
     date_post TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     reactions_id INT,
     parent_id INT,
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
 
- CREATE Table follow(
-    follower int REFERENCES user(id),
-    followed int REFERENCES user(id),
-    unique(follower, followed)
-); 
+-- Table follow
+CREATE TABLE follow (
+    follower INT,
+    followed INT,
+    UNIQUE(follower, followed)
+   
+);
 
-
+-- Table tag
 CREATE TABLE tag (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tagname VARCHAR(255) NOT NULL
 );
 
-
+-- Table reactiontype
 CREATE TABLE reactiontype (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(31) NOT NULL,
-    rate FLOAT NOT NULL,
-    picture TEXT
+    rate  INT NULL,
+    picture VARCHAR (255) NOT NULL
 );
 
--- TAG MESSAGES 
+-- Table tagmessage
 CREATE TABLE tagmessage (
     message_id INT,
     tag_id INT,
-    PRIMARY KEY (message_id, tag_id),
-    FOREIGN KEY (message_id) REFERENCES message(id) ON DELETE CASCADE,
-    FOREIGN KEY (tag_id) REFERENCES tag(id) ON DELETE CASCADE
+    PRIMARY KEY (message_id, tag_id)
+    
 );
 
-
+-- Table reaction
 CREATE TABLE reaction (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     message_id INT,
     reaction_id INT,
-    FOREIGN KEY (user_id) REFERENCES user(id),
-    FOREIGN KEY (message_id) REFERENCES message(id),
-    FOREIGN KEY (reaction_id) REFERENCES reaction(id)
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+   
 );
+
+
 
 
 
