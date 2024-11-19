@@ -23,7 +23,8 @@ CREATE TABLE user (
     email VARCHAR(255) NOT NULL UNIQUE,
     user_password VARCHAR(255) NOT NULL,
     date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    picture VARCHAR(255)
+    picture VARCHAR(255),
+    last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 

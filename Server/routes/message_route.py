@@ -162,7 +162,7 @@ def get_followed_messages(user_id: int):
 async def add_fake_messages():
     try:
         # Exécutez le script Python pour ajouter des messages
-        result = subprocess.run(["python", "insert_messages.py"], capture_output=True, text=True)
+        result = subprocess.run(["python3", "insert_messages.py"], capture_output=True, text=True)
         if result.returncode == 0:
             return {"message": "Fake messages added successfully"}
         else:
