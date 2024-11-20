@@ -10,6 +10,11 @@ import LoginPage from './pages/loginPage';
 import ProfilePage from './pages/ProfilePage';
 import HomePageVisitor from './pages/homePageVisitor';
 import AdminPage from './pages/adminPage';
+import MessagesByTag from './components/MessagesByTag';
+import AdminLayout from './components/Admin/AdminLayout';
+import AdminStats from './components/Admin/adminStats';  
+import UserList from './components/Admin/UserList';
+import AdminReactions from './components/Admin/AdminReaction';
 
 
 const router = createBrowserRouter([
@@ -34,23 +39,43 @@ const router = createBrowserRouter([
       },
       {
         path: "/home",
-        element: <HomePage/>,
+        element: <HomePage />,
+      },
+      
+      {
+        path: "/tags/:tagname",
+        element: <MessagesByTag />,
       },
       {
-        path: "/Admin",
-        element: <AdminPage/>,
-      }
+        path: "/admin",
+        element: <AdminLayout />,
+        children: [
+          {
+            path: "",
+            element: <AdminPage />,
+          },
+          {
+            path: "stats",
+            element: <AdminStats />,
+          },
+          {
+            path: "Utilisateurs",
+            element: <UserList />,
+          },
+          {
+            path: "Reactions",
+            element: <AdminReactions />,
+          },
+          
+        ],
+      },
     ],
   },
-]); 
-
-
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-
