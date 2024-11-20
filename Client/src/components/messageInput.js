@@ -9,7 +9,7 @@ export default function MessageInput() {
     const [tagInput, setTagInput] = useState('');
     const [tags, setTags] = useState([]);
     
-    const { id, userName, isAdmin, email, dateInscription, picture } = useGetCurrentUser();
+    const { id } = useGetCurrentUser();
 
     function handleMessageChange(event) {
         setMessage(event.target.value);
@@ -21,7 +21,7 @@ export default function MessageInput() {
 
     const handleAddTag = () => {
         if (tagInput) {
-            const formattedTag = tagInput.startsWith('#') ? tagInput : `#${tagInput}`;
+            const formattedTag = tagInput.replace(/^#/, ''); // Supprime le # au début si présent
             if (!tags.includes(formattedTag)) {
                 setTags([...tags, formattedTag]);
                 setTagInput('');
@@ -74,7 +74,7 @@ export default function MessageInput() {
                             type="text"
                             value={tagInput}
                             onChange={handleTagChange}
-                            placeholder="Ajouter un tag (ex: #amitié)"
+                            placeholder="Ajouter un tag (ex: amitié)"
                             className="w-full p-2 border border-gray-300 rounded-lg"
                         />
                         <button
@@ -90,7 +90,7 @@ export default function MessageInput() {
                             <div className="flex flex-wrap">
                                 {tags.map((tag, index) => (
                                     <span key={index} className="mr-2 mb-2 px-3 py-1 bg-gray-200 rounded-lg">
-                                        {tag}
+                                        {tag} {/* Affichage sans le # */}
                                     </span>
                                 ))}
                             </div>

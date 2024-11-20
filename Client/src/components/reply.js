@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import useGetCurrentUser from './useGetCurrentUser';
 
-export default function Reply({ parentId, onSubmit }) {
+export default function Reply({ parentId, onSubmit, onNewMessage }) {
     const [replyContent, setReplyContent] = useState('');
     const [tagInput, setTagInput] = useState('');
     const [tags, setTags] = useState([]);
+
+    const { id } = useGetCurrentUser();
+
+    // Couleurs pour les tags
+    const tagColors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200', 'bg-purple-200'];
 
     const handleReplyChange = (event) => {
         setReplyContent(event.target.value);
@@ -16,7 +22,7 @@ export default function Reply({ parentId, onSubmit }) {
 
     const handleAddTag = () => {
         if (tagInput) {
-            const formattedTag = tagInput.startsWith('#') ? tagInput : `#${tagInput}`;
+            const formattedTag = tagInput.startsWith('#') ? tagInput.slice(1) : tagInput;
             if (!tags.includes(formattedTag)) {
                 setTags([...tags, formattedTag]);
                 setTagInput('');
@@ -28,20 +34,29 @@ export default function Reply({ parentId, onSubmit }) {
         event.preventDefault();
         try {
             const tagData = tags.map(tagname => ({ tagname }));
+
+            // Enregistrer les tags sur le backend
             const tagResponse = await axios.post('http://localhost:3310/tags', tagData);
             const tagIds = tagResponse.data.map(tag => tag.id);
 
             const replyData = {
-                user_id: 1,
+                user_id: id,
                 content: replyContent,
                 tag_ids: tagIds,
-                parent_id: parentId,
+                parent_id: parentId, // Associe la réponse au message parent
             };
 
-            await axios.post('http://localhost:3310/messages', replyData);
+            // Enregistrer la réponse sur le backend
+            const response = await axios.post('http://localhost:3310/messages', replyData);
+
+            // Mise à jour des messages dans MessagesByTag
+            if (onNewMessage) {
+                onNewMessage(response.data);  // Ajouter la réponse dans l'état de MessagesByTag
+            }
+
             setReplyContent('');
             setTags([]);
-            onSubmit();
+            onSubmit();  // Appeler la fonction pour fermer le formulaire de réponse
         } catch (error) {
             console.error("Erreur lors de l'envoi de la réponse :", error);
         }
@@ -61,7 +76,7 @@ export default function Reply({ parentId, onSubmit }) {
                     type="text"
                     value={tagInput}
                     onChange={handleTagChange}
-                    placeholder="Ajouter un tag (ex: #réponse)"
+                    placeholder="Ajouter un tag (ex: réponse)"
                     className="w-full p-2 border border-gray-300 rounded-lg"
                 />
                 <button
@@ -76,7 +91,7 @@ export default function Reply({ parentId, onSubmit }) {
                 {tags.length > 0 && (
                     <div className="flex flex-wrap">
                         {tags.map((tag, index) => (
-                            <span key={index} className="mr-2 mb-2 px-3 py-1 bg-gray-200 rounded-lg">
+                            <span key={index} className={`mr-2 mb-2 px-3 py-1 rounded-lg ${tagColors[index % tagColors.length]}`}>
                                 {tag}
                             </span>
                         ))}
