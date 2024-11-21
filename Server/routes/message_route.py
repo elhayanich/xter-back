@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from models import MessageCreate, MessageGet
+from models import *
 from typing import List
 import database_connect
 from mysql.connector import Error

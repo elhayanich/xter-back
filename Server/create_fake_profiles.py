@@ -3,7 +3,7 @@ from models import UserCreate
 from pprint import pprint
 
 # Fichier source + modèle new_user
-ds = pd.read_csv("../Database/Kaggle_Sentimentdataset.csv")
+ds = pd.read_csv("./Kaggle_Sentimentdataset.csv")
 
 # récupérer les profils avant de les injecter dans la DB (cf register_route) & leurs messages 
 fake_users_set1 = []
