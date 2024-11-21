@@ -11,7 +11,6 @@ const AddFakeUsers = () => {
           .get("http://localhost:3310/register/fake-users")
           .then((response) => {
             setFakeProfilesList(response.data);
-            console.log("Fake users loaded:", response.data);
           })
           .catch((e) => {
             setError("Failed to load fake users");
