@@ -1,9 +1,8 @@
-services:
+version: "3.8"
 
+services:
   database:
-    build:
-      context: ./Database
-      dockerfile: Dockerfile
+    image: xterminatorgrp2xterminator.azurecr.io/xterminatordb:v1
     container_name: mysql-database
     ports:
       - "3307:3306"
@@ -15,9 +14,7 @@ services:
     restart: always
 
   server:
-    build:
-      context: ./Server
-      dockerfile: Dockerfile
+    image: xterminatorgrp2xterminator.azurecr.io/xterminatorback:v1
     container_name: fastapi-server
     depends_on:
       - database
@@ -26,9 +23,7 @@ services:
     restart: always
 
   client:
-    build:
-      context: ./Client
-      dockerfile: Dockerfile
+    image: xterminatorgrp2xterminator.azurecr.io/xterminator:v1
     container_name: react-client
     ports:
       - "3000:3000"

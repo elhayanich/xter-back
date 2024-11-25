@@ -13,15 +13,16 @@ const UserMessagesList = () => {
     const [expandedMessages, setExpandedMessages] = useState({});
     const [replyTo, setReplyTo] = useState(null);
     const { id: currentUserId } = useGetCurrentUser();
+    const API_BASE_URL = import.meta.env.VITE_API_URL; 
 
     const tagColors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200', 'bg-purple-200'];
 
     // Définir fetchUserMessages ici pour qu'il soit accessible dans tout le composant
     const fetchUserMessages = async () => {
         try {
-            const response = await axios.get(`http://localhost:3310/messages/${user_id}/messages`);
+            const response = await axios.get(`${API_BASE_URL}/messages/${user_id}/messages`);
             const messagesWithUser = await Promise.all(response.data.map(async (message) => {
-                const responseUser = await axios.get(`http://localhost:3310/user/${message.user_id}`);
+                const responseUser = await axios.get(`${API_BASE_URL}/user/${message.user_id}`);
                 return {
                     ...message,
                     username: responseUser.data.username,

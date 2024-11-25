@@ -7,6 +7,7 @@ const AdminReactions = () => {
     const [error, setError] = useState("");
     const [editStates, setEditStates] = useState({});
     const [newReactionUrl, setNewReactionUrl] = useState("");
+    
 
     // Fonction pour récupérer les réactions
     const fetchReactions = async () => {

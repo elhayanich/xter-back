@@ -14,6 +14,7 @@ const Message = ({ user_id, onlyFollowed }) => {
     const { id: currentUserId } = useGetCurrentUser(); 
 
     const tagColors = ['bg-yellow-200' , 'bg-purple-200'];
+    
 
     const fetchMessages = async () => {        
         try {

@@ -11,6 +11,7 @@ const TestMessage = ({ user_id }, {followFilter}) => {
     const [replyTo, setReplyTo] = useState(null);
     const [error, setError] = useState(null);
     const [expandedMessages, setExpandedMessages] = useState({});
+    
 
     // Utilisation du hook pour récupérer les données de l'utilisateur courant
     const { id: currentUserId } = useGetCurrentUser(); 

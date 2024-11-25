@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const AdminStats = () => {
-
+    
     const [stats, setStats] = useState({
         num_messages: 0,
         num_reactions: 0,

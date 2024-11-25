@@ -1,6 +1,8 @@
+import { Navigate} from "react-router-dom";
+
 const SendAuthoredMessage = () => {
     localStorage.removeItem("token");
-    navigate('/login');
+    Navigate('/login');
 }
 
 export default SendAuthoredMessage;
